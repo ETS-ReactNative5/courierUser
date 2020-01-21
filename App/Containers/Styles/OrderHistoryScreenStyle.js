@@ -1,7 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native'
 import { ApplicationStyles, Colors} from '../../Themes/'
 
-
 const {width} = Dimensions.get('window')
 export default StyleSheet.create({
   ...ApplicationStyles.screen,

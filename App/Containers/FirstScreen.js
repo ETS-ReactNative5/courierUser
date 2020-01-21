@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import {Images} from '../Themes'
 import MyButton from '../Components/MyButton'
 
-
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -19,10 +18,10 @@ class FirstScreen extends Component {
         source={Images.bg}>
 
         <View style={styles.imageContainer}>
-          <Image style={styles.image} source={Images.logo}/>
+          <Image style={styles.image} source={Images.logo} />
         </View>
 
-        <View style={styles.whiteArea}/>
+        <View style={styles.whiteArea} />
         <View style={styles.textContainer}>
           <Text style={styles.text}>189 taksi şirkətinə </Text>
           <Text style={[styles.text, {fontWeight: 'bold'}]}>xoş gəlmisiniz</Text>
@@ -30,17 +29,17 @@ class FirstScreen extends Component {
 
         <View style={styles.buttonContainer}>
           <MyButton color='#fff'
-                    onPress={() => this.props.navigation.navigate('LoginScreen')}
-                    backgroundColor='#451E5D'
-                    borderColor='#451E5D'
-                    text='Login'
-                    width='50%'/>
+            onPress={() => this.props.navigation.navigate('LoginScreen')}
+            backgroundColor='#451E5D'
+            borderColor='#451E5D'
+            text='Login'
+            width='50%' />
           <MyButton width='50%'
-                    onPress={() => this.props.navigation.navigate('RegisterScreen')}
-                    backgroundColor='#fff'
-                    color='#451E5D'
-                    borderColor='#451E5D'
-                    text='Register'/>
+            onPress={() => this.props.navigation.navigate('RegisterScreen')}
+            backgroundColor='#fff'
+            color='#451E5D'
+            borderColor='#451E5D'
+            text='Register' />
         </View>
       </ImageBackground>
     )

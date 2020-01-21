@@ -29,7 +29,5 @@ export default StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  gumburgerOpacity: {
-    opacity: 0
-  }
+
 })

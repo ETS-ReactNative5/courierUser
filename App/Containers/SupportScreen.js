@@ -12,7 +12,7 @@ class SupportScreen extends Component {
   render () {
     return (
       <WebView
-        source={{uri: 'https://soundcloud.com/discover'}}
+        source={{uri: 'https://delhero.com/help'}}
         style={{}}
       />
     )

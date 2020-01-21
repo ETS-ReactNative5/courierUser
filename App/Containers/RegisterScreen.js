@@ -4,16 +4,15 @@ import {connect} from 'react-redux'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
-import I18n from '../I18n';
+import I18n from '../I18n'
 import PhoneInput from 'react-native-phone-input'
-import MyInput from '../Components/MyInput';
-import MyButton from '../Components/MyButton';
-
+import MyInput from '../Components/MyInput'
+import MyButton from '../Components/MyButton'
 
 // Styles
 import styles from './Styles/RegisterScreenStyle'
 
-const {width} = Dimensions.get('window');
+const {width} = Dimensions.get('window')
 
 class RegisterScreen extends Component {
   render () {
@@ -21,8 +20,8 @@ class RegisterScreen extends Component {
       <View style={styles.container}>
         <View>
 
-          <MyInput text={I18n.t('name').toUpperCase()}/>
-          <MyInput text={I18n.t('surname')}/>
+          <MyInput text={I18n.t('name').toUpperCase()} />
+          <MyInput text={I18n.t('surname')} />
 
           <View>
             <Text style={{
@@ -37,19 +36,19 @@ class RegisterScreen extends Component {
               width: '100%',
               marginBottom: width * 0.1296
             }} ref={ref => {
-              this.phone = ref;
-            }}/>
+              this.phone = ref
+            }} />
           </View>
 
-          <MyInput secureTextEntry={true} text={I18n.t('password')} />
+          <MyInput secureTextEntry text={I18n.t('password')} />
 
         </View>
         <View style={styles.buttonContainer}>
           <MyButton onPress={this.onPres}
-                    backgroundColor='#451E5D'
-                    color='#fff'
-                    borderColor='451E5D'
-                    text={I18n.t('next')}
+            backgroundColor='#451E5D'
+            color='#fff'
+            borderColor='451E5D'
+            text={I18n.t('next')}
           />
 
         </View>

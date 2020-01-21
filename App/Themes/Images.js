@@ -35,6 +35,7 @@ const images = {
   az: require('../Images/Flags/Azerbaijan.png'),
   ru: require('../Images/Flags/Russia.png'),
   us: require('../Images/Flags/United-States-of-America.png'),
+  userDefaultImg: require('../Images/user-default-img.png'),
 }
 
 export default images

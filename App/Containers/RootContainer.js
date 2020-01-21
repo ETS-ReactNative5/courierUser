@@ -7,7 +7,7 @@ import ReduxPersist from '../Config/ReduxPersist'
 
 // Styles
 import styles from './Styles/RootContainerStyles'
-
+import OfflineNotice from '../Components/OfflineNotice'
 class RootContainer extends Component {
   componentDidMount () {
     // if redux persist is not active fire startup action
@@ -21,6 +21,7 @@ class RootContainer extends Component {
       <View style={styles.applicationView}>
         <StatusBar barStyle='light-content' />
         <ReduxNavigation />
+        <OfflineNotice />
       </View>
     )
   }

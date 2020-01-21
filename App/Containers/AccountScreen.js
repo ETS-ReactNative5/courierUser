@@ -10,6 +10,7 @@ import I18n from '../I18n'
 import PhoneInput from 'react-native-phone-input'
 import MyInput from '../Components/MyInput'
 import MyButton from '../Components/MyButton'
+import ModalRating from '../Components/ModalRating'
 const {width} = Dimensions.get('window')
 class AccountScreen extends Component {
   render () {
@@ -21,6 +22,7 @@ class AccountScreen extends Component {
             <MyInput text={I18n.t('surname')} value='Hasanli' />
             <MyInput text={I18n.t('Email')} value='morqan@gmail.com' />
             <MyInput text={I18n.t('NÖMRƏ')} value='+99455 475 85 63' />
+            <ModalRating />
           </View>
           <View style={styles.buttonContainer}>
             <MyButton onPress={this.onPres}

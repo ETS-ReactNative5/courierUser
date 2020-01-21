@@ -8,23 +8,19 @@ import {Images} from '../Themes'
 
 // Styles
 import styles from './Styles/RouteScreenStyle'
-import MapView from "react-native-maps";
-import MyButton from "../Components/MyButton";
-import I18n from "../I18n";
+import MapView from 'react-native-maps'
+import MyButton from '../Components/MyButton'
+import I18n from '../I18n'
 
+import MapViewDirections from 'react-native-maps-directions'
 
-import MapViewDirections from 'react-native-maps-directions';
-
-const {width, height} = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const GOOGLE_MAPS_APIKEY = 'AIzaSyCMfIpRhn8QaGkYQ0I5KPWvFT1kLbA-DAM';
-
+const {width, height} = Dimensions.get('window')
+const ASPECT_RATIO = width / height
+const GOOGLE_MAPS_APIKEY = 'AIzaSyCMfIpRhn8QaGkYQ0I5KPWvFT1kLbA-DAM'
 
 class RouteScreen extends Component {
-
-
-  componentDidMount() {
-    const {startLongLat, endLongLat} = this.props;
+  componentDidMount () {
+    const {startLongLat, endLongLat} = this.props
 
     this.setState({
       region: {
@@ -36,31 +32,30 @@ class RouteScreen extends Component {
       coordinates: [
         {
           latitude: startLongLat[0],
-          longitude: startLongLat[1],
+          longitude: startLongLat[1]
         },
         {
           latitude: endLongLat[0],
-          longitude: endLongLat[1],
-        },
+          longitude: endLongLat[1]
+        }
       ]
-    });
-
+    })
   }
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     // AirBnB's Office, and Apple Park
     this.state = {
       coordinates: [
         {
           latitude: 37.3317876,
-          longitude: -122.0054812,
+          longitude: -122.0054812
         },
         {
           latitude: 37.771707,
-          longitude: -122.4053769,
-        },
+          longitude: -122.4053769
+        }
       ],
       region: {
         latitude: 37.771707,
@@ -68,23 +63,21 @@ class RouteScreen extends Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
       }
-    };
+    }
 
-    this.mapView = null;
+    this.mapView = null
   }
 
   onMapPress = (e) => {
     this.setState({
       coordinates: [
         ...this.state.coordinates,
-        e.nativeEvent.coordinate,
-      ],
-    });
+        e.nativeEvent.coordinate
+      ]
+    })
   }
 
-
-  render() {
-
+  render () {
     return (
       <View style={styles.container}>
         <MapView
@@ -92,7 +85,7 @@ class RouteScreen extends Component {
             latitude: this.state.region.latitude,
             longitude: this.state.region.longitude,
             latitudeDelta: this.state.region.latitudeDelta,
-            longitudeDelta: this.state.region.latitudeDelta,
+            longitudeDelta: this.state.region.latitudeDelta
           }}
           style={StyleSheet.absoluteFill}
           ref={c => this.mapView = c}
@@ -100,7 +93,7 @@ class RouteScreen extends Component {
         >
 
           {this.state.coordinates.map((coordinate, index) =>
-            <MapView.Marker key={`coordinate_${index}`} image={Images.marker} coordinate={coordinate}/>
+            <MapView.Marker key={`coordinate_${index}`} image={Images.marker} coordinate={coordinate} />
           )}
           {(this.state.coordinates.length >= 2) && (
             <MapViewDirections
@@ -109,10 +102,10 @@ class RouteScreen extends Component {
               destination={this.state.coordinates[this.state.coordinates.length - 1]}
               apikey={GOOGLE_MAPS_APIKEY}
               strokeWidth={3}
-              strokeColor="#451E5D"
-              optimizeWaypoints={true}
+              strokeColor='#451E5D'
+              optimizeWaypoints
               onStart={(params) => {
-                console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
+                console.log(`Started routing between "${params.origin}" and "${params.destination}"`)
               }}
               onReady={result => {
                 console.log('Distance: ${result.distance} km')
@@ -123,9 +116,9 @@ class RouteScreen extends Component {
                     right: (width / 20),
                     bottom: (height / 20),
                     left: (width / 20),
-                    top: (height / 20),
+                    top: (height / 20)
                   }
-                });
+                })
               }}
               onError={(errorMessage) => {
                 // console.log('GOT AN ERROR');

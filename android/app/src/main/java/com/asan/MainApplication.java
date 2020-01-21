@@ -2,7 +2,10 @@ package com.asan;
 
 import android.app.Application;
 
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.rnpermissions.RNPermissionsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -32,15 +35,18 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNCWebViewPackage(),
-            new RNPermissionsPackage(),
-            new VectorIconsPackage(),
-            new RNDeviceInfo(),
-            new ReactNativeConfigPackage(),
-            new RNGooglePlacesPackage(),
-            new RNI18nPackage(),
-            new MapsPackage(),
-            new RNGestureHandlerPackage()
+          new RNDateTimePickerPackage(),
+          new ImagePickerPackage(),
+          new NetInfoPackage(),
+          new RNCWebViewPackage(),
+          new RNPermissionsPackage(),
+          new VectorIconsPackage(),
+          new RNDeviceInfo(),
+          new ReactNativeConfigPackage(),
+          new RNGooglePlacesPackage(),
+          new RNI18nPackage(),
+          new MapsPackage(),
+          new RNGestureHandlerPackage()
       );
     }
 

@@ -25,7 +25,7 @@ class LoginScreen extends Component {
     this.isAttempting = true
     // attempt a login - a saga is listening to pick it up from here.
     this.props.attemptLogin(mobile, password)
-    this.props.navigation.navigate('MapScreen')
+    this.props.navigation.navigate('PromoKodScreen')
   }
   onPhoneNumberChange = () => {
     this.setState({
@@ -46,42 +46,32 @@ class LoginScreen extends Component {
     const {mobile, password} = this.state
     return (
       <View style={styles.container}>
-
+        <View style={styles.headBackground} />
         <View>
-
-          <View>
-            <Text style={{
-              fontSize: width * 0.027,
-              color: '#BCBEC0',
-              marginBottom: width * 0.06
-            }}>Phone Number</Text>
-            <PhoneInput onChangePhoneNumber={this.onPhoneNumberChange} initialCountry='az' value={mobile} style={{
-              fontSize: width * 0.037,
-              borderBottomWidth: 1,
-              borderColor: '#353535',
-              width: '100%',
-              marginBottom: width * 0.1296
-            }} ref={ref => {
-              this.phone = ref;
-            }}/>
+          <Text style={styles.logo}>Logo</Text>
+          <Text style={styles.logoDescription}>Hello, nice to meet you!</Text>
+        </View>
+        <ScrollView>
+          <View style={styles.loginArea}>
+            <Text style={styles.loginAreaTitle}>Get moving with Logo</Text>
+            <Text style={styles.loginAreaDescription}>Elə indi qeydiyyatdan keç</Text>
+            <View style={styles.inputBox}>
+              <PhoneInput value={this.state.phone} onChangePhoneNumber={this.onPhoneNumberChange} initialCountry='az' style={{
+                fontSize:15,
+                width: '100%',
+              }} ref={ref => {
+                this.phone = ref;
+              }}/>
+            </View>
+            <View style={{marginTop: 15, flex: 1}}>
+              <MyButton
+                onPress={this.onPres}
+                text="Next"
+                color="#fff"
+                backgroundColor="#7B2BFC"/>
+            </View>
           </View>
-
-          <MyInput value={password} onChangeText={this.onPasswordChange} secureTextEntry={true}
-                   text='Password'/>
-
-        </View>
-        <View style={styles.buttonContainer}>
-          <MyButton onPress={this.onPres}
-                    backgroundColor='#451E5D'
-                    color='#fff'
-                    borderColor='451E5D'
-                    text='Login'
-          />
-          <TouchableOpacity>
-            <Text style={styles.forgotPasswordText}>Forget Password</Text>
-          </TouchableOpacity>
-        </View>
-
+        </ScrollView>
 
       </View>
     )

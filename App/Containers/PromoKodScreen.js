@@ -108,9 +108,10 @@ class PromoKodScreen extends Component {
         </View>
         <View style={styles.btnBox}>
           <MyButton
+            onPress={() => this.props.navigation.navigate('MenuScreen')}
             text='OK'
             color='#fff'
-            backgroundColor='#451E5D' />
+            backgroundColor='#7B2BFC' />
         </View>
 
       </View>

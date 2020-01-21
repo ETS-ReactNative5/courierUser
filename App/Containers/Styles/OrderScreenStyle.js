@@ -4,19 +4,22 @@ import {ApplicationStyles} from '../../Themes/'
 const {width, height} = Dimensions.get('window')
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
+  container: {
+    flex: 1
+  },
   map: {
-    ...StyleSheet.absoluteFillObject
+    flex: 1,
   },
   orderContainer: {
     paddingHorizontal: width * 0.06,
-    bottom:0,
-    position:'absolute',
+    bottom: 0,
+    position: 'absolute',
     paddingBottom: height * 0.04,
     backgroundColor: '#fff'
   },
   addressContainer: {
     flexDirection: 'row',
-    marginTop: height * 0.03,
+    marginTop: height * 0.03
 
   },
   inputIcon: {
@@ -28,7 +31,7 @@ export default StyleSheet.create({
   inputButton: {
     flex: 9,
     justifyContent: 'space-between',
-    marginVertical: height * 0.02,
+    marginVertical: height * 0.02
   },
   dash: {
     width: 2,
@@ -40,16 +43,16 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     marginVertical: 10
   },
-  carType:{
-    flexDirection:'row',
-    justifyContent: 'space-between',
+  carType: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  carTypeItem:{
-    backgroundColor:'#451E5D',
-    height:height * 0.09,
-    width:height * 0.09,
-    borderRadius:7,
-    justifyContent: 'center',
+  carTypeItem: {
+    backgroundColor: '#451E5D',
+    height: height * 0.09,
+    width: height * 0.09,
+    borderRadius: 7,
+    justifyContent: 'center'
   },
   icon: {
     width: width * 0.16 - width * 0.03,
@@ -58,7 +61,7 @@ export default StyleSheet.create({
 
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
 
-  },
+  }
 })

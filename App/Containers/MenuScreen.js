@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -7,7 +6,7 @@ import { connect } from 'react-redux'
 // Styles
 import styles from './Styles/MenuScreenStyle'
 import ProfileScreen from './ProfileScreen'
-import MapScreen from './MapScreen'
+import DriverNewOrderScreen from './DriverNewOrderScreen'
 import Drawer from 'react-native-drawer'
 class MenuScreen extends Component {
   closeDrawer = () => {
@@ -32,7 +31,7 @@ class MenuScreen extends Component {
         ref={(ref) => this._drawer = ref}
         content={<ProfileScreen navigation={this.props.navigation} closeDrawer={this.closeDrawer} />}
       >
-        <MapScreen navigation={this.props.navigation} open={() => { this.openControlPanel() }}
+        <DriverNewOrderScreen navigation={this.props.navigation} open={() => { this.openControlPanel() }}
         />
       </Drawer>
     )

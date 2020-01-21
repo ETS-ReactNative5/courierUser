@@ -16,10 +16,10 @@ export default class MyButton extends Component {
   // }
 
   render () {
-    const {text, onPress, color, backgroundColor, width, borderColor} = this.props
+    const {text, onPress, color, backgroundColor, width, borderColor, borderRadius} = this.props
     return (
       <TouchableOpacity
-        style={[styles.container, {backgroundColor: backgroundColor, width: width, borderColor: borderColor}]}
+        style={[styles.container, { backgroundColor: backgroundColor, width: width, borderColor: borderColor, borderRadius: borderRadius }]}
         onPress={onPress}>
         <Text style={[styles.text, {color: color}]}>{text}</Text>
       </TouchableOpacity>

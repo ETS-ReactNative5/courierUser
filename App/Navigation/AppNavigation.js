@@ -21,11 +21,33 @@ import SupportScreen from '../Containers/SupportScreen'
 import SharePromoScreen from '../Containers/SharePromoScreen'
 import AccountScreen from '../Containers/AccountScreen'
 import SettingScreen from '../Containers/SettingScreen'
+import DriverNewOrderScreen from '../Containers/DriverNewOrderScreen'
+import OfflineNoticeScreen from '../Containers/OfflineNoticeScreen'
 import I18n from '../I18n'
 import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
+  OfflineNoticeScreen: {
+    screen: OfflineNoticeScreen,
+    navigationOptions: {
+      title: I18n.t('Setting'),
+      headerTintColor: '#000',
+      headerStyle: {
+        backgroundColor: '#fff'
+      }
+    }
+  },
+  DriverNewOrderScreen: {
+    screen: DriverNewOrderScreen,
+    navigationOptions: {
+      title: I18n.t('Setting'),
+      headerTintColor: '#000',
+      headerStyle: {
+        backgroundColor: '#fff'
+      }
+    }
+  },
   SettingScreen: {
     screen: SettingScreen,
     navigationOptions: {
@@ -166,11 +188,7 @@ const PrimaryNav = createStackNavigator({
   LoginScreen: {
     screen: LoginScreen,
     navigationOptions: {
-      title: I18n.t('login'),
-      headerTintColor: '#fff',
-      headerStyle: {
-        backgroundColor: '#451E5D'
-      }
+      header: null
     }
   },
   RegisterScreen: {
