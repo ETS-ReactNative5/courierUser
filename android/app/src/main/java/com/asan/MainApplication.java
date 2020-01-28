@@ -2,6 +2,7 @@ package com.asan;
 
 import android.app.Application;
 
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.facebook.react.ReactApplication;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
+          new AsyncStoragePackage(),
           new MainReactPackage(),
           new RNDateTimePickerPackage(),
           new ImagePickerPackage(),

@@ -26,6 +26,7 @@
     "jetify": "npx jetify"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.7.1",
     "@react-native-community/datetimepicker": "^2.1.0",
     "@react-native-community/netinfo": "^4.6.1",
     "apisauce": "1.0.3",

@@ -16,7 +16,7 @@ export default class MyInput extends Component {
   // }
 
   render () {
-    const {text, placeholder, value, onChangeText, secureTextEntry} = this.props
+    const {text, placeholder, name, value, onChangeText, secureTextEntry} = this.props
     return (
       <View style={styles.container}>
         <Text style={styles.text}>{text}</Text>
@@ -24,6 +24,7 @@ export default class MyInput extends Component {
           placeholder={placeholder}
           onChangeText={onChangeText}
           value={value}
+          name={name}
           secureTextEntry={secureTextEntry}
         />
       </View>

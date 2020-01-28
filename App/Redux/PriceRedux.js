@@ -4,22 +4,20 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const {Types, Creators} = createActions({
-  destinationAddressRequest: ['startLongLat', 'endLongLat', 'startLocation', 'endLocation'],
-  destinationAddressSuccess: ['payload'],
-  destinationAddressFailure: null
+  priceRequest: ['distance', 'duration', 'price'],
+  priceSuccess: ['payload'],
+  priceFailure: null
 })
 
-export const DestinationAddressTypes = Types
+export const PriceTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  startLongLat: [],
-  endLongLat: [],
-  startLocation: '',
-  endLocation: '',
-  data: null,
+  distance: null,
+  duration: null,
+  price: null,
   fetching: null,
   payload: null,
   error: null
@@ -27,15 +25,15 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Selectors ------------- */
 
-export const DestinationAddressSelectors = {
+export const PriceSelectors = {
   getData: state => state.data
 }
 
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, {startLongLat, endLongLat,startLocation,endLocation}) =>
-  state.merge({fetching: true, startLongLat, endLongLat,startLocation,endLocation, payload: null})
+export const request = (state, {distance, duration, price}) =>
+  state.merge({fetching: true, distance, duration, price, payload: null})
 
 // successful api lookup
 export const success = (state, action) => {
@@ -50,7 +48,7 @@ export const failure = state =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.DESTINATION_ADDRESS_REQUEST]: request,
-  [Types.DESTINATION_ADDRESS_SUCCESS]: success,
-  [Types.DESTINATION_ADDRESS_FAILURE]: failure
+  [Types.PRICE_REQUEST]: request,
+  [Types.PRICE_SUCCESS]: success,
+  [Types.PRICE_FAILURE]: failure
 })

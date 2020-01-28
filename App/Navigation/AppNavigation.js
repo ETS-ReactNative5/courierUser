@@ -23,11 +23,33 @@ import AccountScreen from '../Containers/AccountScreen'
 import SettingScreen from '../Containers/SettingScreen'
 import DriverNewOrderScreen from '../Containers/DriverNewOrderScreen'
 import OfflineNoticeScreen from '../Containers/OfflineNoticeScreen'
+import PhoneValidateInputScreen from '../Containers/PhoneValidateInputScreen'
+import PhoneValidateScreen from '../Containers/PhoneValidateScreen'
 import I18n from '../I18n'
 import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
+  PhoneValidateScreen: {
+    screen: PhoneValidateScreen,
+    navigationOptions: {
+      title: I18n.t('Setting'),
+      headerTintColor: '#000',
+      headerStyle: {
+        backgroundColor: '#fff'
+      }
+    }
+  },
+  PhoneValidateInputScreen: {
+    screen: PhoneValidateInputScreen,
+    navigationOptions: {
+      title: I18n.t('Setting'),
+      headerTintColor: '#000',
+      headerStyle: {
+        backgroundColor: '#fff'
+      }
+    }
+  },
   OfflineNoticeScreen: {
     screen: OfflineNoticeScreen,
     navigationOptions: {
@@ -217,7 +239,7 @@ const PrimaryNav = createStackNavigator({
 }, {
   // Default config for all screens
   // headerMode: 'none',
-  initialRouteName: 'MenuScreen',
+  initialRouteName: 'FirstScreen',
   navigationOptions: {
     headerStyle: styles.header
   }

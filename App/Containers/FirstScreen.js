@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
-import { Text, Image, View, ImageBackground} from 'react-native'
+import {Text, Image, View, ImageBackground} from 'react-native'
 import { connect } from 'react-redux'
 import {Images} from '../Themes'
 import MyButton from '../Components/MyButton'
+
+import AsyncStorage from '@react-native-community/async-storage'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -11,6 +13,15 @@ import MyButton from '../Components/MyButton'
 import styles from './Styles/FirstScreenStyle'
 
 class FirstScreen extends Component {
+  componentDidMount () {
+    // AsyncStorage.removeItem('@token');
+    AsyncStorage.getItem('@token')
+      .then((token) => {
+        console.log(token)
+        if (token) this.props.navigation.navigate('MenuScreen')
+      })
+  }
+
   render () {
     return (
       <ImageBackground
@@ -35,7 +46,7 @@ class FirstScreen extends Component {
             text='Login'
             width='50%' />
           <MyButton width='50%'
-            onPress={() => this.props.navigation.navigate('RegisterScreen')}
+            onPress={() => this.props.navigation.navigate('PhoneValidateInputScreen')}
             backgroundColor='#fff'
             color='#451E5D'
             borderColor='#451E5D'

@@ -2,10 +2,22 @@ import {StyleSheet, Dimensions} from 'react-native'
 
 const {width} = Dimensions.get('window')
 export default StyleSheet.create({
+  // container: {
+  //   backgroundColor: '#F5FCFF',
+  //   flex: 1,
+  //   paddingTop: 100
+  // },
+  // forgotPasswordText: {
+  //   color: '#BCBEC0',
+  //   fontSize: width * 0.027,
+  //   marginTop: width * 0.027,
+  //   alignSelf: 'center'
+  // },
   container: {
-    backgroundColor: '#F5FCFF',
+    marginHorizontal: width * 0.06,
+    marginVertical: width * 0.125,
     flex: 1,
-    paddingTop: 100
+    justifyContent: 'space-between'
   },
   forgotPasswordText: {
     color: '#BCBEC0',
