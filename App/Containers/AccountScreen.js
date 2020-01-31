@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {View, Text, Dimensions, ScrollView, TextInput, KeyboardAvoidingView} from 'react-native'
+import {View, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -23,12 +23,12 @@ class AccountScreen extends Component {
       id: '',
       last_name: '',
       phone_number: '',
-      username: '',
+      username: ''
     }
   }
   componentDidMount () {
     const getProfileData = async (token) => {
-      const data = await fetch('https://db4def76.ngrok.io/customer/api/customers', {
+      const data = await fetch(userRegistration, {
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
           'Access-Control-Allow-Origin': '*',
@@ -62,7 +62,7 @@ class AccountScreen extends Component {
     }
     console.log(body)
     const updateProfile = async (token) => {
-      const customerUrl = 'https://db4def76.ngrok.io/customer/api/customers/' + this.state.id
+      const customerUrl = userRegistration + '/' + this.state.id
       await fetch(customerUrl, {
         body: JSON.stringify(body),
         method: 'PUT',
@@ -79,6 +79,7 @@ class AccountScreen extends Component {
         updateProfile(token)
       })
       .catch((error) => console.log(error))
+    this.props.navigation.goBack()
   }
 
   handleChange = (name, value) => {

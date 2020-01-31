@@ -63,11 +63,7 @@ const PrimaryNav = createStackNavigator({
   DriverNewOrderScreen: {
     screen: DriverNewOrderScreen,
     navigationOptions: {
-      title: I18n.t('Setting'),
-      headerTintColor: '#000',
-      headerStyle: {
-        backgroundColor: '#fff'
-      }
+      header: null
     }
   },
   SettingScreen: {

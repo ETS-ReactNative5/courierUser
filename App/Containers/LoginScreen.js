@@ -8,7 +8,7 @@ import PhoneInput from 'react-native-phone-input'
 import MyInput from '../Components/MyInput'
 import MyButton from '../Components/MyButton'
 
-import {userLogin, mainUrl, userRegistration} from '../Config/API'
+import {userLogin} from '../Config/API'
 // Styles
 import styles from './Styles/LoginScreenStyle'
 import AsyncStorage from '@react-native-community/async-storage'

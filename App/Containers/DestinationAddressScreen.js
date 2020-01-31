@@ -34,6 +34,7 @@ class DestinationAddressScreen extends Component {
     })
       .then((place) => {
         console.log(place)
+        console.log(place.name)
         // place represents user's selection from the
         // suggestions and it is a simplified Google Place object.
         if (type === 'start') {
@@ -52,8 +53,8 @@ class DestinationAddressScreen extends Component {
   }
 
   onPres = () => {
-    const {startLongLat, endLongLat} = this.state
-    this.props.attemptDestinationAddress(startLongLat, endLongLat)
+    const {startLongLat, endLongLat, endLocation, startLocation} = this.state
+    this.props.attemptDestinationAddress(startLongLat, endLongLat, startLocation, endLocation)
     this.props.navigation.navigate('RouteScreen')
   }
 
@@ -111,7 +112,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptDestinationAddress: (startLongLat, endLongLat) => dispatch(DestinationAddressAction.destinationAddressRequest(startLongLat, endLongLat))
+    attemptDestinationAddress: (startLongLat, endLongLat, startLocation, endLocation) => dispatch(DestinationAddressAction.destinationAddressRequest(startLongLat, endLongLat, startLocation, endLocation))
   }
 }
 

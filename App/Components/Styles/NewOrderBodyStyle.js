@@ -4,7 +4,7 @@ export default StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    height: height - 260,
+    height: height - 300,
     paddingTop: 20,
     paddingBottom: 50,
   },

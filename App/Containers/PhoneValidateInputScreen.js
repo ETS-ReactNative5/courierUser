@@ -6,9 +6,8 @@ import {connect} from 'react-redux'
 import RegisterAction from '../Redux/RegisterRedux'
 import I18n from '../I18n'
 import PhoneInput from 'react-native-phone-input'
-import MyInput from '../Components/MyInput'
 import MyButton from '../Components/MyButton'
-import {userRegistration, mainUrl} from '../Config/API'
+import {userRegistration} from '../Config/API'
 
 // Styles
 import styles from './Styles/RegisterScreenStyle'

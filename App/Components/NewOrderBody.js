@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types';
-import { ScrollView, Text, View, TextInput, Button, Platform, TouchableOpacity } from 'react-native'
+import { ScrollView, Text, View, TextInput, Platform } from 'react-native'
 import styles from './Styles/NewOrderBodyStyle'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Dropdown } from 'react-native-material-dropdown'
-import { Images } from '../Themes'
 import CheckBox from 'react-native-check-box'
 import PhoneInput from 'react-native-phone-input'
 import ImagesPicker from '../Components/ImagesPicker'
 import MyRadioBtn from './MyRadioBtn'
 import MyButton from './MyButton'
 import SwipeButton from 'rn-swipe-button'
+import { connect } from 'react-redux'
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -21,11 +21,11 @@ const instructions = Platform.select({
 
 type Props = {};
 
-export default class NewOrderBody extends Component {
+class NewOrderBody extends Component {
   state = {
-    price: 15,
-
-    billAmount: 0,
+    distance: 0,
+    duration: 0,
+    pricee: 0,
     isChecked: false,
     scheduled: false,
     date: new Date(),
@@ -81,6 +81,12 @@ export default class NewOrderBody extends Component {
     })
   }
   componentDidMount () {
+    const {distance, duration, pricee} = this.props
+    this.setState({
+      distance: distance,
+      duration: duration,
+      pricee: pricee,
+    })
     this.state.radioItems.map((item) => {
       if (item.selected === true) {
         this.setState({ selectedItem: item.label })
@@ -164,7 +170,7 @@ export default class NewOrderBody extends Component {
               <Text style={styles.fartime}>Məbləğ</Text>
             </View>
             <View style={styles.profileHeaderLeft}>
-              <Text style={styles.fartime}>15 AZN</Text>
+              <Text style={styles.fartime}>{this.state.pricee} AZN</Text>
             </View>
           </View>
           <View style={styles.cashBox}>
@@ -172,7 +178,7 @@ export default class NewOrderBody extends Component {
               <Text style={styles.fartime}>Məsafə</Text>
             </View>
             <View>
-              <Text style={styles.fartime}>6 km</Text>
+              <Text style={styles.fartime}>{this.state.distance} km</Text>
             </View>
           </View>
           <View style={styles.cashBox}>
@@ -180,7 +186,7 @@ export default class NewOrderBody extends Component {
               <Text style={styles.sectionTitle}>Çatdırılma vaxtı</Text>
             </View>
             <View>
-              <Text style={styles.sectionTitle}>10 dəq</Text>
+              <Text style={styles.sectionTitle}>{this.state.duration} dəq</Text>
             </View>
           </View>
           <View style={styles.orderDescriptionBox}><Text style={styles.orderDescription}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto corporis cupiditate deserunt distinctio ea et explicabo harum id, laborum laudantium natus nostrum qui quo quod unde velit voluptate. Fugiat.</Text></View>
@@ -298,3 +304,11 @@ export default class NewOrderBody extends Component {
     )
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    distance: state.price.distance,
+    duration: state.price.duration,
+    pricee: state.price.price
+  }
+}
+export default connect(mapStateToProps)(NewOrderBody)

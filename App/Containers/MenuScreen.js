@@ -8,6 +8,7 @@ import styles from './Styles/MenuScreenStyle'
 import ProfileScreen from './ProfileScreen'
 import DriverNewOrderScreen from './DriverNewOrderScreen'
 import Drawer from 'react-native-drawer'
+import MapScreen from './MapScreen'
 class MenuScreen extends Component {
   closeDrawer = () => {
     this._drawer.close()
@@ -31,7 +32,7 @@ class MenuScreen extends Component {
         ref={(ref) => this._drawer = ref}
         content={<ProfileScreen navigation={this.props.navigation} closeDrawer={this.closeDrawer} />}
       >
-        <DriverNewOrderScreen navigation={this.props.navigation} open={() => { this.openControlPanel() }}
+        <MapScreen navigation={this.props.navigation} open={() => { this.openControlPanel() }}
         />
       </Drawer>
     )

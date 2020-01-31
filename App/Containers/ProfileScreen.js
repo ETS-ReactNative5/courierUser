@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 // Styles
 import styles from './Styles/ProfileScreenStyle'
 import MenuLink from '../Components/MenuLink'
-
+import { userRegistration } from '../Config/API'
 import { Images } from '../Themes'
 class ProfileScreen extends Component {
   constructor (props) {
@@ -23,8 +23,9 @@ class ProfileScreen extends Component {
     }
   }
   componentDidMount () {
+
     const getProfileData = async (token) => {
-      const data = await fetch('https://db4def76.ngrok.io/customer/api/customers', {
+      const data = await fetch(userRegistration, {
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
           'Access-Control-Allow-Origin': '*',

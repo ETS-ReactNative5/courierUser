@@ -10,8 +10,8 @@ import styles from './Styles/DriverNewOrderScreenStyle'
 import RNGooglePlaces from 'react-native-google-places'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import SlidingPanel from 'react-native-sliding-up-down-panels'
-import DriverNewOrderTop from '../Components/DriverNewOrderTop'
-import DriverNewOrderBody from '../Components/DriverNewOrderBody'
+import NewOrderTop from '../Components/NewOrderTop'
+import NewOrderBody from '../Components/NewOrderBody'
 import MyButton from '../Components/MyButton'
 import I18n from '../I18n'
 
@@ -50,22 +50,22 @@ class DriverNewOrderScreen extends Component {
         >
           {/* <Marker coordinate={this.state}/> */}
         </MapView>
-        {/*<View hide>*/}
-        {/*  <SlidingPanel*/}
-        {/*    // onDrag={this.ondraq}*/}
-        {/*    headerLayoutHeight={260}*/}
-        {/*    headerLayout={() => <DriverNewOrderTop />}*/}
-        {/*    slidingPanelLayout={() => <DriverNewOrderBody />}*/}
-        {/*  />*/}
-        {/*</View>*/}
-
-        <View style={styles.buttonContainer}>
-          <MyButton onPress={() => this.props.navigation.navigate('DestinationAddressScreen')}
-            backgroundColor='#fff'
-            color='#451E5D'
-            borderColor='#fff'
-            text={I18n.t('gedeceyinizUnvan')} />
+        <View hide>
+          <SlidingPanel
+            // onDrag={this.ondraq}
+            headerLayoutHeight={260}
+            headerLayout={() => <NewOrderTop />}
+            slidingPanelLayout={() => <NewOrderBody />}
+          />
         </View>
+
+        {/*<View style={styles.buttonContainer}>*/}
+        {/*  <MyButton onPress={() => this.props.navigation.navigate('DestinationAddressScreen')}*/}
+        {/*    backgroundColor='#fff'*/}
+        {/*    color='#451E5D'*/}
+        {/*    borderColor='#fff'*/}
+        {/*    text={I18n.t('gedeceyinizUnvan')} />*/}
+        {/*</View>*/}
         <View style={styles.gumburger}>
           <TouchableOpacity onPress={this.props.open}>
             <Icon style={styles.nameBoxIcon} size={30} name='menu' />

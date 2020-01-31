@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text } from 'react-native'
 import styles from './Styles/NewOrderTopStyle'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Dash from 'react-native-dash'
 import MyRadio from '../Components/MyRadio'
 import { Images } from '../Themes'
-export default class NewOrderTop extends Component {
+import { connect } from 'react-redux'
+import PriceAction from '../Redux/PriceRedux'
+class NewOrderTop extends Component {
   // // Prop type warnings
   // static propTypes = {
   //   someProperty: PropTypes.object,
@@ -45,9 +47,16 @@ export default class NewOrderTop extends Component {
         }
 
       ],
-    selectedItem: ''
+    selectedItem: '',
+    startLocation: '',
+    endLocation: '',
   }
   componentDidMount () {
+    const {startLocation, endLocation, distance, duration, pricee} = this.props
+    this.setState({
+      startLocation: startLocation,
+      endLocation: endLocation,
+    })
     this.state.radioItems.map((item) => {
       if (item.selected === true) {
         this.setState({ selectedItem: item.label })
@@ -87,11 +96,11 @@ export default class NewOrderTop extends Component {
           <View>
             <View style={styles.adressBox}>
               <Text style={styles.adressTitle}>Pickup</Text>
-              <Text style={styles.adressText}>307 portland Ave S,Mineapolis</Text>
+              <Text style={styles.adressText}>{this.state.startLocation}</Text>
             </View>
             <View style={styles.adressBox}>
               <Text style={styles.adressTitle}>Dropoff</Text>
-              <Text style={styles.adressText}>307 portland Ave S,Mineapolis</Text>
+              <Text style={styles.adressText}>{this.state.endLocation}</Text>
             </View>
           </View>
         </View>
@@ -107,3 +116,12 @@ export default class NewOrderTop extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    startLocation: state.destinationAddress.startLocation,
+    endLocation: state.destinationAddress.endLocation
+  }
+}
+
+export default connect(mapStateToProps)(NewOrderTop)

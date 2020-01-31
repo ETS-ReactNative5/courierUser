@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, Text } from 'react-native'
 import {connect} from 'react-redux'
 import MapView, {Marker} from 'react-native-maps'
 import I18n from '../I18n'
@@ -51,7 +51,6 @@ class MapScreen extends Component {
           {/* <Marker coordinate={this.state}/> */}
         </MapView>
         <View style={styles.buttonContainer}>
-
           <MyButton onPress={() => this.props.navigation.navigate('DestinationAddressScreen')}
             backgroundColor='#fff'
             color='#451E5D'
