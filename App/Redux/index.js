@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux'
-import { persistReducer } from 'redux-persist'
+import {combineReducers} from 'redux'
+import {persistReducer} from 'redux-persist'
 import configureStore from './CreateStore'
 import rootSaga from '../Sagas/'
 import ReduxPersist from '../Config/ReduxPersist'
@@ -12,7 +12,8 @@ export const reducers = combineReducers({
   login: require('./LoginRedux').reducer,
   register: require('./RegisterRedux').reducer,
   destinationAddress: require('./DestinationAddressRedux').reducer,
-  price: require('./PriceRedux').reducer
+  price: require('./PriceRedux').reducer,
+  order: require('./OrderRedux').reducer
 })
 
 export default () => {
@@ -23,7 +24,7 @@ export default () => {
     finalReducers = persistReducer(persistConfig, reducers)
   }
 
-  let { store, sagasManager, sagaMiddleware } = configureStore(finalReducers, rootSaga)
+  let {store, sagasManager, sagaMiddleware} = configureStore(finalReducers, rootSaga)
 
   if (module.hot) {
     module.hot.accept(() => {

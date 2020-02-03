@@ -11,7 +11,12 @@ import ImagesPicker from '../Components/ImagesPicker'
 import MyRadioBtn from './MyRadioBtn'
 import MyButton from './MyButton'
 import SwipeButton from 'rn-swipe-button'
+import PriceAction from '../Redux/PriceRedux'
+import OrderAction from '../Redux/OrderRedux'
 import { connect } from 'react-redux'
+import { orders, prices } from '../Config/API'
+import uuidv4 from 'uuid'
+import AsyncStorage from '@react-native-community/async-storage'
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -22,34 +27,6 @@ const instructions = Platform.select({
 type Props = {};
 
 class NewOrderBody extends Component {
-  state = {
-    distance: 0,
-    duration: 0,
-    pricee: 0,
-    isChecked: false,
-    scheduled: false,
-    date: new Date(),
-    mode: 'date',
-    show: false,
-    selectedDate: 'chose date',
-    phone: null,
-    radioItems:
-    [
-      {
-        label: 'Deliver now',
-        color: '#1f1f1f',
-        selected: true
-      },
-      {
-        label: 'Scheduled',
-        color: '#1f1f1f',
-        selected: false
-      }
-
-    ],
-    selectedItem: ''
-  }
-
   setDate = (event, date) => {
     date = date || this.state.date
     let formattedDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
@@ -81,11 +58,11 @@ class NewOrderBody extends Component {
     })
   }
   componentDidMount () {
-    const {distance, duration, pricee} = this.props
+    const {distance, duration, price} = this.props
     this.setState({
       distance: distance,
       duration: duration,
-      pricee: pricee,
+      pricee: price
     })
     this.state.radioItems.map((item) => {
       if (item.selected === true) {
@@ -127,6 +104,199 @@ class NewOrderBody extends Component {
   //   someSetting: false
   // }
 
+  constructor (props) {
+    super(props)
+
+    // AirBnB's Office, and Apple Park
+    this.state = {
+      distance: 0,
+      duration: 0,
+      pricee: 0,
+      isChecked: false,
+      scheduled: false,
+      date: new Date(),
+      mode: 'date',
+      show: false,
+      selectedDate: 'chose date',
+      phone: null,
+      radioItems:
+      [
+        {
+          label: 'Deliver now',
+          color: '#1f1f1f',
+          selected: true
+        },
+        {
+          label: 'Scheduled',
+          color: '#1f1f1f',
+          selected: false
+        }
+
+      ],
+      selectedItem: ''
+    }
+
+    AsyncStorage.getItem('@token')
+      .then((token) => {
+        this.token = 'Bearer ' + token
+        console.log(token)
+      })
+
+    this.mapView = null
+  }
+
+  onPress = () => {
+    const {startLongLat, endLongLat, distance, duration, pricee} = this.props
+
+    let body = {
+      pickup_location: [startLongLat[0], startLongLat[1]],
+      drop_location: [endLongLat[0], endLongLat[1]]
+
+    }
+
+    // this.setState({loading: true})
+    const self = this
+    let price = prices + '?pickup_location=' + startLongLat[0] + ',' + startLongLat[1] + '&drop_location=' + endLongLat[0] + ',' + endLongLat[1]
+    // console.log(body, login)
+    console.log(body)
+    console.log(price)
+    fetch(price, {
+      // body: JSON.stringify(body),
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+
+    })
+      .then(json)
+      .then(status)
+      .then(function (data) {
+        console.log('Request succeeded with JSON response', data)
+        console.log(data)
+        self.props.attemptPrice(data.distance, data.duration, data.price)
+
+        useResponse(data)
+        // self.props.navigation.navigate('OrderScreen')
+      })
+      .catch(function (error) {
+        console.log(error)
+        console.log('err')
+      })
+
+    function status (response) {
+      console.log(response)
+      console.log('status')
+      console.log('-------')
+      console.log(response.status)
+      console.log('-------')
+      self.setState({loading: false})
+      if (response.distance != null) {
+        return Promise.resolve(response)
+      } else {
+        return Promise.reject(response)
+
+        // return Promise.reject(new Error(response.statusText))
+      }
+    }
+
+    function statusOrder (response) {
+      console.log(response)
+      console.log('status')
+      console.log('-------')
+      console.log(response.status)
+      console.log('-------')
+      self.setState({loading: false})
+      if (response.id != null) {
+        return Promise.resolve(response)
+      } else {
+        return Promise.reject(response)
+
+        // return Promise.reject(new Error(response.statusText))
+      }
+    }
+
+    function json (response) {
+      console.log(response)
+      console.log('json')
+      return response.json()
+    }
+
+    useResponse = async (data) => {
+      const ordersUrl = orders + uuidv4()
+      console.log(ordersUrl)
+
+      let body = {
+        bill_amount: self.state.price,
+        drop_lng: '' + startLongLat[0],
+        drop_location: startLongLat[0] + ',' + startLongLat[1],
+        drop_ltd: '' + startLongLat[1],
+        pickup_lng: '' + endLongLat[0],
+        pickup_location: endLongLat[0] + ',' + endLongLat[1],
+        pickup_ltd: '' + endLongLat[1],
+        total_distance: distance,
+        total_duration: duration,
+        payment_type: 'cash'
+      }
+
+      console.log('----body----')
+      console.log(body)
+      console.log('----body----')
+
+      console.log('----bareer')
+      console.log(this.token)
+      console.log('----bareer---')
+
+      let meResponse = await fetch(ordersUrl, {
+        body: JSON.stringify(body),
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': this.token
+
+          // 'X-localization': currentLang
+          //   'Accept': 'application/json',
+          // 'Content-Type': 'application/json'
+        }
+        // body: 'country_id=' + c.id
+      })
+        .then(json)
+        .then(statusOrder)
+        .then(function (data) {
+          console.log('Request succeeded with JSON response', data)
+          console.log(data)
+          console.log('Burda')
+          if (data.status === 'pending') {
+            console.log('içeride')
+            self.props.attemptOrder(data.id)
+            self.props.navigation.navigate('CourierSeachScreen')
+          }
+          // self.props.navigation.navigate('OrderScreen')
+        })
+        .catch(function (error) {
+          console.log(error)
+          console.log('err')
+        })
+      // only proceed once promise is resolved
+      let meData = await meResponse.json()
+
+      try {
+        // const is_company = data.data.is_company||0
+        console.log()
+        self.props.navigation.navigate('OrderScreen')
+      } catch (e) {
+        Alert.alert('Error: ' + e.message)
+      }
+
+      // try {
+
+      //   await AsyncStorage.setItem('@phone', this.state.phone)
+      //   this.props.navigation.navigate('VerifyScreen')
+      // } catch (e) {
+      //   Alert.alert('Error: ' + e.getMessage())
+      // }
+    }
+  }
   render () {
     const SwipeIcon = () => (
       <Icon name='chevron-double-right' color='#fff' size={40} />
@@ -298,17 +468,30 @@ class NewOrderBody extends Component {
             thumbIconBorderColor='#7B2BFC'
             thumbIconComponent={SwipeIcon}
             railFillBackgroundColor='#000'
-            railFillBorderColor='#fff' />
+            railFillBorderColor='#fff'
+            onSwipeSuccess={this.onPress} />
         </View>
       </View>
     )
   }
 }
+
 const mapStateToProps = (state) => {
   return {
+    startLongLat: state.destinationAddress.startLongLat,
+    endLongLat: state.destinationAddress.endLongLat,
+    startLocation: state.destinationAddress.startLocation,
+    endLocation: state.destinationAddress.endLocation,
     distance: state.price.distance,
     duration: state.price.duration,
-    pricee: state.price.price
+    price: state.price.price
   }
 }
-export default connect(mapStateToProps)(NewOrderBody)
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    attemptPrice: (distance, duration, price) => dispatch(PriceAction.priceRequest(distance, duration, price)),
+    attemptOrder: (orderId) => dispatch(OrderAction.orderRequest(orderId))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(NewOrderBody)

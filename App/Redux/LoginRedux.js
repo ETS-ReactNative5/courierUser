@@ -18,7 +18,7 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
   mobile: null,
-  password: null,
+  password:null,
   fetching: null,
   payload: null,
   error: null
@@ -50,7 +50,7 @@ export const LoginSelectors = {
 
 // we're attempting to login
 // export const request = (state) => state.merge({fetching: true})
-export const request = (state, { mobile, password }) =>
+export const request = (state, { mobile,password }) =>
   state.merge({ fetching: true, mobile, password })
 
 // we've successfully logged in

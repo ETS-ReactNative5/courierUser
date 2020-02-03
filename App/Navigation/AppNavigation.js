@@ -25,11 +25,33 @@ import DriverNewOrderScreen from '../Containers/DriverNewOrderScreen'
 import OfflineNoticeScreen from '../Containers/OfflineNoticeScreen'
 import PhoneValidateInputScreen from '../Containers/PhoneValidateInputScreen'
 import PhoneValidateScreen from '../Containers/PhoneValidateScreen'
+import CourierSeachScreen from '../Containers/CourierSeachScreen'
+import CourierFoundScreen from '../Containers/CourierFoundScreen'
 import I18n from '../I18n'
 import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
+  CourierFoundScreen: {
+    screen: CourierFoundScreen,
+    navigationOptions: {
+      title: I18n.t('CourierFoundScreen'),
+      headerTintColor: '#000',
+      headerStyle: {
+        backgroundColor: '#fff'
+      }
+    }
+  },
+  CourierSeachScreen: {
+    screen: CourierSeachScreen,
+    navigationOptions: {
+      title: I18n.t('CourierSeachScreen'),
+      headerTintColor: '#000',
+      headerStyle: {
+        backgroundColor: '#fff'
+      }
+    }
+  },
   PhoneValidateScreen: {
     screen: PhoneValidateScreen,
     navigationOptions: {

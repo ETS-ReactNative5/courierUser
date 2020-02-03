@@ -34,8 +34,8 @@ export const DestinationAddressSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, {startLongLat, endLongLat, startLocation, endLocation}) =>
-  state.merge({fetching: true, startLongLat, endLongLat, startLocation, endLocation, payload: null})
+export const request = (state, {startLongLat, endLongLat,startLocation,endLocation}) =>
+  state.merge({fetching: true, startLongLat, endLongLat,startLocation,endLocation, payload: null})
 
 // successful api lookup
 export const success = (state, action) => {

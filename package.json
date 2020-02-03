@@ -73,7 +73,8 @@
     "redux-saga": "1.0.5",
     "reduxsauce": "1.1.0",
     "rn-swipe-button": "^1.2.4",
-    "seamless-immutable": "^7.1.4"
+    "seamless-immutable": "^7.1.4",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",

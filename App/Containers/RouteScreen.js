@@ -64,8 +64,6 @@ class RouteScreen extends Component {
 
     function status (response) {
       console.log(response)
-      console.log('status')
-      console.log(response.status)
       self.setState({loading: false})
       if (response.distance != null) {
         return Promise.resolve(response)

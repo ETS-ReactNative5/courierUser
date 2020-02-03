@@ -16,16 +16,26 @@ import Dash from 'react-native-dash'
 import SlidingPanel from 'react-native-sliding-up-down-panels'
 import NewOrderTop from '../Components/NewOrderTop'
 import NewOrderBody from '../Components/NewOrderBody'
-
+import PriceAction from '../Redux/PriceRedux'
+import OrderAction from '../Redux/OrderRedux'
+import AsyncStorage from '@react-native-community/async-storage'
+import {orders, prices} from '../Config/API'
+import uuidv4 from 'uuid'
+import CourierSearchBody from '../Components/CourierSearchBody'
 const {width, height} = Dimensions.get('window')
 const ASPECT_RATIO = width / height
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCMfIpRhn8QaGkYQ0I5KPWvFT1kLbA-DAM'
 
 class OrderScreen extends Component {
   componentDidMount () {
-    const {startLongLat, endLongLat} = this.props
-
+    const {startLongLat, endLongLat, distance, duration, price, startLocation, endLocation} = this.props
+    console.log(distance)
+    console.log('---')
+    console.log(duration)
     this.setState({
+      startLocation,
+      endLocation,
+      price,
       region: {
         latitude: startLongLat[0],
         longitude: startLongLat[1],
@@ -68,9 +78,14 @@ class OrderScreen extends Component {
       }
     }
 
+    AsyncStorage.getItem('@token')
+      .then((token) => {
+        this.token = 'Bearer ' + token
+        console.log(token)
+      })
+
     this.mapView = null
   }
-
   render () {
     return (
       <View style={styles.container}>
@@ -102,8 +117,8 @@ class OrderScreen extends Component {
                 console.log(`Started routing between "${params.origin}" and "${params.destination}"`)
               }}
               onReady={result => {
-                console.log('Distance: ${result.distance} km')
-                console.log('Duration: ${result.duration} min.')
+                console.log(`Distance: ${result.distance} km`)
+                console.log(`Duration: ${result.duration} min.`)
 
                 this.mapView.fitToCoordinates(result.coordinates, {
                   edgePadding: {
@@ -125,89 +140,12 @@ class OrderScreen extends Component {
             // onDrag={this.ondraq}
             headerLayoutHeight={320}
             headerLayout={() => <NewOrderTop />}
-            slidingPanelLayout={() => <NewOrderBody />}
+            slidingPanelLayout={() => <NewOrderBody
+              token={this.token}
+              orderId={this.state.orderId}
+              navigation={this.props.navigation} />}
           />
         </View>
-        {/* <View style={styles.orderContainer}> */}
-        {/*  <View style={styles.addressContainer}> */}
-        {/*    <View style={styles.inputIcon}> */}
-        {/*      <Icon name='compass' size={30} color='#27093D' /> */}
-        {/*      <Dash style={styles.dash} /> */}
-        {/*      <Icon name='location-pin' size={30} color='#27093D' /> */}
-        {/*    </View> */}
-        {/*    <View style={styles.inputButton}> */}
-        {/*      <Text>Füzuli küçəsi 14</Text> */}
-        {/*      <Text>Füzuli küçəsi 14</Text> */}
-        {/*    </View> */}
-        {/*  </View> */}
-
-        {/*  <View */}
-        {/*    style={styles.line} */}
-        {/*  /> */}
-        {/*  <View style={styles.carType}> */}
-        {/*    <TouchableOpacity> */}
-        {/*      <View style={styles.carTypeItem}> */}
-        {/*        <View style={styles.imageContainer}> */}
-        {/*          <Image resizeMode={'contain'} style={styles.icon} source={Images.ekonomIcon} /> */}
-        {/*        </View> */}
-        {/*      </View> */}
-        {/*      <Text style={{textAlign: 'center'}}>Ekonom</Text> */}
-        {/*      <Text>4.60 AZN</Text> */}
-        {/*    </TouchableOpacity> */}
-
-        {/*    <TouchableOpacity> */}
-        {/*      <View style={styles.carTypeItem}> */}
-        {/*        <View style={styles.imageContainer}> */}
-        {/*          <Image resizeMode={'contain'} style={styles.icon} source={Images.comfortIcon} /> */}
-        {/*        </View> */}
-        {/*      </View> */}
-        {/*      <Text style={{textAlign: 'center'}}>Ekonom</Text> */}
-        {/*      <Text>4.60 AZN</Text> */}
-        {/*    </TouchableOpacity> */}
-
-        {/*    <TouchableOpacity> */}
-        {/*      <View style={styles.carTypeItem}> */}
-        {/*        <View style={styles.imageContainer}> */}
-        {/*          <Image resizeMode={'contain'} style={styles.icon} source={Images.vipIcon} /> */}
-        {/*        </View> */}
-        {/*      </View> */}
-        {/*      <Text style={{textAlign: 'center'}}>Ekonom</Text> */}
-        {/*      <Text>4.60 AZN</Text> */}
-        {/*    </TouchableOpacity> */}
-        {/*  </View> */}
-
-        {/*  <View */}
-        {/*    style={styles.line} */}
-        {/*  /> */}
-
-        {/*  <View style={styles.buttonContainer}> */}
-        {/*    <MyButton color='#fff' */}
-        {/*      onPress={() => this.props.navigation.navigate('UserOrderScreen')} */}
-        {/*      backgroundColor='#34C57A' */}
-        {/*      borderColor='#34C57A' */}
-        {/*      text='Sifariş ET' */}
-        {/*      width='97%' /> */}
-        {/*    /!* <MyButton width='47%' *!/ */}
-        {/*    /!*          onPress={() => this.props.navigation.navigate('RegisterScreen')} *!/ */}
-        {/*    /!*          backgroundColor='#451E5D' *!/ */}
-        {/*    /!*          color='#fff' *!/ */}
-        {/*    /!*          borderColor='#451E5D' *!/ */}
-        {/*    /!*          text='Başqası Üçün'/> *!/ */}
-        {/*  </View> */}
-
-        {/*  <TextInput style={{ */}
-        {/*    borderColor: '#451E5D', */}
-        {/*    borderWidth: 1, */}
-        {/*    borderRadius: 10, */}
-        {/*    paddingVertical: width * 0.0277, */}
-        {/*    paddingHorizontal: width * 0.0277, */}
-        {/*    marginTop: 15, */}
-        {/*    display: 'none' */}
-
-        {/*  }} */}
-        {/*    placeholder='Type your name here' */}
-        {/*    onChangeText={this.handleChange} */}
-        {/*  /> */}
       </View>
     )
   }
@@ -216,12 +154,19 @@ class OrderScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     startLongLat: state.destinationAddress.startLongLat,
-    endLongLat: state.destinationAddress.endLongLat
+    endLongLat: state.destinationAddress.endLongLat,
+    startLocation: state.destinationAddress.startLocation,
+    endLocation: state.destinationAddress.endLocation,
+    distance: state.price.distance,
+    duration: state.price.duration,
+    price: state.price.price
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    attemptPrice: (distance, duration, price) => dispatch(PriceAction.priceRequest(distance, duration, price))
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen)
