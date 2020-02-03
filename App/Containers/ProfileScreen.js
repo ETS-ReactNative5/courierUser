@@ -23,7 +23,6 @@ class ProfileScreen extends Component {
     }
   }
   componentDidMount () {
-
     const getProfileData = async (token) => {
       const data = await fetch(userRegistration, {
         headers: {
@@ -105,6 +104,10 @@ class ProfileScreen extends Component {
             size={25}
             fontSize={20} />
           <MenuLink text='Log out'
+            onPress={() => {
+              AsyncStorage.removeItem('@token')
+              this.props.navigation.navigate('FirstScreen')
+            }}
             icon='exit-to-app'
             color='#606060'
             size={25}
