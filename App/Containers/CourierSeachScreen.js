@@ -16,6 +16,7 @@ import CourierSearchBody from '../Components/CourierSearchBody'
 import AnimatedMarker from '../Components/AnimatedMarker'
 import AsyncStorage from '@react-native-community/async-storage'
 import ProfileScreen from './ProfileScreen'
+import io from 'socket.io-client/dist/socket.io'
 
 class CourierSeachScreen extends Component {
   state = {
@@ -47,7 +48,7 @@ class CourierSeachScreen extends Component {
         console.log(token)
       })
     const {startLongLat, price, startLocation, endLocation, distance, orderId} = this.props
-    this.timer = setInterval(() => this.getDriver(), 1000)
+    // this.timer = setInterval(() => this.getDriver(), 1000)
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
@@ -69,6 +70,16 @@ class CourierSeachScreen extends Component {
       error => this.setState({error: error.message}),
       {enableHighAccuracy: true, timeout: 50000}
     )
+    window.navigator.userAgent = 'ReactNative'
+    const socket = io('http://worker.delhero.com', {
+      forceNew: true,
+      transports: ['websocket']
+    })
+    socket.on('connect', () => {
+      socket.emit('new_order', {
+        order_id: this.state.orderId
+      })
+    })
   }
 
   async getDriver () {
