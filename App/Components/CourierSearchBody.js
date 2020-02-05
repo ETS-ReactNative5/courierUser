@@ -18,7 +18,7 @@ export default class CourierSearchBody extends Component {
   // }
 
   render () {
-    const {price, startLocation, endLocation, distance} = this.props
+    const {bill_amount, startLocation, endLocation, distance} = this.props
     return (
       <View style={styles.mainContainer}>
         <View style={styles.adressContainer}>
@@ -40,7 +40,7 @@ export default class CourierSearchBody extends Component {
         </View>
         <View style={styles.fieldBox}>
           <Text style={styles.fieldText}>Price</Text>
-          <Text style={styles.fieldText}>{price} azn</Text>
+          <Text style={styles.fieldText}>{bill_amount} azn</Text>
         </View>
         <View style={styles.fieldBox}>
           <Text style={styles.fieldText}>Distance</Text>

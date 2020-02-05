@@ -35,21 +35,13 @@ const PrimaryNav = createStackNavigator({
   CourierFoundScreen: {
     screen: CourierFoundScreen,
     navigationOptions: {
-      title: I18n.t('CourierFoundScreen'),
-      headerTintColor: '#000',
-      headerStyle: {
-        backgroundColor: '#fff'
-      }
+      header: null
     }
   },
   CourierSeachScreen: {
     screen: CourierSeachScreen,
     navigationOptions: {
-      title: I18n.t('CourierSeachScreen'),
-      headerTintColor: '#000',
-      headerStyle: {
-        backgroundColor: '#fff'
-      }
+      header: null
     }
   },
   PhoneValidateScreen: {

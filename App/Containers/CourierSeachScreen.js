@@ -16,10 +16,14 @@ import CourierSearchBody from '../Components/CourierSearchBody'
 import AnimatedMarker from '../Components/AnimatedMarker'
 import AsyncStorage from '@react-native-community/async-storage'
 import ProfileScreen from './ProfileScreen'
+import DriverAction from '../Redux/DriverRedux'
+import OrderAction from '../Redux/OrderRedux'
+
 import io from 'socket.io-client/dist/socket.io'
 
 class CourierSeachScreen extends Component {
   state = {
+    bill_amount: null,
     startLocation: '',
     endLocation: '',
     price: '',
@@ -37,18 +41,17 @@ class CourierSeachScreen extends Component {
   componentDidMount () {
     // const {startLongLat} = this.props
     //
-    // this.setState({
-    //   latitude: startLongLat[0],
-    //   longitude: startLongLat[1],
-    //   error: null
-    // })
+    this.setState({
+      bill_amount: this.props.order.bill_amount
+    })
     AsyncStorage.getItem('@token')
       .then((token) => {
         this.token = 'Bearer ' + token
         console.log(token)
       })
+
     const {startLongLat, price, startLocation, endLocation, distance, orderId} = this.props
-    // this.timer = setInterval(() => this.getDriver(), 1000)
+    this.timer = setInterval(() => this.getDriver(), 1000)
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
@@ -83,7 +86,9 @@ class CourierSeachScreen extends Component {
   }
 
   async getDriver () {
+    const self = this
     let orderUrl = orders + this.state.orderId
+
     console.log(orderUrl)
     fetch(orderUrl, {
       method: 'GET',
@@ -102,25 +107,94 @@ class CourierSeachScreen extends Component {
       .then(function (data) {
         console.log('Request succeeded with JSON response', data)
         console.log(data)
-
+        if (data.status === 'accepted') {
+          // if (data.status === 'pending') {
+          clearInterval(self.timer)
+          self.props.attemptDriver(data)
+          self.props.attemptOrder(data)
+          self.props.navigation.replace('CourierFoundScreen')
+        }
+        if (data.status === 'rejected') {
+          clearInterval(self.timer)
+          self.props.attemptDriver(data)
+          self.props.attemptOrder(data)
+        }
         // self.props.navigation.navigate('OrderScreen')
       })
       .catch(function (error) {
         console.log(error)
         console.log('err')
       })
-    const self = this
+
     function status (response) {
       console.log(response)
       console.log('status')
       console.log('-------')
       console.log(response.status)
       console.log('-------')
-      // this.setState({loading: false})
-      if (response.status === 'accepted') {
-        self.props.navigation.navigate('CourierFoundScreen')
+
+      if (response.status != null) {
+        return Promise.resolve(response)
+      } else {
+        return Promise.reject(response)
+
+        // return Promise.reject(new Error(response.statusText))
       }
-      if (response.distance != null) {
+    }
+
+    function json (response) {
+      console.log(response)
+      console.log('json')
+      return response.json()
+    }
+  }
+
+  onPressCancel = () => {
+    let body = {
+      status: 'rejected'
+    }
+
+    // this.setState({loading: true})
+    const self = this
+    const ordersUrl = orders + this.props.orderId
+    // console.log(body, login)
+    console.log(body)
+
+    fetch(ordersUrl, {
+      body: JSON.stringify(body),
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': this.token
+
+        // 'X-localization': currentLang
+        //   'Accept': 'application/json',
+        // 'Content-Type': 'application/json'
+      }
+
+    })
+      .then(json)
+      .then(status)
+      .then(function (data) {
+        console.log('Request succeeded with JSON response', data)
+        console.log(data)
+
+        self.props.navigation.navigate('MenuScreen')
+      })
+      .catch(function (error) {
+        console.log(error)
+        console.log('err')
+      })
+
+    function status (response) {
+      console.log(response)
+      console.log('status')
+      console.log('-------')
+      console.log(response.status)
+      console.log('-------')
+      self.setState({loading: false})
+      if (response.id != null) {
         return Promise.resolve(response)
       } else {
         return Promise.reject(response)
@@ -163,16 +237,16 @@ class CourierSeachScreen extends Component {
           <SlidingPanel
             // onDrag={this.ondraq}
             headerLayoutHeight={200}
-            headerLayout={() => <CourierSearchTop navigation={this.props.navigation} token={this.token}
+            headerLayout={() => <CourierSearchTop
+              onPress={this.onPressCancel}
+              navigation={this.props.navigation}
+              token={this.token}
               orderId={this.state.orderId} />}
             slidingPanelLayout={() => <CourierSearchBody
-              token={this.token}
-              orderId={this.state.orderId}
-              navigation={this.props.navigation}
               startLocation={this.state.startLocation}
               endLocation={this.state.endLocation}
               distance={this.state.distance}
-              price={this.state.price} />}
+              bill_amount={this.state.bill_amount} />}
           />
         </View>
         <View style={[styles.gumburger]}>
@@ -193,12 +267,16 @@ const mapStateToProps = (state) => {
     distance: state.price.distance,
     duration: state.price.duration,
     price: state.price.price,
-    orderId: state.order.orderId
+    orderId: state.order.orderId,
+    order: state.order.payload
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    attemptDriver: (payload) => dispatch(DriverAction.driverSuccess(payload)),
+    attemptOrder: (payload) => dispatch(OrderAction.orderSuccess(payload))
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourierSeachScreen)

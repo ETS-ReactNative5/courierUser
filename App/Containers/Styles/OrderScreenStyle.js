@@ -9,6 +9,8 @@ export default StyleSheet.create({
   },
   map: {
     flex: 1,
+    width,
+    height
   },
   orderContainer: {
     paddingHorizontal: width * 0.06,
