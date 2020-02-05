@@ -145,158 +145,7 @@ class NewOrderBody extends Component {
     this.mapView = null
   }
 
-  onPress = () => {
-    const {startLongLat, endLongLat, distance, duration, pricee} = this.props
 
-    let body = {
-      pickup_location: [startLongLat[0], startLongLat[1]],
-      drop_location: [endLongLat[0], endLongLat[1]]
-
-    }
-
-    // this.setState({loading: true})
-    const self = this
-    let price = prices + '?pickup_location=' + startLongLat[0] + ',' + startLongLat[1] + '&drop_location=' + endLongLat[0] + ',' + endLongLat[1]
-    // console.log(body, login)
-    console.log(body)
-    console.log(price)
-    fetch(price, {
-      // body: JSON.stringify(body),
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-
-    })
-      .then(json)
-      .then(status)
-      .then(function (data) {
-        console.log('Request succeeded with JSON response', data)
-        console.log(data)
-        self.props.attemptPrice(data.distance, data.duration, data.price)
-
-        useResponse(data)
-        // self.props.navigation.navigate('OrderScreen')
-      })
-      .catch(function (error) {
-        console.log(error)
-        console.log('err')
-      })
-
-    function status (response) {
-      console.log(response)
-      console.log('status')
-      console.log('-------')
-      console.log(response.status)
-      console.log('-------')
-      self.setState({loading: false})
-      if (response.distance != null) {
-        return Promise.resolve(response)
-      } else {
-        return Promise.reject(response)
-
-        // return Promise.reject(new Error(response.statusText))
-      }
-    }
-
-    function statusOrder (response) {
-      console.log(response)
-      console.log('status')
-      console.log('-------')
-      console.log(response.status)
-      console.log('-------')
-      self.setState({loading: false})
-      if (response.id != null) {
-        return Promise.resolve(response)
-      } else {
-        return Promise.reject(response)
-
-        // return Promise.reject(new Error(response.statusText))
-      }
-    }
-
-    function json (response) {
-      console.log(response)
-      console.log('json')
-      return response.json()
-    }
-
-    useResponse = async (data) => {
-      const ordersUrl = orders + uuidv4()
-      console.log(ordersUrl)
-
-      let body = {
-        bill_amount: self.state.price,
-        drop_lng: '' + startLongLat[0],
-        drop_location: startLongLat[0] + ',' + startLongLat[1],
-        drop_ltd: '' + startLongLat[1],
-        pickup_lng: '' + endLongLat[0],
-        pickup_location: endLongLat[0] + ',' + endLongLat[1],
-        pickup_ltd: '' + endLongLat[1],
-        total_distance: distance,
-        total_duration: duration,
-        payment_type: 'cash'
-      }
-
-      console.log('----body----')
-      console.log(body)
-      console.log('----body----')
-
-      console.log('----bareer')
-      console.log(this.token)
-      console.log('----bareer---')
-
-      let meResponse = await fetch(ordersUrl, {
-        body: JSON.stringify(body),
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-          'Access-Control-Allow-Origin': '*',
-          'Authorization': this.token
-
-          // 'X-localization': currentLang
-          //   'Accept': 'application/json',
-          // 'Content-Type': 'application/json'
-        }
-        // body: 'country_id=' + c.id
-      })
-        .then(json)
-        .then(statusOrder)
-        .then(function (data) {
-          console.log('Request succeeded with JSON response', data)
-          console.log(data)
-          console.log('Burda')
-          if (data.status === 'pending') {
-            console.log('içeride')
-            self.props.attemptOrder(data.id)
-            self.props.navigation.navigate('CourierSeachScreen')
-          }
-          // self.props.navigation.navigate('OrderScreen')
-        })
-        .catch(function (error) {
-          console.log(error)
-          console.log('err')
-        })
-      // only proceed once promise is resolved
-      let meData = await meResponse.json()
-
-      try {
-        // const is_company = data.data.is_company||0
-        console.log()
-        self.props.navigation.navigate('OrderScreen')
-      } catch (e) {
-        Alert.alert('Error: ' + e.message)
-      }
-
-      // try {
-
-      //   await AsyncStorage.setItem('@phone', this.state.phone)
-      //   this.props.navigation.navigate('VerifyScreen')
-      // } catch (e) {
-      //   Alert.alert('Error: ' + e.getMessage())
-      // }
-    }
-  }
   render () {
     const SwipeIcon = () => (
       <Icon name='chevron-double-right' color='#fff' size={40} />
@@ -460,7 +309,7 @@ class NewOrderBody extends Component {
         <View style={styles.swipeBox}>
           <SwipeButton
             disabled={false}
-            title='Accept '
+            title='Sifaris Et '
             titleColor='#FFFFFF'
             railBackgroundColor='#7B2BFC'
             railBorderColor='#7B2BFC'
@@ -469,7 +318,7 @@ class NewOrderBody extends Component {
             thumbIconComponent={SwipeIcon}
             railFillBackgroundColor='#000'
             railFillBorderColor='#fff'
-            onSwipeSuccess={this.onPress} />
+            onSwipeSuccess={this.props.onPress} />
         </View>
       </View>
     )

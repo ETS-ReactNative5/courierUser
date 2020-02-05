@@ -22,7 +22,7 @@ export default class DriverNewOrderTop extends Component {
       <View style={styles.container}>
         <View style={styles.minusBox}>
           <Icon style={styles.minusIcon} name='color-helper' color='#ddd' size={30} />
-          <Text style={styles.minusText}>ARRIVES IN 2 MIN</Text>
+          <Text style={styles.minusText}>Kuryerin chatma vaxti 2 deyqe</Text>
         </View>
         <View style={styles.adressContainer}>
           <View style={styles.dashBox}>
@@ -33,16 +33,16 @@ export default class DriverNewOrderTop extends Component {
           <View>
             <View style={styles.adressBox}>
               <Text style={styles.adressTitle}>Pickup</Text>
-              <Text style={styles.adressText}>307 portland Ave S,Mineapolis</Text>
+              <Text style={styles.adressText}>{this.props.pickup_location}</Text>
             </View>
             <View style={styles.adressBox}>
               <Text style={styles.adressTitle}>Dropoff</Text>
-              <Text style={styles.adressText}>307 portland Ave S,Mineapolis</Text>
+              <Text style={styles.adressText}>{this.props.drop_location}</Text>
             </View>
           </View>
         </View>
         <View style={styles.actionBox}>
-          <TouchableOpacity style={{ alignItems: 'center' }}>
+          <TouchableOpacity style={{ alignItems: 'center' }} onPress={this.props.onPress}>
             <Icon name='cancel' color='#C71585' size={25} />
             <Text style={styles.adressTitle}>Cancel </Text>
           </TouchableOpacity>

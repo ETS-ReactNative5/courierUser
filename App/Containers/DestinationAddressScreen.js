@@ -81,7 +81,7 @@ class DestinationAddressScreen extends Component {
       .then(function (data) {
         console.log('Request succeeded with JSON response', data)
         console.log(data)
-        self.props.attemptPrice(data.distance, data.duration, data.price[0])
+        self.props.attemptPrice(data.distance, data.duration, data.price.eco)
         self.props.navigation.navigate('OrderScreen')
 
         // self.props.navigation.navigate('OrderScreen')
@@ -93,6 +93,10 @@ class DestinationAddressScreen extends Component {
 
     function status (response) {
       console.log(response)
+      console.log('status')
+      console.log('-------')
+      console.log(response.status)
+      console.log('-------')
       self.setState({loading: false})
       if (response.distance != null) {
         return Promise.resolve(response)

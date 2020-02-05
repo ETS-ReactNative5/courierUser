@@ -40,7 +40,15 @@ export default class DriverNewOrderBody extends Component {
               <Text style={styles.cashMetod}>Cash Payment</Text>
             </View>
             <View>
-              <Text style={styles.cashValue}>4.20 AZN</Text>
+              <Text style={styles.cashValue}>{this.props.bill_amount} AZN</Text>
+            </View>
+          </View>
+          <View style={styles.cashBox}>
+            <View>
+              <Text style={styles.sectionTitle}>Distance</Text>
+            </View>
+            <View>
+              <Text style={styles.cashValue}>{this.props.bill_amount} KM</Text>
             </View>
           </View>
           <View style={styles.cashBox}>
@@ -48,7 +56,7 @@ export default class DriverNewOrderBody extends Component {
               <Text style={styles.sectionTitle}>Catdirilma</Text>
             </View>
             <View>
-              <Text style={styles.sectionTitle}>10/10/2019</Text>
+              <Text style={styles.sectionTitle}>10/03/2020</Text>
               <Text style={styles.sectionTitle}>14:00</Text>
             </View>
           </View>

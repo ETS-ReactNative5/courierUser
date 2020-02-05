@@ -13,7 +13,8 @@ export const reducers = combineReducers({
   register: require('./RegisterRedux').reducer,
   destinationAddress: require('./DestinationAddressRedux').reducer,
   price: require('./PriceRedux').reducer,
-  order: require('./OrderRedux').reducer
+  order: require('./OrderRedux').reducer,
+  driver: require('./DriverRedux').reducer
 })
 
 export default () => {
