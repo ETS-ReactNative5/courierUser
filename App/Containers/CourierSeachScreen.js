@@ -16,13 +16,11 @@ import CourierSearchBody from '../Components/CourierSearchBody'
 import AnimatedMarker from '../Components/AnimatedMarker'
 import AsyncStorage from '@react-native-community/async-storage'
 import ProfileScreen from './ProfileScreen'
-<<<<<<< HEAD
 import DriverAction from '../Redux/DriverRedux'
 import OrderAction from '../Redux/OrderRedux'
-=======
+
 import io from 'socket.io-client/dist/socket.io'
 
->>>>>>> dc6cad3c6b1a77b2ba8980fce3370c549d9dca72
 class CourierSeachScreen extends Component {
   state = {
     bill_amount: null,
@@ -53,13 +51,7 @@ class CourierSeachScreen extends Component {
       })
 
     const {startLongLat, price, startLocation, endLocation, distance, orderId} = this.props
-<<<<<<< HEAD
-
     this.timer = setInterval(() => this.getDriver(), 1000)
-
-=======
-    // this.timer = setInterval(() => this.getDriver(), 1000)
->>>>>>> dc6cad3c6b1a77b2ba8980fce3370c549d9dca72
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
