@@ -50,12 +50,14 @@ class NewOrderTop extends Component {
     selectedItem: '',
     startLocation: '',
     endLocation: '',
+    duration: 0
   }
   componentDidMount () {
     const {startLocation, endLocation, distance, duration, pricee} = this.props
     this.setState({
       startLocation: startLocation,
       endLocation: endLocation,
+      duration: duration
     })
     this.state.radioItems.map((item) => {
       if (item.selected === true) {
@@ -85,7 +87,7 @@ class NewOrderTop extends Component {
       <View style={styles.container}>
         <View style={styles.minusBox}>
           <Icon style={styles.minusIcon} name='color-helper' color='#ddd' size={30} />
-          <Text style={styles.minusText}>ARRIVES IN 2 MIN</Text>
+          <Text style={styles.minusText}>Catma vaxti {this.state.duration} dəq</Text>
         </View>
         <View style={styles.adressContainer}>
           <View style={styles.dashBox}>
@@ -120,7 +122,8 @@ class NewOrderTop extends Component {
 const mapStateToProps = (state) => {
   return {
     startLocation: state.destinationAddress.startLocation,
-    endLocation: state.destinationAddress.endLocation
+    endLocation: state.destinationAddress.endLocation,
+    duration: state.price.duration
   }
 }
 

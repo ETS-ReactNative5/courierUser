@@ -111,9 +111,10 @@ class AccountScreen extends Component {
           </View>
           <View style={styles.buttonContainer}>
             <MyButton onPress={this.onPressUpdate}
-              backgroundColor='#7b2bfc'
               color='#fff'
-              borderColor='#7b2bfc'
+              backgroundColor='#7B2BFC'
+              borderColor='#7B2BFC'
+              borderRadius={30}
               text={I18n.t('SUBMIT')}
             />
 

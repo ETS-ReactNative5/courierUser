@@ -11,7 +11,7 @@ import {Images} from '../Themes'
 import MapViewDirections from 'react-native-maps-directions'
 import MyButton from '../Components/MyButton'
 import I18n from '../I18n'
-import Icon from 'react-native-vector-icons/SimpleLineIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Dash from 'react-native-dash'
 import SlidingPanel from 'react-native-sliding-up-down-panels'
 import NewOrderTop from '../Components/NewOrderTop'
@@ -22,6 +22,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 import {orders, prices} from '../Config/API'
 import uuidv4 from 'uuid'
 import CourierSearchBody from '../Components/CourierSearchBody'
+import Spiner from '../Components/Spiner'
+import SwipeButton from 'rn-swipe-button'
 const {width, height} = Dimensions.get('window')
 const ASPECT_RATIO = width / height
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCMfIpRhn8QaGkYQ0I5KPWvFT1kLbA-DAM'
@@ -60,6 +62,7 @@ class OrderScreen extends Component {
 
     // AirBnB's Office, and Apple Park
     this.state = {
+      loading: false,
       coordinates: [
         {
           latitude: 37.3317876,
@@ -87,6 +90,7 @@ class OrderScreen extends Component {
     this.mapView = null
   }
   onPress = () => {
+    this.setState({loading: true})
     const {startLongLat, endLongLat, distance, duration, startLocation, endLocation} = this.props
 
     let body = {
@@ -219,6 +223,10 @@ class OrderScreen extends Component {
         .catch(function (error) {
           console.log(error)
           console.log('err')
+          self.setState({
+            error: error.detail,
+            loading: false
+          })
         })
       // only proceed once promise is resolved
       let meData = await meResponse.json()
@@ -296,10 +304,16 @@ class OrderScreen extends Component {
             headerLayoutHeight={320}
             headerLayout={() => <NewOrderTop />}
             slidingPanelLayout={() => <NewOrderBody
+              loading={this.state.loading}
               onPress={this.onPress}
               token={this.token}
               orderId={this.state.orderId} />}
           />
+        </View>
+        <View style={styles.gumburger}>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <Icon style={styles.nameBoxIcon} size={30} name='keyboard-backspace' />
+          </TouchableOpacity>
         </View>
       </View>
     )

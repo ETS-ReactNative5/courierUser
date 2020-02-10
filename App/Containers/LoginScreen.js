@@ -7,6 +7,7 @@ import LoginActions from '../Redux/LoginRedux'
 import PhoneInput from 'react-native-phone-input'
 import MyInput from '../Components/MyInput'
 import MyButton from '../Components/MyButton'
+import Spiner from '../Components/Spiner'
 
 import {userLogin} from '../Config/API'
 // Styles
@@ -19,7 +20,9 @@ class LoginScreen extends Component {
   state = {
     country_code: '',
     mobile: null,
-    password: null
+    password: null,
+    error: '',
+    loading: false
 
   }
   // onPres = () => {
@@ -29,8 +32,18 @@ class LoginScreen extends Component {
   //   this.props.attemptLogin(mobile, password)
   //   this.props.navigation.navigate('MapScreen')
   // }
-
   onPres = () => {
+    this.setState({loading: true})
+    if (this.state.password === null || this.state.mobile === null) {
+      this.setState({
+        error: 'input bos ola bilmez',
+        loading: false
+      })
+    } else {
+      this.onCheckFields()
+    }
+  }
+  onCheckFields = () => {
     console.log(this.props.fetching)
     let number = this.state.mobile
     let country_code = '+' + this.state.country_code
@@ -65,6 +78,10 @@ class LoginScreen extends Component {
       .catch(function (error) {
         console.log(error)
         console.log('err')
+        self.setState({
+          error: error.detail,
+          loading: false
+        })
       })
 
     function status (response) {
@@ -98,10 +115,22 @@ class LoginScreen extends Component {
     const {mobile, password} = this.state
     this.props.attemptLogin(mobile, password)
   };
-
+  renderButton = () => {
+    if (!this.state.loading) {
+      return <MyButton onPress={this.onPres}
+        color='#fff'
+        backgroundColor='#7B2BFC'
+        borderColor='#7B2BFC'
+        borderRadius={30}
+        text='Login'
+      />
+    }
+    return <Spiner size='small' />
+  }
   render () {
     console.log(this.props)
-    const {mobile, password} = this.state
+    const {mobile, password, error} = this.state
+    const errorMsg = error ? (<Text style={styles.errorMsg}>{error}</Text>) : null
     return (
       <View style={styles.container}>
         <View>
@@ -124,15 +153,10 @@ class LoginScreen extends Component {
 
           <MyInput value={password} onChangeText={this.onPasswordChange} secureTextEntry
             text='Password' />
-
+          {errorMsg}
         </View>
         <View style={styles.buttonContainer}>
-          <MyButton onPress={this.onPres}
-            backgroundColor='#451E5D'
-            color='#fff'
-            borderColor='451E5D'
-            text='Login'
-          />
+          {this.renderButton()}
           <TouchableOpacity>
             <Text style={styles.forgotPasswordText}>Forget Password</Text>
           </TouchableOpacity>

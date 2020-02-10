@@ -1,14 +1,14 @@
 import {StyleSheet, Dimensions} from 'react-native'
 
-const {width,height} = Dimensions.get('window')
+const {width, height} = Dimensions.get('window')
 export default StyleSheet.create({
   container: {
     marginHorizontal: width * 0.06,
-    flex: 1,
+    flex: 1
   },
   inputContainer: {
     flexDirection: 'row',
-    marginTop: height*0.05,
+    marginTop: height * 0.05
 
   },
   inputIcon: {
@@ -23,7 +23,16 @@ export default StyleSheet.create({
   },
   dash: {
     width: 2,
-    height: height*0.05,
+    height: height * 0.05,
     flexDirection: 'column'
-   }
+  },
+  buttonContainer: {
+    paddingVertical: 20
+  },
+  errorMsg: {
+    marginTop: 20,
+    fontSize: 20,
+    color: 'red',
+    alignSelf: 'center'
+  }
 })

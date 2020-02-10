@@ -14,9 +14,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 class MapScreen extends Component {
   state = {
-    latitude: 0,
-    longitude: 0,
-    error: null
+    latitude: 40.4093,
+    longitude: 49.8671,
+    error: null,
+    loading: false
   }
 
   componentDidMount () {
@@ -55,7 +56,8 @@ class MapScreen extends Component {
             backgroundColor='#fff'
             color='#451E5D'
             borderColor='#fff'
-            text={I18n.t('gedeceyinizUnvan')} />
+            borderRadius={30}
+            text={I18n.t('Kuryer cagir')} />
         </View>
         <View style={[styles.gumburger, ]}>
           <TouchableOpacity onPress={this.props.open}>

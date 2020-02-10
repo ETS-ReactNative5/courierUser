@@ -28,8 +28,8 @@ class CourierSeachScreen extends Component {
     endLocation: '',
     price: '',
     distance: '',
-    latitude: 0,
-    longitude: 0,
+    latitude: 40.4093,
+    longitude: 49.8671,
     error: null,
     markers: {
       latitude: 40.4050531,
@@ -113,11 +113,8 @@ class CourierSeachScreen extends Component {
           self.props.attemptDriver(data)
           self.props.attemptOrder(data)
           self.props.navigation.replace('CourierFoundScreen')
-        }
-        if (data.status === 'rejected') {
+        } else if (data.status === 'rejected') {
           clearInterval(self.timer)
-          self.props.attemptDriver(data)
-          self.props.attemptOrder(data)
         }
         // self.props.navigation.navigate('OrderScreen')
       })
@@ -179,7 +176,7 @@ class CourierSeachScreen extends Component {
       .then(function (data) {
         console.log('Request succeeded with JSON response', data)
         console.log(data)
-
+        self.props.attemptOrder(data)
         self.props.navigation.navigate('MenuScreen')
       })
       .catch(function (error) {
@@ -248,11 +245,6 @@ class CourierSeachScreen extends Component {
               distance={this.state.distance}
               bill_amount={this.state.bill_amount} />}
           />
-        </View>
-        <View style={[styles.gumburger]}>
-          <TouchableOpacity onPress={this.props.open}>
-            <Icon style={styles.nameBoxIcon} size={30} name='menu' />
-          </TouchableOpacity>
         </View>
       </View>
     )

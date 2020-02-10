@@ -17,6 +17,7 @@ import { connect } from 'react-redux'
 import { orders, prices } from '../Config/API'
 import uuidv4 from 'uuid'
 import AsyncStorage from '@react-native-community/async-storage'
+import Spiner from './Spiner'
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -58,11 +59,12 @@ class NewOrderBody extends Component {
     })
   }
   componentDidMount () {
-    const {distance, duration, price} = this.props
+    const {distance, duration, price, loading} = this.props
     this.setState({
       distance: distance,
       duration: duration,
-      pricee: price
+      pricee: price,
+      loading: loading
     })
     this.state.radioItems.map((item) => {
       if (item.selected === true) {
@@ -112,6 +114,7 @@ class NewOrderBody extends Component {
       distance: 0,
       duration: 0,
       pricee: 0,
+      loading: false,
       isChecked: false,
       scheduled: false,
       date: new Date(),
@@ -144,12 +147,31 @@ class NewOrderBody extends Component {
 
     this.mapView = null
   }
-
-
-  render () {
+  renderButton = () => {
     const SwipeIcon = () => (
       <Icon name='chevron-double-right' color='#fff' size={40} />
     )
+    if (!this.state.loading) {
+      return  <SwipeButton
+        disabled={false}
+        title='Sifaris Et '
+        titleColor='#FFFFFF'
+        railBackgroundColor='#7B2BFC'
+        railBorderColor='#7B2BFC'
+        thumbIconBackgroundColor='#7B2BFC'
+        thumbIconBorderColor='#7B2BFC'
+        thumbIconComponent={SwipeIcon}
+        railFillBackgroundColor='#000'
+        railFillBorderColor='#fff'
+        onSwipeSuccess={this.props.onPress} />
+    }
+    return <Spiner size='small' />
+  }
+
+  render () {
+    // const SwipeIcon = () => (
+    //   <Icon name='chevron-double-right' color='#fff' size={40} />
+    // )
     const { show, date, mode } = this.state
     let data = [{
       value: '00:00 - 02:00'
@@ -259,8 +281,10 @@ class NewOrderBody extends Component {
                   <MyButton
                     onPress={this.datepicker}
                     text={this.state.selectedDate.toString()}
-                    color='#fff'
-                    backgroundColor='#7B2BFC' />
+                    backgroundColor='#7B2BFC'
+                    borderColor='#7B2BFC'
+                    borderRadius={30}
+                    color='#fff' />
                 </View>
                 { show && <DateTimePicker value={new Date()}
                   mode={mode}
@@ -307,18 +331,7 @@ class NewOrderBody extends Component {
           </View>
         </ScrollView>
         <View style={styles.swipeBox}>
-          <SwipeButton
-            disabled={false}
-            title='Sifaris Et '
-            titleColor='#FFFFFF'
-            railBackgroundColor='#7B2BFC'
-            railBorderColor='#7B2BFC'
-            thumbIconBackgroundColor='#7B2BFC'
-            thumbIconBorderColor='#7B2BFC'
-            thumbIconComponent={SwipeIcon}
-            railFillBackgroundColor='#000'
-            railFillBorderColor='#fff'
-            onSwipeSuccess={this.props.onPress} />
+          {this.renderButton()}
         </View>
       </View>
     )

@@ -64,7 +64,9 @@ class SettingScreen extends Component {
             onPress={() => this.props.navigation.navigate('MenuScreen')}
             text='Yadda saxla'
             color='#fff'
-            backgroundColor='#7b2bfc' />
+            backgroundColor='#7B2BFC'
+            borderColor='#7B2BFC'
+            borderRadius={30} />
         </View>
       </Container>
     )

@@ -83,7 +83,7 @@ const PrimaryNav = createStackNavigator({
   SettingScreen: {
     screen: SettingScreen,
     navigationOptions: {
-      title: I18n.t('Setting'),
+      title: I18n.t('Parametrlər'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -93,7 +93,7 @@ const PrimaryNav = createStackNavigator({
   AccountScreen: {
     screen: AccountScreen,
     navigationOptions: {
-      title: I18n.t('Account'),
+      title: I18n.t('Profilim'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -103,7 +103,7 @@ const PrimaryNav = createStackNavigator({
   SharePromoScreen: {
     screen: SharePromoScreen,
     navigationOptions: {
-      title: I18n.t('Share Promo kod'),
+      // title: I18n.t('Share Promo kod'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -113,7 +113,7 @@ const PrimaryNav = createStackNavigator({
   SupportScreen: {
     screen: SupportScreen,
     navigationOptions: {
-      title: I18n.t('Support'),
+      title: I18n.t('Support/FAQ'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -153,7 +153,7 @@ const PrimaryNav = createStackNavigator({
   AddCrediCardScreen: {
     screen: AddCrediCardScreen,
     navigationOptions: {
-      title: I18n.t('Add Card'),
+      title: I18n.t('Kart əlavə et'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -163,7 +163,7 @@ const PrimaryNav = createStackNavigator({
   PaymentMethodScreen: {
     screen: PaymentMethodScreen,
     navigationOptions: {
-      title: I18n.t('Order'),
+      title: I18n.t('Ödəniş növləri'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -236,10 +236,10 @@ const PrimaryNav = createStackNavigator({
   DestinationAddressScreen: {
     screen: DestinationAddressScreen,
     navigationOptions: {
-      title: I18n.t('gedilecekUnvan'),
-      headerTintColor: '#fff',
+      // title: I18n.t('gedilecekUnvan'),
+      headerTintColor: '#000',
       headerStyle: {
-        backgroundColor: '#451E5D'
+        backgroundColor: '#fff'
       }
     }
   },

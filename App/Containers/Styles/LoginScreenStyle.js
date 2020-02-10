@@ -79,4 +79,9 @@ export default StyleSheet.create({
     fontWeight: '600',
     borderRadius: 7
   },
+  errorMsg: {
+    fontSize: 20,
+    color: 'red',
+    alignSelf: 'center'
+  }
 })

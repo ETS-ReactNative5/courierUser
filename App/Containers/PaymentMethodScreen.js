@@ -63,7 +63,9 @@ class PaymentMethodScreen extends Component {
             onPress={() => this.props.navigation.navigate('AddCrediCardScreen')}
             text='KART ƏLAVƏ ET'
             color='#fff'
-            backgroundColor='#7b2bfc' />
+            backgroundColor='#7B2BFC'
+            borderColor='#7B2BFC'
+            borderRadius={30} />
         </View>
       </Container>
     )

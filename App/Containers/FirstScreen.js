@@ -27,29 +27,28 @@ class FirstScreen extends Component {
       <ImageBackground
         style={styles.bg}
         source={Images.bg}>
-
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={Images.logo} />
-        </View>
-
+        {/* <View style={styles.imageContainer}> */}
+        {/*  <Image style={styles.image} source={Images.logo} /> */}
+        {/* </View> */}
         <View style={styles.whiteArea} />
         <View style={styles.textContainer}>
-          <Text style={styles.text}>189 taksi şirkətinə </Text>
+          {/* <Text style={styles.text}>189 taksi şirkətinə </Text> */}
           <Text style={[styles.text, {fontWeight: 'bold'}]}>xoş gəlmisiniz</Text>
         </View>
-
         <View style={styles.buttonContainer}>
           <MyButton color='#fff'
             onPress={() => this.props.navigation.navigate('LoginScreen')}
-            backgroundColor='#451E5D'
-            borderColor='#451E5D'
+            backgroundColor='#7B2BFC'
+            borderColor='#7B2BFC'
             text='Login'
+            borderRadius={30}
             width='50%' />
           <MyButton width='50%'
             onPress={() => this.props.navigation.navigate('PhoneValidateInputScreen')}
             backgroundColor='#fff'
-            color='#451E5D'
-            borderColor='#451E5D'
+            color='#7B2BFC'
+            borderColor='#7B2BFC'
+            borderRadius={30}
             text='Register' />
         </View>
       </ImageBackground>

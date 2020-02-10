@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {ScrollView, View, KeyboardAvoidingView} from 'react-native'
+import { ScrollView, View, KeyboardAvoidingView, Text } from 'react-native'
 import {connect} from 'react-redux'
 import I18n from '../I18n'
 import MyButton from '../Components/MyButton'
@@ -15,13 +15,16 @@ import RNGooglePlaces from 'react-native-google-places'
 import {orders, prices} from '../Config/API'
 import uuidv4 from 'uuid'
 import PriceAction from '../Redux/PriceRedux'
+import Spiner from '../Components/Spiner'
 
 class DestinationAddressScreen extends Component {
   state = {
     startLocation: '',
     endLocation: '',
     startLongLat: [],
-    endLongLat: []
+    endLongLat: [],
+    error: '',
+    loading: false
   }
 
   componentDidMount () {
@@ -59,8 +62,19 @@ class DestinationAddressScreen extends Component {
   //   this.props.attemptDestinationAddress(startLongLat, endLongLat, startLocation, endLocation)
   //   this.props.navigation.navigate('OrderScreen')
   // }
-
   onPres = () => {
+    this.setState({loading: true})
+    if (this.state.startLocation === I18n.t('baslangicNoqtesi') || this.state.endLocation === I18n.t('bitisNoqtesi')) {
+      this.setState({
+        error: 'input bos ola bilmez',
+        loading: false
+      })
+    } else {
+      this.onCheckFields()
+    }
+  }
+
+  onCheckFields = () => {
     const {startLongLat, endLongLat, startLocation, endLocation} = this.state
     this.props.attemptDestinationAddress(startLongLat, endLongLat, startLocation, endLocation)
 
@@ -89,6 +103,10 @@ class DestinationAddressScreen extends Component {
       .catch(function (error) {
         console.log(error)
         console.log('err')
+        self.setState({
+          error: error.detail,
+          loading: false
+        })
       })
 
     function status (response) {
@@ -113,8 +131,21 @@ class DestinationAddressScreen extends Component {
       return response.json()
     }
   }
-
+  renderButton = () => {
+    if (!this.state.loading) {
+      return <MyButton onPress={this.onPres}
+        backgroundColor='#7B2BFC'
+        borderColor='#7B2BFC'
+        borderRadius={30}
+        color='#fff'
+        text={I18n.t('next')}
+      />
+    }
+    return <Spiner size='small' />
+  }
   render () {
+    const {error} = this.state
+    const errorMsg = error ? (<Text style={styles.errorMsg}>{error}</Text>) : null
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -126,33 +157,28 @@ class DestinationAddressScreen extends Component {
                 <Icon name='location-pin' size={30} color='#27093D' />
               </View>
               <View style={styles.inputButton}>
-
                 <MyButton onPress={() => this.openSearchModal('start')}
                   backgroundColor='#fff'
                   color='#606060'
                   borderColor='#451E5D'
+                  borderRadius={30}
                   text={this.state.startLocation}
                 />
-
                 <MyButton onPress={() => this.openSearchModal('end')}
                   backgroundColor='#fff'
                   color='#606060'
                   borderColor='#451E5D'
+                  borderRadius={30}
                   text={this.state.endLocation}
                 />
+
               </View>
             </View>
+            {errorMsg}
           </KeyboardAvoidingView>
         </ScrollView>
-
         <View style={styles.buttonContainer}>
-          <MyButton onPress={this.onPres}
-            backgroundColor='#451E5D'
-            color='#fff'
-            borderColor='451E5D'
-            text={I18n.t('next')}
-          />
-
+          {this.renderButton()}
         </View>
       </View>
     )
