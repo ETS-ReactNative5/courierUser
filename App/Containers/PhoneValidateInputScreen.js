@@ -7,10 +7,11 @@ import RegisterAction from '../Redux/RegisterRedux'
 import I18n from '../I18n'
 import PhoneInput from 'react-native-phone-input'
 import MyButton from '../Components/MyButton'
-import {userRegistration} from '../Config/API'
+import {userRegistration, mainUrl} from '../Config/API'
 
 // Styles
 import styles from './Styles/RegisterScreenStyle'
+import Spiner from '../Components/Spiner'
 
 const {width} = Dimensions.get('window')
 
@@ -19,7 +20,8 @@ class PhoneValidateInputScreen extends Component {
     country_code: '',
     number: '',
     step: 'phone_number',
-    spinner: false
+    error: '',
+    loading: false
 
   }
 
@@ -31,8 +33,18 @@ class PhoneValidateInputScreen extends Component {
     // const {mobile, password} = this.state
     // this.props.attemptLogin(mobile, password)
   };
-
-  onPressLogin = () => {
+  onPres = () => {
+    this.setState({loading: true})
+    if (this.state.number === '' || this.state.country_code === '') {
+      this.setState({
+        error: 'input bos ola bilmez',
+        loading: false
+      })
+    } else {
+      this.onPressNext()
+    }
+  }
+  onPressNext = () => {
     console.log(this.props.fetching)
     let number = this.state.number
     let country_code = '+' + this.state.country_code
@@ -42,13 +54,12 @@ class PhoneValidateInputScreen extends Component {
       number: num,
       step: 'phone_number'
     }
-
     // this.setState({loading: true})
     const self = this
     console.log(body)
     // console.log(body, login)
 
-    let url = 'https://db4def76.ngrok.io/customer/api/customers?country_code=' + encodeURIComponent(country_code) + '&phone_number=' + num
+    let url = mainUrl + 'customer/api/customers?country_code=' + encodeURIComponent(country_code) + '&phone_number=' + num
     console.log(url)
     fetch(url, {
       method: 'HEAD',
@@ -103,7 +114,15 @@ class PhoneValidateInputScreen extends Component {
             console.log(data.id)
             self.props.attemptRegister(number, verification_id)
             console.log(number)
-            if (data.status === 'approved') { self.props.navigation.navigate('RegisterScreen') } else if (data.status === 'pending') {
+            if (data.status === 'approved') {
+              self.setState({
+                loading: false
+              })
+              self.props.navigation.navigate('RegisterScreen')
+            } else if (data.status === 'pending') {
+              self.setState({
+                loading: false
+              })
               console.log('PhoneValidateScreen')
               self.props.navigation.navigate('PhoneValidateScreen')
             }
@@ -111,26 +130,39 @@ class PhoneValidateInputScreen extends Component {
           .catch(function (error) {
             console.log(error)
             console.log('err')
+            self.setState({
+              error: error.detail,
+              loading: false
+            })
           })
       } else {
+        self.setState({
+          loading: false
+        })
         self.props.navigation.navigate('LoginScreen')
       }
     }
   }
-
+  renderButton = () => {
+    if (!this.state.loading) {
+      return <MyButton
+        onPress={this.onPres}
+        color='#fff'
+        backgroundColor='#7B2BFC'
+        borderColor='#7B2BFC'
+        borderRadius={30}
+        text={I18n.t('next')}
+      />
+    }
+    return <Spiner size='small' />
+  }
   render () {
-    const {number} = this.state
     console.log(this.props)
+    const {number, error} = this.state
+    const errorMsg = error ? (<Text style={styles.errorMsg}>{error}</Text>) : null
     return (
       <View style={styles.container}>
-
-        {/* <Spinner */}
-        {/*  visible={this.props.fetching} */}
-        {/*  textContent={'Loading...'} */}
-        {/*  textStyle={styles.spinnerTextStyle} */}
-        {/* /> */}
         <View>
-
           <View>
             <Text style={{
               fontSize: width * 0.027,
@@ -150,19 +182,10 @@ class PhoneValidateInputScreen extends Component {
                 this.phone = ref
               }} />
           </View>
-
+          {errorMsg}
         </View>
         <View style={styles.buttonContainer}>
-          <MyButton
-            //    onPress={() => this.props.navigation.navigate('PhoneValidateScreen')}
-            onPress={this.onPressLogin}
-
-            backgroundColor='#451E5D'
-            color='#fff'
-            borderColor='451E5D'
-            text={I18n.t('next')}
-          />
-
+          {this.renderButton()}
         </View>
 
       </View>

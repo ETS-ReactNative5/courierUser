@@ -73,7 +73,7 @@ class LoginScreen extends Component {
         console.log('Request succeeded with JSON response', data)
         console.log(data.access_token)
         AsyncStorage.setItem('@token', data.access_token)
-        self.props.navigation.navigate('MenuScreen')
+        self.props.navigation.replace('MenuScreen')
       })
       .catch(function (error) {
         console.log(error)
@@ -137,8 +137,9 @@ class LoginScreen extends Component {
           <View>
             <Text style={{
               fontSize: width * 0.027,
-              color: '#BCBEC0',
-              marginBottom: width * 0.06
+              color: '#606060',
+              marginBottom: width * 0.06,
+              fontWeight: 'bold'
             }}>Phone Number</Text>
             <PhoneInput onChangePhoneNumber={this.onPhoneNumberChange} initialCountry='az' value={mobile} style={{
               fontSize: width * 0.037,

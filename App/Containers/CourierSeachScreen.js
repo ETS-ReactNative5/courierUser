@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, TouchableOpacity} from 'react-native'
+import {View, BackHandler} from 'react-native'
 import {connect} from 'react-redux'
 import MapView, {Marker} from 'react-native-maps'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -41,6 +41,7 @@ class CourierSeachScreen extends Component {
   componentDidMount () {
     // const {startLongLat} = this.props
     //
+    BackHandler.addEventListener('hardwareBackPress', this.backPress)
     this.setState({
       bill_amount: this.props.order.bill_amount
     })
@@ -84,7 +85,9 @@ class CourierSeachScreen extends Component {
       })
     })
   }
-
+  componentWillUnmount () {
+    BackHandler.removeEventListener('hardwareBackPress', this.backPress)
+  }
   async getDriver () {
     const self = this
     let orderUrl = orders + this.state.orderId
@@ -145,7 +148,6 @@ class CourierSeachScreen extends Component {
       return response.json()
     }
   }
-
   onPressCancel = () => {
     let body = {
       status: 'rejected'
@@ -206,7 +208,7 @@ class CourierSeachScreen extends Component {
       return response.json()
     }
   }
-
+  backPress = () => true
   render () {
     // let that = this
     // setTimeout(function () {

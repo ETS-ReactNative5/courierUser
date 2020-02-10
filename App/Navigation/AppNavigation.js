@@ -57,7 +57,7 @@ const PrimaryNav = createStackNavigator({
   PhoneValidateInputScreen: {
     screen: PhoneValidateInputScreen,
     navigationOptions: {
-      title: I18n.t('Setting'),
+      // title: I18n.t('Setting'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -67,11 +67,7 @@ const PrimaryNav = createStackNavigator({
   OfflineNoticeScreen: {
     screen: OfflineNoticeScreen,
     navigationOptions: {
-      title: I18n.t('Setting'),
-      headerTintColor: '#000',
-      headerStyle: {
-        backgroundColor: '#fff'
-      }
+      header: null
     }
   },
   DriverNewOrderScreen: {
@@ -226,7 +222,7 @@ const PrimaryNav = createStackNavigator({
   RegisterScreen: {
     screen: RegisterScreen,
     navigationOptions: {
-      title: I18n.t('register'),
+      // title: I18n.t('register'),
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: '#451E5D'

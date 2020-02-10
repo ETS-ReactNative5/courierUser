@@ -21,7 +21,8 @@ class RegisterScreen extends Component {
     verification_id: '',
     last_name: '',
     password: '',
-    email: ''
+    email: '',
+    loading: false
 
   }
   useResponse: RegisterScreen.useResponse
@@ -32,6 +33,10 @@ class RegisterScreen extends Component {
     })
   }
 
+  onPres = () => {
+    this.setState({loading: true})
+    this.onPressRegister()
+  }
   onPressRegister = () => {
     let {email, first_name, last_name, password, verification_id} = this.state
 
@@ -103,7 +108,6 @@ class RegisterScreen extends Component {
   render () {
     return (
       <ScrollView>
-
         <KeyboardAvoidingView behavior='position' style={styles.container}>
           <View>
             <MyInput onChangeText={(text) => {
@@ -118,7 +122,6 @@ class RegisterScreen extends Component {
                 })
               }}
               text={I18n.t('surname')} />
-
             <MyInput
               onChangeText={(text) => {
                 this.setState({
@@ -133,14 +136,14 @@ class RegisterScreen extends Component {
                 })
               }}
               secureTextEntry text={I18n.t('password')} />
-
           </View>
           <View style={styles.buttonContainer}>
-            <MyButton onPress={this.onPressRegister}
+            <MyButton onPress={this.onPres}
               // onPress={() => this.props.navigation.navigate('TabScreen')}
-              backgroundColor='#451E5D'
               color='#fff'
-              borderColor='451E5D'
+              backgroundColor='#7B2BFC'
+              borderColor='#7B2BFC'
+              borderRadius={30}
               text={I18n.t('next')}
             />
           </View>
