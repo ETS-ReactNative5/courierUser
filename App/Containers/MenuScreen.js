@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {BackHandler} from 'react-native'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -16,6 +17,14 @@ class MenuScreen extends Component {
   openControlPanel = () => {
     this._drawer.open()
   };
+  componentDidMount () {
+    // const that = this
+    BackHandler.addEventListener('hardwareBackPress', this.backPress)
+  }
+  componentWillUnmount () {
+    BackHandler.removeEventListener('hardwareBackPress', this.backPress)
+  }
+  backPress = () => true
   render () {
     return (
       <Drawer
