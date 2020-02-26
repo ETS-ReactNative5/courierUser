@@ -25,13 +25,6 @@ class LoginScreen extends Component {
     loading: false
 
   }
-  // onPres = () => {
-  //   const {mobile, password} = this.state
-  //   this.isAttempting = true
-  //   // attempt a login - a saga is listening to pick it up from here.
-  //   this.props.attemptLogin(mobile, password)
-  //   this.props.navigation.navigate('MapScreen')
-  // }
   onPres = () => {
     this.setState({loading: true})
     if (this.state.password === null || this.state.mobile === null) {
@@ -65,7 +58,6 @@ class LoginScreen extends Component {
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
       }
-
     })
       .then(json)
       .then(status)
@@ -136,24 +128,24 @@ class LoginScreen extends Component {
         <View>
           <View>
             <Text style={{
-              fontSize: width * 0.027,
-              color: '#606060',
-              marginBottom: width * 0.06,
-              fontWeight: 'bold'
-            }}>Phone Number</Text>
+              fontSize: width * 0.05,
+              color: '#7B2BFC',
+              marginBottom: width * 0.06
+            }}>Mobil Nömrə</Text>
             <PhoneInput onChangePhoneNumber={this.onPhoneNumberChange} initialCountry='az' value={mobile} style={{
               fontSize: width * 0.037,
               borderBottomWidth: 1,
               borderColor: '#353535',
               width: '100%',
-              marginBottom: width * 0.1296
+              marginBottom: width * 0.1296,
+              paddingBottom: 10
             }} ref={ref => {
               this.phone = ref
             }} />
           </View>
 
           <MyInput value={password} onChangeText={this.onPasswordChange} secureTextEntry
-            text='Password' />
+            text='Şifrə' />
           {errorMsg}
         </View>
         <View style={styles.buttonContainer}>

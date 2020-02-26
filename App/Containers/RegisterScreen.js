@@ -114,28 +114,28 @@ class RegisterScreen extends Component {
               this.setState({
                 first_name: text
               })
-            }} text={I18n.t('name').toUpperCase()} />
+            }} text={I18n.t('Ad').toUpperCase()} />
             <MyInput
               onChangeText={(text) => {
                 this.setState({
                   last_name: text
                 })
               }}
-              text={I18n.t('surname')} />
+              text={I18n.t('Soyad')} />
             <MyInput
               onChangeText={(text) => {
                 this.setState({
                   email: text
                 })
               }}
-              text={I18n.t('email')} />
+              text={I18n.t('Email')} />
             <MyInput
               onChangeText={(text) => {
                 this.setState({
                   password: text
                 })
               }}
-              secureTextEntry text={I18n.t('password')} />
+              secureTextEntry text={I18n.t('Şifrə')} />
           </View>
           <View style={styles.buttonContainer}>
             <MyButton onPress={this.onPres}
@@ -144,7 +144,7 @@ class RegisterScreen extends Component {
               backgroundColor='#7B2BFC'
               borderColor='#7B2BFC'
               borderRadius={30}
-              text={I18n.t('next')}
+              text={I18n.t('Davam et')}
             />
           </View>
         </KeyboardAvoidingView>

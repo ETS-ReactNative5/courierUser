@@ -57,11 +57,6 @@ class DestinationAddressScreen extends Component {
       .catch(error => console.log(error.message))  // error is a Javascript Error object
   }
 
-  // onPres = () => {
-  //   const {startLongLat, endLongLat, startLocation, endLocation} = this.state
-  //   this.props.attemptDestinationAddress(startLongLat, endLongLat, startLocation, endLocation)
-  //   this.props.navigation.navigate('OrderScreen')
-  // }
   onPres = () => {
     this.setState({loading: true})
     if (this.state.startLocation === I18n.t('baslangicNoqtesi') || this.state.endLocation === I18n.t('bitisNoqtesi')) {
@@ -77,18 +72,14 @@ class DestinationAddressScreen extends Component {
   onCheckFields = () => {
     const {startLongLat, endLongLat, startLocation, endLocation} = this.state
     this.props.attemptDestinationAddress(startLongLat, endLongLat, startLocation, endLocation)
-
-    // this.setState({loading: true})
     const self = this
     let price = prices + '?pickup_location=' + startLongLat[0] + ',' + startLongLat[1] + '&drop_location=' + endLongLat[0] + ',' + endLongLat[1]
     console.log(price)
     fetch(price, {
-      // body: JSON.stringify(body),
       method: 'GET',
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
       }
-
     })
       .then(json)
       .then(status)
@@ -97,8 +88,6 @@ class DestinationAddressScreen extends Component {
         console.log(data)
         self.props.attemptPrice(data.distance, data.duration, data.price.eco)
         self.props.navigation.navigate('OrderScreen')
-
-        // self.props.navigation.navigate('OrderScreen')
       })
       .catch(function (error) {
         console.log(error)
@@ -110,24 +99,18 @@ class DestinationAddressScreen extends Component {
       })
 
     function status (response) {
-      console.log(response)
-      console.log('status')
-      console.log('-------')
-      console.log(response.status)
-      console.log('-------')
+      console.log(response, '-response-')
+      console.log(response.status, '-status-')
       self.setState({loading: false})
       if (response.distance != null) {
         return Promise.resolve(response)
       } else {
         return Promise.reject(response)
-
         // return Promise.reject(new Error(response.statusText))
       }
     }
-
     function json (response) {
-      console.log(response)
-      console.log('json')
+      console.log(response, '-jsonResponse-')
       return response.json()
     }
   }

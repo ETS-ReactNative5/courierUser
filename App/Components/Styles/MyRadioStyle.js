@@ -16,7 +16,6 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
   radioButtonChecked: {
-
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#f5f5f5',

@@ -30,8 +30,6 @@ class PhoneValidateInputScreen extends Component {
       country_code: this.phone.getCountryCode(),
       number: this.phone.getValue()
     })
-    // const {mobile, password} = this.state
-    // this.props.attemptLogin(mobile, password)
   };
   onPres = () => {
     this.setState({loading: true})
@@ -66,7 +64,6 @@ class PhoneValidateInputScreen extends Component {
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
       }
-
     })
       .then(check)
       .catch(error => console.error(error))
@@ -101,7 +98,6 @@ class PhoneValidateInputScreen extends Component {
           headers: {
             'Content-type': 'application/json; charset=UTF-8'
           }
-
         })
           .then(json)
           .then(status)
@@ -168,7 +164,7 @@ class PhoneValidateInputScreen extends Component {
               fontSize: width * 0.027,
               color: '#BCBEC0',
               marginBottom: width * 0.06
-            }}>Phone Number</Text>
+            }}>Mobil nömrənizi daxil edin</Text>
             <PhoneInput
               onChangePhoneNumber={this.onPhoneNumberChange}
               initialCountry='az'
@@ -177,7 +173,8 @@ class PhoneValidateInputScreen extends Component {
                 borderBottomWidth: 1,
                 borderColor: '#353535',
                 width: '100%',
-                marginBottom: width * 0.1296
+                marginBottom: width * 0.1296,
+                paddingBottom: 10
               }} ref={ref => {
                 this.phone = ref
               }} />

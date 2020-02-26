@@ -7,15 +7,11 @@ import MapView, {Marker} from 'react-native-maps'
 import {orders} from '../Config/API'
 // Styles
 import styles from './Styles/CourierSeachScreenStyle'
-import MyButton from '../Components/MyButton'
-import I18n from '../I18n'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import SlidingPanel from 'react-native-sliding-up-down-panels'
 import CourierSearchTop from '../Components/CourierSearchTop'
 import CourierSearchBody from '../Components/CourierSearchBody'
 import AnimatedMarker from '../Components/AnimatedMarker'
 import AsyncStorage from '@react-native-community/async-storage'
-import ProfileScreen from './ProfileScreen'
 import DriverAction from '../Redux/DriverRedux'
 import OrderAction from '../Redux/OrderRedux'
 
@@ -99,19 +95,13 @@ class CourierSeachScreen extends Component {
         'Content-type': 'application/json; charset=UTF-8',
         'Access-Control-Allow-Origin': '*',
         'Authorization': this.token
-
-        // 'X-localization': currentLang
-        //   'Accept': 'application/json',
-        // 'Content-Type': 'application/json'
       }
     })
       .then(json)
       .then(status)
       .then(function (data) {
         console.log('Request succeeded with JSON response', data)
-        console.log(data)
         if (data.status === 'accepted') {
-          // if (data.status === 'pending') {
           clearInterval(self.timer)
           self.props.attemptDriver(data)
           self.props.attemptOrder(data)
@@ -119,32 +109,23 @@ class CourierSeachScreen extends Component {
         } else if (data.status === 'rejected') {
           clearInterval(self.timer)
         }
-        // self.props.navigation.navigate('OrderScreen')
       })
       .catch(function (error) {
-        console.log(error)
-        console.log('err')
+        console.log(error, '-error-')
       })
 
     function status (response) {
-      console.log(response)
-      console.log('status')
-      console.log('-------')
-      console.log(response.status)
-      console.log('-------')
-
+      console.log(response, '-response-')
+      console.log(response.status, '-responseStatus-')
       if (response.status != null) {
         return Promise.resolve(response)
       } else {
         return Promise.reject(response)
-
-        // return Promise.reject(new Error(response.statusText))
       }
     }
 
     function json (response) {
-      console.log(response)
-      console.log('json')
+      console.log(response, '-jsonResponse')
       return response.json()
     }
   }
@@ -152,12 +133,9 @@ class CourierSeachScreen extends Component {
     let body = {
       status: 'rejected'
     }
-
-    // this.setState({loading: true})
     const self = this
-    const ordersUrl = orders + this.props.orderId
-    // console.log(body, login)
-    console.log(body)
+    const ordersUrl = orders + this.state.orderId
+    console.log(body, '-rejectedBody-')
 
     fetch(ordersUrl, {
       body: JSON.stringify(body),
@@ -166,55 +144,36 @@ class CourierSeachScreen extends Component {
         'Content-type': 'application/json; charset=UTF-8',
         'Access-Control-Allow-Origin': '*',
         'Authorization': this.token
-
-        // 'X-localization': currentLang
-        //   'Accept': 'application/json',
-        // 'Content-Type': 'application/json'
       }
-
     })
       .then(json)
       .then(status)
       .then(function (data) {
         console.log('Request succeeded with JSON response', data)
-        console.log(data)
         self.props.attemptOrder(data)
         self.props.navigation.navigate('MenuScreen')
       })
       .catch(function (error) {
-        console.log(error)
-        console.log('err')
+        console.log(error, '-err-')
       })
 
     function status (response) {
-      console.log(response)
-      console.log('status')
-      console.log('-------')
-      console.log(response.status)
-      console.log('-------')
-      self.setState({loading: false})
+      console.log(response, '-response-')
+      console.log(response.status, '-responseStatus-')
       if (response.id != null) {
         return Promise.resolve(response)
       } else {
         return Promise.reject(response)
-
-        // return Promise.reject(new Error(response.statusText))
       }
     }
 
     function json (response) {
-      console.log(response)
-      console.log('json')
+      console.log(response, '-jsonResponse-')
       return response.json()
     }
   }
   backPress = () => true
   render () {
-    // let that = this
-    // setTimeout(function () {
-    //   that.props.navigation.navigate('UserWaitTaxyScreen')
-    // }, 5000)
-
     return (
       <View style={styles.container}>
         <MapView style={styles.map}

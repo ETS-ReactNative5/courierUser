@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {TextInput, Text, Dimensions, View, StyleSheet, TouchableOpacity, Image} from 'react-native'
+import {Dimensions, View, TouchableOpacity} from 'react-native'
 import {connect} from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -12,7 +12,6 @@ import MapViewDirections from 'react-native-maps-directions'
 import MyButton from '../Components/MyButton'
 import I18n from '../I18n'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Dash from 'react-native-dash'
 import SlidingPanel from 'react-native-sliding-up-down-panels'
 import NewOrderTop from '../Components/NewOrderTop'
 import NewOrderBody from '../Components/NewOrderBody'
@@ -21,9 +20,6 @@ import OrderAction from '../Redux/OrderRedux'
 import AsyncStorage from '@react-native-community/async-storage'
 import {orders, prices} from '../Config/API'
 import uuidv4 from 'uuid'
-import CourierSearchBody from '../Components/CourierSearchBody'
-import Spiner from '../Components/Spiner'
-import SwipeButton from 'rn-swipe-button'
 const {width, height} = Dimensions.get('window')
 const ASPECT_RATIO = width / height
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCMfIpRhn8QaGkYQ0I5KPWvFT1kLbA-DAM'
@@ -31,9 +27,8 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyCMfIpRhn8QaGkYQ0I5KPWvFT1kLbA-DAM'
 class OrderScreen extends Component {
   componentDidMount () {
     const {startLongLat, endLongLat, distance, duration, price, startLocation, endLocation} = this.props
-    console.log(distance)
-    console.log('---')
-    console.log(duration)
+    console.log(distance, '-distance-')
+    console.log(duration, '-duration-')
     this.setState({
       startLocation,
       endLocation,
@@ -90,106 +85,82 @@ class OrderScreen extends Component {
     this.mapView = null
   }
   onPress = () => {
-    this.setState({loading: true})
     const {startLongLat, endLongLat, distance, duration, startLocation, endLocation} = this.props
-
     let body = {
       pickup_location: [startLongLat[0], startLongLat[1]],
       drop_location: [endLongLat[0], endLongLat[1]]
 
     }
-
     // this.setState({loading: true})
     const self = this
     let price = prices + '?pickup_location=' + startLongLat[0] + ',' + startLongLat[1] + '&drop_location=' + endLongLat[0] + ',' + endLongLat[1]
     // console.log(body, login)
-    console.log(body)
-    console.log(price)
+    console.log(body, '-body-')
+    console.log(price, '-price-')
     fetch(price, {
       // body: JSON.stringify(body),
       method: 'GET',
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
       }
-
     })
       .then(json)
       .then(status)
       .then(function (data) {
         console.log('Request succeeded with JSON response', data)
-        console.log(data)
         self.props.attemptPrice(data.distance, data.duration, data.price)
-
         useResponse(data)
-        // self.props.navigation.navigate('OrderScreen')
       })
       .catch(function (error) {
-        console.log(error)
-        console.log('err')
+        console.log(error, '-error-')
       })
 
     function status (response) {
-      console.log(response)
-      console.log('status')
-      console.log('-------')
-      console.log(response.status)
-      console.log('-------')
-      self.setState({loading: false})
+      console.log(response, '-response-')
+      console.log(response.status, '-responseStatus-')
       if (response.distance != null) {
         return Promise.resolve(response)
       } else {
         return Promise.reject(response)
-
         // return Promise.reject(new Error(response.statusText))
       }
     }
 
     function statusOrder (response) {
-      console.log(response)
-      console.log('status')
-      console.log('-------')
-      console.log(response.status)
-      console.log('-------')
+      console.log(response, '-response-')
+      console.log(response.status, '-responseStatus-')
       self.setState({loading: false})
       if (response.id != null) {
         return Promise.resolve(response)
       } else {
         return Promise.reject(response)
-
         // return Promise.reject(new Error(response.statusText))
       }
     }
 
     function json (response) {
-      console.log(response)
-      console.log('json')
+      console.log(response, '-json-')
       return response.json()
     }
 
-    useResponse = async (data) => {
+    useResponse = async () => {
       const ordersUrl = orders + uuidv4()
-      console.log(ordersUrl)
+      console.log(ordersUrl, '-orderUrl-')
 
       let body = {
         bill_amount: self.state.price,
-        drop_lng: '' + startLongLat[0],
-        drop_location: endLocation,
-        drop_ltd: '' + startLongLat[1],
-        pickup_lng: '' + endLongLat[0],
+        pickup_ltd: '' + startLongLat[0],
+        pickup_lng: '' + startLongLat[1],
         pickup_location: startLocation,
-        pickup_ltd: '' + endLongLat[1],
+        drop_ltd: '' + endLongLat[0],
+        drop_lng: '' + endLongLat[1],
+        drop_location: endLocation,
         total_distance: distance,
         total_duration: duration,
         payment_type: 'cash'
       }
-
-      console.log('----body----')
-      console.log(body)
-      console.log('----body----')
-
-      console.log('----bareer')
-      console.log(this.token)
-      console.log('----bareer---')
+      console.log(body, '-body-')
+      console.log(this.token, '-bareer + token-')
 
       let meResponse = await fetch(ordersUrl, {
         body: JSON.stringify(body),
@@ -198,31 +169,21 @@ class OrderScreen extends Component {
           'Content-type': 'application/json; charset=UTF-8',
           'Access-Control-Allow-Origin': '*',
           'Authorization': this.token
-
-          // 'X-localization': currentLang
-          //   'Accept': 'application/json',
-          // 'Content-Type': 'application/json'
         }
-        // body: 'country_id=' + c.id
       })
         .then(json)
         .then(statusOrder)
         .then(function (data) {
           console.log('Request succeeded with JSON response', data)
-          console.log(data)
-          console.log('Burda')
           if (data.status === 'pending') {
             console.log('içeride')
             self.props.attemptOrder(data.id)
             self.props.attemptOrderSuccess(data)
             self.props.navigation.replace('CourierSeachScreen')
           }
-
-          // self.props.navigation.navigate('OrderScreen')
         })
         .catch(function (error) {
-          console.log(error)
-          console.log('err')
+          console.log(error, '-error-')
           self.setState({
             error: error.detail,
             loading: false
@@ -233,19 +194,10 @@ class OrderScreen extends Component {
 
       try {
         // const is_company = data.data.is_company||0
-        console.log()
         self.props.navigation.navigate('OrderScreen')
       } catch (e) {
         Alert.alert('Error: ' + e.message)
       }
-
-      // try {
-
-      //   await AsyncStorage.setItem('@phone', this.state.phone)
-      //   this.props.navigation.navigate('VerifyScreen')
-      // } catch (e) {
-      //   Alert.alert('Error: ' + e.getMessage())
-      // }
     }
   }
 

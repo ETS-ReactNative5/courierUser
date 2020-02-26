@@ -1,40 +1,81 @@
-import React, { Component } from 'react'
-import { View, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {View, TouchableOpacity} from 'react-native'
+import {connect} from 'react-redux'
+import MapView, {Marker} from 'react-native-maps'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
-
 // Styles
-import styles from './Styles/CourierFoundScreenStyle'
-import MapView from 'react-native-maps'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import SlidingPanel from 'react-native-sliding-up-down-panels'
 import DriverNewOrderTop from '../Components/DriverNewOrderTop'
 import DriverNewOrderBody from '../Components/DriverNewOrderBody'
+import AsyncStorage from '@react-native-community/async-storage'
+// Styles
+import styles from './Styles/CourierFoundScreenStyle'
 import {orders} from '../Config/API'
 import OrderAction from '../Redux/OrderRedux'
 class CourierFoundScreen extends Component {
-  state = {
-    driver: {
-      first_name: '',
-      last_name: ''
-    },
-    pickup_location: '',
-    drop_location: '',
-    bill_amount: '',
-    total_distance: '',
-    latitude: 0,
-    longitude: 0,
-    error: null
+  constructor (props) {
+    super(props)
+    // AirBnB's Office, and Apple Park
+    this.state = {
+      driver: {
+        first_name: '',
+        last_name: ''
+      },
+      bill_amount: '',
+      total_distance: '',
+      latitude: 40.4093,
+      longitude: 49.8671,
+      error: null,
+      order_notifications: '',
+      location_tracking: '',
+      drop_location: '',
+      pickup_location: '',
+      orderId: '',
+      phone_number: null,
+      driverCoordinate: {
+        latitude: 40.409264,
+        longitude: 49.867092
+      },
+      coordinates: [
+        {
+          latitude: 40.409264,
+          longitude: 49.867092
+        },
+        {
+          latitude: 40.409264,
+          longitude: 49.867092
+        }
+      ],
+      region: {
+        latitude: 40.4093,
+        longitude: 49.8671,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      },
+      startLocation: 'Picup',
+      endLocation: 'Azadliq Prospekti 74',
+      driverStatus: 'arrived'
+    }
+    this.mapView = null
   }
 
   componentDidMount () {
+    this.timer = setInterval(() => this.getDriver(), 1000)
+    AsyncStorage.getItem('@token')
+      .then((token) => {
+        this.token = 'Bearer ' + token
+        console.log(token)
+      })
+
     this.setState({
+      location_tracking: this.props.order.driver.id + '-tracking',
       pickup_location: this.props.order.pickup_location,
       drop_location: this.props.order.drop_location,
       bill_amount: this.props.order.bill_amount,
       total_distance: this.props.order.total_distance,
-      id: this.props.order.id,
+      orderId: this.props.order.id,
       driver: {
         first_name: this.props.order.driver.first_name,
         last_name: this.props.order.driver.last_name
@@ -52,6 +93,61 @@ class CourierFoundScreen extends Component {
       error => this.setState({error: error.message}),
       {enableHighAccuracy: true, timeout: 20000}
     )
+    // this.subscribeToPubNub()
+  }
+
+  // subscribeToPubNub = () => {
+  //   this.pubnub.subscribe({
+  //     channels: [this.state.location_tracking],
+  //     withPresence: true
+  //   })
+  //   this.pubnub.getMessage(this.state.location_tracking, (msg) => {
+  //     console.log(msg)
+  //     console.log('pobnub mesaj geldi')
+  //   })
+  // };
+
+  async getDriver () {
+    const self = this
+    let orderUrl = orders + this.state.orderId
+    console.log(orderUrl)
+    fetch(orderUrl, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': this.token
+      }
+    })
+      .then(json)
+      .then(status)
+      .then(function (data) {
+        console.log('Request succeeded with JSON response', data)
+        console.log(data)
+        if (data.status === 'ongoing') {
+          self.props.attemptOrder(data)
+        } else if (data.status === 'done') {
+          clearInterval(self.timer)
+          self.props.navigation.replace('UserOrderScreen')
+        }
+      })
+      .catch(function (error) {
+        console.log(error)
+        console.log('err')
+      })
+
+    function status (response) {
+      if (response.status != null) {
+        return Promise.resolve(response)
+      } else {
+        return Promise.reject(response)
+      }
+    }
+
+    function json (response) {
+      console.log(response, '-json-')
+      return response.json()
+    }
   }
 
   onPressCancel = () => {
@@ -60,10 +156,8 @@ class CourierFoundScreen extends Component {
     }
 
     const self = this
-    const ordersUrl = orders + this.state.id
-    // console.log(body, login)
+    const ordersUrl = orders + this.state.orderId
     console.log(body)
-
     fetch(ordersUrl, {
       body: JSON.stringify(body),
       method: 'PUT',
@@ -71,10 +165,6 @@ class CourierFoundScreen extends Component {
         'Content-type': 'application/json; charset=UTF-8',
         'Access-Control-Allow-Origin': '*',
         'Authorization': this.props.token
-
-        // 'X-localization': currentLang
-        //   'Accept': 'application/json',
-        // 'Content-Type': 'application/json'
       }
 
     })
@@ -86,8 +176,7 @@ class CourierFoundScreen extends Component {
         self.props.navigation.replace('MenuScreen')
       })
       .catch(function (error) {
-        console.log(error)
-        console.log('err')
+        console.log(error, '-err-')
       })
 
     function status (response) {
@@ -118,14 +207,18 @@ class CourierFoundScreen extends Component {
           }}
 
         >
+          <Marker.Animated
+            ref={marker => {
+              this.marker = marker
+            }}
+            coordinate={this.state.driverCoordinate}
+          />
           {/* <Marker coordinate={this.state}/> */}
         </MapView>
         <View>
           <SlidingPanel
-            // onDrag={this.ondraq}
             headerLayoutHeight={260}
-            headerLayout={() => <DriverNewOrderTop
-              onPress={this.onPressCancel}
+            headerLayout={() => <DriverNewOrderTop onPress={this.onPressCancel}
               drop_location={this.state.drop_location}
               pickup_location={this.state.pickup_location}
               order={this.props.driver} />}
@@ -133,7 +226,8 @@ class CourierFoundScreen extends Component {
               first_name={this.state.driver.first_name}
               last_name={this.state.driver.last_name}
               bill_amount={this.state.bill_amount}
-              total_distance={this.state.total_distance} />}
+              total_distance={this.state.total_distance}
+            />}
           />
         </View>
         <View style={[styles.gumburger]}>

@@ -27,8 +27,8 @@ export default class DriverNewOrderBody extends Component {
         <ScrollView >
           <View style={styles.profileHeader}>
             <View style={styles.profileHeaderBody}>
-              <Text style={styles.profileHeaderBodyText}>Joe</Text>
-              <Text style={styles.profileHeaderBodyTextY}>Kia optima  10-TE-010</Text>
+              <Text style={styles.profileHeaderBodyText}>{this.props.first_name}</Text>
+              <Text style={styles.profileHeaderBodyTextY}>{this.props.last_name}</Text>
             </View>
             <View style={styles.profileHeaderLeft}>
               <Image style={styles.newsImage} source={Images.userDefaultImg} />
@@ -36,8 +36,8 @@ export default class DriverNewOrderBody extends Component {
           </View>
           <View style={styles.cashBox}>
             <View>
-              <Text style={styles.sectionTitle}>Payment Method</Text>
-              <Text style={styles.cashMetod}>Cash Payment</Text>
+              <Text style={styles.sectionTitle}>Ödəniş növü</Text>
+              <Text style={styles.cashMetod}>Nəğd</Text>
             </View>
             <View>
               <Text style={styles.cashValue}>{this.props.bill_amount} AZN</Text>
@@ -45,10 +45,10 @@ export default class DriverNewOrderBody extends Component {
           </View>
           <View style={styles.cashBox}>
             <View>
-              <Text style={styles.sectionTitle}>Distance</Text>
+              <Text style={styles.sectionTitle}>Məsafə</Text>
             </View>
             <View>
-              <Text style={styles.cashValue}>{this.props.bill_amount} KM</Text>
+              <Text style={styles.cashValue}>{this.props.total_distance} KM</Text>
             </View>
           </View>
           <View style={styles.cashBox}>

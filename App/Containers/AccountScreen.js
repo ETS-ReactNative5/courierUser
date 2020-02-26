@@ -94,20 +94,20 @@ class AccountScreen extends Component {
         <KeyboardAvoidingView behavior='position'>
           <View>
             <MyInput
-              text={I18n.t('surname')}
+              text={I18n.t('Ad')}
               onChangeText={first_name => this.setState({ first_name })}
               value={this.state.first_name} />
             <MyInput
-              text={I18n.t('surname')}
+              text={I18n.t('Soyad')}
               value={this.state.last_name}
               onChangeText={last_name => this.setState({ last_name })}
             />
             <MyInput
-              text={I18n.t('email')}
+              text={I18n.t('Email')}
               value={this.state.email}
               onChangeText={email => this.setState({ email })}
             />
-            <MyInput text={I18n.t('NÖMRƏ')} disabled value={this.state.phone_number} />
+            <MyInput text={I18n.t('Nömrə')} disabled value={this.state.phone_number} />
           </View>
           <View style={styles.buttonContainer}>
             <MyButton onPress={this.onPressUpdate}
@@ -117,7 +117,6 @@ class AccountScreen extends Component {
               borderRadius={30}
               text={I18n.t('SUBMIT')}
             />
-
           </View>
         </KeyboardAvoidingView>
       </ScrollView>

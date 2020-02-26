@@ -39,11 +39,11 @@ export default class CourierSearchBody extends Component {
           </View>
         </View>
         <View style={styles.fieldBox}>
-          <Text style={styles.fieldText}>Price</Text>
+          <Text style={styles.fieldText}>Məbləğ</Text>
           <Text style={styles.fieldText}>{bill_amount} azn</Text>
         </View>
         <View style={styles.fieldBox}>
-          <Text style={styles.fieldText}>Distance</Text>
+          <Text style={styles.fieldText}>Məsafə</Text>
           <Text style={styles.fieldText}>{distance} KM</Text>
         </View>
       </View>

@@ -5,6 +5,7 @@ export const userLogin = mainUrl + 'customer/api/customers/token'
 export const prices = mainUrl + 'customer/api/prices'
 export const orders = mainUrl + 'customer/api/orders/'
 export const driverLogin = mainUrl + 'driver/api/drivers/token'
+export const getOrders = mainUrl + 'customer/api/orders'
 
 export const login = mainUrl + 'auth/send-sms'
 export const verify = mainUrl + 'auth/verify-user'

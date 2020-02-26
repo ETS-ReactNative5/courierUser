@@ -57,7 +57,7 @@ class MapScreen extends Component {
             color='#451E5D'
             borderColor='#fff'
             borderRadius={30}
-            text={I18n.t('Kuryer cagir')} />
+            text={I18n.t('Kuryer çagir')} />
         </View>
         <View style={[styles.gumburger, ]}>
           <TouchableOpacity onPress={this.props.open}>

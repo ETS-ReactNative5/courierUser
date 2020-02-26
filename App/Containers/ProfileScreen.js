@@ -17,9 +17,9 @@ class ProfileScreen extends Component {
       email: 'emishow@gmail.com',
       first_name: 'Eflatun',
       id: '024c8d63-83d7-4abe-ac4f-0c23fb8d8f26',
-      last_name: 'Amishov',
+      last_name: 'Black',
       phone_number: '+994501234567',
-      username: 'emishow'
+      username: 'Morqan'
     }
   }
   componentDidMount () {
@@ -52,7 +52,7 @@ class ProfileScreen extends Component {
       <View style={styles.profile}>
         <View style={styles.profileHeader}>
           <View style={styles.profileHeaderLeft}>
-            <Image style={styles.newsImage} source={Images.news1} />
+            <Image style={styles.newsImage} source={Images.userDefaultImg} />
           </View>
           <View style={styles.profileHeaderBody}>
             <Text style={styles.profileHeaderBodyText}>{this.state.first_name} {this.state.last_name}</Text>
@@ -97,13 +97,13 @@ class ProfileScreen extends Component {
             color='#606060'
             size={25}
             fontSize={20} />
-          <MenuLink text='Support/FAQ'
+          <MenuLink text='Dəstək'
             onPress={() => this.props.navigation.navigate('SupportScreen')}
             icon='help-circle'
             color='#606060'
             size={25}
             fontSize={20} />
-          <MenuLink text='Log out'
+          <MenuLink text='Çıxış'
             onPress={() => {
               AsyncStorage.removeItem('@token')
               this.props.navigation.navigate('FirstScreen')

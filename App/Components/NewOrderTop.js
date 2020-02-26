@@ -87,7 +87,7 @@ class NewOrderTop extends Component {
       <View style={styles.container}>
         <View style={styles.minusBox}>
           <Icon style={styles.minusIcon} name='color-helper' color='#ddd' size={30} />
-          <Text style={styles.minusText}>Catma vaxti {this.state.duration} dəq</Text>
+          <Text style={styles.minusText}>Çatma vaxti {this.state.duration} dəq</Text>
         </View>
         <View style={styles.adressContainer}>
           <View style={styles.dashBox}>
