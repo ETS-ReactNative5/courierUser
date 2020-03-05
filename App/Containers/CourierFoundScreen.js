@@ -95,7 +95,6 @@ class CourierFoundScreen extends Component {
     )
     // this.subscribeToPubNub()
   }
-
   async getDriver () {
     const self = this
     let orderUrl = orders + this.state.orderId
@@ -113,11 +112,16 @@ class CourierFoundScreen extends Component {
       .then(function (data) {
         console.log('Request succeeded with JSON response', data)
         console.log(data)
-        if (data.status === 'ongoing') {
+        if (data.status === 'arrived') {
+          self.props.attemptOrder(data)
+        } else if (data.status === 'ongoing') {
           self.props.attemptOrder(data)
         } else if (data.status === 'done') {
           clearInterval(self.timer)
           self.props.navigation.replace('UserOrderScreen')
+        } else if (data.status === 'rejected') {
+          clearInterval(self.timer)
+          // self.props.navigation.replace('UserOrderScreen')
         }
       })
       .catch(function (error) {
@@ -143,7 +147,6 @@ class CourierFoundScreen extends Component {
     let body = {
       status: 'rejected'
     }
-
     const self = this
     const ordersUrl = orders + this.state.orderId
     console.log(body)
@@ -153,7 +156,7 @@ class CourierFoundScreen extends Component {
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
         'Access-Control-Allow-Origin': '*',
-        'Authorization': this.props.token
+        'Authorization': this.token
       }
 
     })
