@@ -102,7 +102,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.asan"
+        applicationId "com.delhero"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
