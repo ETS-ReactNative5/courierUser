@@ -1,5 +1,5 @@
-// export const mainUrl = 'http://6second-api-dev.eu-west-1.elasticbeanstalk.com/'
-export const mainUrl = 'http://api.delhero.com/'
+// export const mainUrl = 'https://0f097aa3.ngrok.io/'
+export const mainUrl = 'https://www.delhero.com/'
 export const userRegistration = mainUrl + 'customer/api/customers'
 export const userLogin = mainUrl + 'customer/api/customers/token'
 export const prices = mainUrl + 'customer/api/prices'
@@ -9,6 +9,7 @@ export const getOrders = mainUrl + 'customer/api/orders'
 
 export const login = mainUrl + 'auth/send-sms'
 export const verify = mainUrl + 'auth/verify-user'
+export const files = mainUrl + 'images'
 // export const login = mainUrl + 'login'
 
 export const companyRegistration = mainUrl + 'company/registration'

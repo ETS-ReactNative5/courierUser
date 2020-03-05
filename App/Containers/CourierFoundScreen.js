@@ -96,17 +96,6 @@ class CourierFoundScreen extends Component {
     // this.subscribeToPubNub()
   }
 
-  // subscribeToPubNub = () => {
-  //   this.pubnub.subscribe({
-  //     channels: [this.state.location_tracking],
-  //     withPresence: true
-  //   })
-  //   this.pubnub.getMessage(this.state.location_tracking, (msg) => {
-  //     console.log(msg)
-  //     console.log('pobnub mesaj geldi')
-  //   })
-  // };
-
   async getDriver () {
     const self = this
     let orderUrl = orders + this.state.orderId

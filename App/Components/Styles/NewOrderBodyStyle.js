@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native'
+import { Dimensions, PixelRatio, StyleSheet } from 'react-native'
 let {width, height} = Dimensions.get('window')
 export default StyleSheet.create({
   mainContainer: {
@@ -26,10 +26,12 @@ export default StyleSheet.create({
   imgScroll: {
     height: 130,
     flex: 1,
-    // backgroundColor: 'blue',
     paddingHorizontal: 18,
     borderBottomWidth: 1,
-    borderColor: '#D3D3D3'
+    borderColor: '#D3D3D3',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   sectionTitleBox: {
     paddingTop: 15,
@@ -164,5 +166,16 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 10,
+  },
+  avatarContainer: {
+    borderColor: '#9B9B9B',
+    borderWidth: 1 / PixelRatio.get(),
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  avatar: {
+    borderRadius: 10,
+    width: 100,
+    height: 100
   }
 })

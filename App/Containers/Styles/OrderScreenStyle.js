@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native'
+import { Dimensions, PixelRatio, StyleSheet } from 'react-native'
 import {ApplicationStyles} from '../../Themes/'
 
 const {width, height} = Dimensions.get('window')
@@ -81,5 +81,25 @@ export default StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  avatarContainer: {
+    borderColor: '#9B9B9B',
+    borderWidth: 1 / PixelRatio.get(),
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 100,
+    height: 100
+  },
+  avatar: {
+    borderRadius: 10,
+    width: 100,
+    height: 100
+  },
+  inputBox: {
+    borderColor: '#ddd',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderRadius: 10
   },
 })

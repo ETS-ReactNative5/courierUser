@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types';
-import { ScrollView, Text, View, TextInput, Platform } from 'react-native'
+import { ScrollView, Text, View, TextInput, Platform, Image, TouchableOpacity } from 'react-native'
 import styles from './Styles/NewOrderBodyStyle'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -8,6 +8,7 @@ import { Dropdown } from 'react-native-material-dropdown'
 import CheckBox from 'react-native-check-box'
 import PhoneInput from 'react-native-phone-input'
 import ImagesPicker from '../Components/ImagesPicker'
+import ImagePicker from 'react-native-image-picker'
 import MyRadioBtn from './MyRadioBtn'
 import MyButton from './MyButton'
 import SwipeButton from 'rn-swipe-button'
@@ -52,10 +53,11 @@ class NewOrderBody extends Component {
     })
   }
 
-  percent = () => {
+  percent = (text) => {
     console.log(this.state.percent)
     this.setState({
-      billAmount: this.state.percent * 0.03 + this.state.price
+      percent: text,
+      billAmount: this.state.percent * 0.03 + this.state.pricee
     })
   }
   componentDidMount () {
@@ -111,11 +113,8 @@ class NewOrderBody extends Component {
 
     // AirBnB's Office, and Apple Park
     this.state = {
-      distance: 0,
-      duration: 0,
-      pricee: 0,
+      percent: null,
       loading: false,
-      isChecked: false,
       scheduled: false,
       date: new Date(),
       mode: 'date',
@@ -152,7 +151,7 @@ class NewOrderBody extends Component {
       <Icon name='chevron-double-right' color='#fff' size={40} />
     )
     if (!this.state.loading) {
-      return  <SwipeButton
+      return <SwipeButton
         disabled={false}
         title='Sifaris Et '
         titleColor='#FFFFFF'
@@ -174,29 +173,29 @@ class NewOrderBody extends Component {
     // )
     const { show, date, mode } = this.state
     let data = [{
-      value: '00:00 - 02:00'
+      value: '10:00'
     }, {
-      value: '02:00 - 04:00'
+      value: '11:00'
     }, {
-      value: '04:00 - 06:00'
+      value: '12:00'
     }, {
-      value: '06:00 - 08:00'
+      value: '13:00'
     }, {
-      value: '08:00 - 10:00'
+      value: '14:00'
     }, {
-      value: '10:00 - 12:00'
+      value: '15:00'
     }, {
-      value: '12:00 - 14:00'
+      value: '16:00'
     }, {
-      value: '14:00 - 16:00'
+      value: '17:00'
     }, {
-      value: '16:00 - 18:00'
+      value: '18:00'
     }, {
-      value: '18:00 - 20:00'
+      value: '19:00'
     }, {
-      value: '20:00 - 22:00'
+      value: '20:00'
     }, {
-      value: '22:00 - 00:00'
+      value: '21:00'
     }]
     let datacash = [{
       value: 'Cash'
@@ -234,37 +233,26 @@ class NewOrderBody extends Component {
           <View style={styles.sectionLine} />
           <View style={styles.sectionTitleBox}><Text style={styles.sectionTitle}>Daşınacaq Yükün fotosu</Text></View>
           <View style={styles.imgScroll}>
-            <ImagesPicker />
+            {this.props.firstPhoto}
+            {this.props.secondPhoto}
+            {this.props.thirdPhoto}
           </View>
           <View style={styles.receiverInfoBox}>
             <View>
               <Text>Receiver name</Text>
               <View style={styles.inputBox}>
-                <TextInput
-                  placeholder='Ad Soyad'
-                  onChangeText={(text) => this.setState({ text })}
-                  value={this.state.text} />
+                {this.props.receiverName}
               </View>
               <View >
                 <Text>Receiver number</Text>
                 <View style={styles.PhoneInputBox}>
-                  <PhoneInput
-                    value={this.state.phone}
-                    onChangePhoneNumber={this.onPhoneNumberChange}
-                    initialCountry='az'
-                    style={{ fontSize: 15, width: '100%' }}
-                    ref={ref => { this.phone = ref }} />
+                  {this.props.receiverPhone}
                 </View>
               </View>
               <View>
                 <Text>Message</Text>
                 <View style={styles.inputBox}>
-                  <TextInput
-                    multiline
-                    numberOfLines={4}
-                    placeholder='Message'
-                    onChangeText={(text) => this.setState({ text })}
-                    value={this.state.text} />
+                  {this.props.message}
                 </View>
               </View>
               <View />
@@ -301,32 +289,12 @@ class NewOrderBody extends Component {
                 />
               </View>) : null}</View>
               <View style={styles.checkContainer}>
-                <CheckBox
-                  style={{flex: 1}}
-                  onClick={() => {
-                    this.setState({
-                      isChecked: !this.state.isChecked
-                    })
-                  }}
-                  isChecked={this.state.isChecked}
-                  rightText={'Add insurance'}
-                />
+                {this.props.insurance}
                 <Text>+3%</Text>
               </View>
-              <View>{this.state.isChecked ? (<View>
-                <Text>Daşınacaq yükün dəyəri :</Text>
-                <View style={styles.inputBox}>
-                  <TextInput
-                    keyboardType='numeric'
-                    placeholder='Daşınacaq yükün dəyəri :'
-                    onChangeText={this.percent}
-                    value={this.state.percent} />
-                </View>
-                <View>
-                  <Text>Bill amount </Text>
-                  <Text>{this.state.billAmount} AZN</Text>
-                </View>
-              </View>) : null}</View>
+              <View>
+                {this.props.insurance_price}
+              </View>
             </View>
           </View>
         </ScrollView>
