@@ -229,8 +229,8 @@ class NewOrderBody extends Component {
               <Text style={styles.sectionTitle}>{this.state.duration} dəq</Text>
             </View>
           </View>
-          <View style={styles.orderDescriptionBox}><Text style={styles.orderDescription}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto corporis cupiditate deserunt distinctio ea et explicabo harum id, laborum laudantium natus nostrum qui quo quod unde velit voluptate. Fugiat.</Text></View>
-          <View style={styles.sectionLine} />
+          {/* <View style={styles.orderDescriptionBox}><Text style={styles.orderDescription}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto corporis cupiditate deserunt distinctio ea et explicabo harum id, laborum laudantium natus nostrum qui quo quod unde velit voluptate. Fugiat.</Text></View> */}
+          {/* <View style={styles.sectionLine} /> */}
           <View style={styles.sectionTitleBox}><Text style={styles.sectionTitle}>Daşınacaq Yükün fotosu</Text></View>
           <View style={styles.imgScroll}>
             {this.props.firstPhoto}
@@ -239,62 +239,64 @@ class NewOrderBody extends Component {
           </View>
           <View style={styles.receiverInfoBox}>
             <View>
-              <Text>Receiver name</Text>
+              <Text>Çatdırılacaq şəxs</Text>
               <View style={styles.inputBox}>
                 {this.props.receiverName}
               </View>
               <View >
-                <Text>Receiver number</Text>
+                <Text>Çatdırılacaq şəxsin nömrəsi*</Text>
+                {this.props.errorMsgPhone}
                 <View style={styles.PhoneInputBox}>
                   {this.props.receiverPhone}
                 </View>
               </View>
               <View>
-                <Text>Message</Text>
+                <Text>Message*</Text>
+                {this.props.errorMsgMessage}
                 <View style={styles.inputBox}>
                   {this.props.message}
                 </View>
               </View>
               <View />
-              <View style={styles.actionBox}>
-                {
-                  this.state.radioItems.map((item, key) =>
-                    (
-                      <MyRadioBtn key={key} button={item} onClick={this.changeActiveRadioButton.bind(this, key)} />
-                    ))
-                }
-              </View>
-              <View>{this.state.scheduled ? (<View>
-                <View>
-                  <MyButton
-                    onPress={this.datepicker}
-                    text={this.state.selectedDate.toString()}
-                    backgroundColor='#7B2BFC'
-                    borderColor='#7B2BFC'
-                    borderRadius={30}
-                    color='#fff' />
-                </View>
-                { show && <DateTimePicker value={new Date()}
-                  mode={mode}
-                  display='spinner'
-                  onChange={this.setDate} />
-                }
-                <Dropdown
-                  label='Delivery time'
-                  data={data}
-                />
-                <Dropdown
-                  label='Payment type'
-                  data={datacash}
-                />
-              </View>) : null}</View>
-              <View style={styles.checkContainer}>
-                {this.props.insurance}
-                <Text>+3%</Text>
-              </View>
-              <View>
-                {this.props.insurance_price}
-              </View>
+              {/* <View style={styles.actionBox}> */}
+              {/*  { */}
+              {/*    this.state.radioItems.map((item, key) => */}
+              {/*      ( */}
+              {/*        <MyRadioBtn key={key} button={item} onClick={this.changeActiveRadioButton.bind(this, key)} /> */}
+              {/*      )) */}
+              {/*  } */}
+              {/* </View> */}
+              {/* <View>{this.state.scheduled ? (<View> */}
+              {/*  <View> */}
+              {/*    <MyButton */}
+              {/*      onPress={this.datepicker} */}
+              {/*      text={this.state.selectedDate.toString()} */}
+              {/*      backgroundColor='#7B2BFC' */}
+              {/*      borderColor='#7B2BFC' */}
+              {/*      borderRadius={30} */}
+              {/*      color='#fff' /> */}
+              {/*  </View> */}
+              {/*  { show && <DateTimePicker value={new Date()} */}
+              {/*    mode={mode} */}
+              {/*    display='spinner' */}
+              {/*    onChange={this.setDate} /> */}
+              {/*  } */}
+              {/*  <Dropdown */}
+              {/*    label='Delivery time' */}
+              {/*    data={data} */}
+              {/*  /> */}
+              {/*  <Dropdown */}
+              {/*    label='Payment type' */}
+              {/*    data={datacash} */}
+              {/*  /> */}
+              {/* </View>) : null}</View> */}
+              {/* <View style={styles.checkContainer}> */}
+              {/*  {this.props.insurance} */}
+              {/*  <Text>+3%</Text> */}
+              {/* </View> */}
+              {/* <View> */}
+              {/*  {this.props.insurance_price} */}
+              {/* </View> */}
             </View>
           </View>
         </ScrollView>

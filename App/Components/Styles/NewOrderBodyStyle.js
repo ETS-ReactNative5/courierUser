@@ -7,6 +7,7 @@ export default StyleSheet.create({
     height: height - 300,
     paddingTop: 20,
     paddingBottom: 50,
+    width
   },
   dashBox: {
     alignItems: 'center'

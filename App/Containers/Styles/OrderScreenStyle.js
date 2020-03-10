@@ -102,4 +102,7 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 10
   },
+  errorMsg: {
+    color: 'red'
+  }
 })

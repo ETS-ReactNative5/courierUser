@@ -61,10 +61,10 @@ class OrderScreen extends Component {
     // AirBnB's Office, and Apple Park
     this.state = {
       insurance: false,
-      insurance_price: null,
+      insurance_price: 0,
       message: '',
       receiverName: '',
-      receiver_mobile: null,
+      receiver_mobile: '',
       scheduled_at: '',
       delivery_type: 'asap',
       photo: [],
@@ -100,7 +100,7 @@ class OrderScreen extends Component {
 
     this.mapView = null
   }
-  onPress = () => {
+  onCheckFields = () => {
     const {startLongLat, endLongLat, distance, duration, startLocation, endLocation} = this.props
     let body = {
       pickup_location: [startLongLat[0], startLongLat[1]],
@@ -157,19 +157,9 @@ class OrderScreen extends Component {
       console.log(response, '-json-')
       return response.json()
     }
-    // const image = this.state.photo.map(function (item) {
-    //   return {item}
-    // })
-    // const image = this.state.photo.map(function (item) {
-    //   formData.append('file', {
-    //     uri: item.uri,
-    //     type: item.type, // or photo.type
-    //     name: 'firstPhoto'
-    //   })
-    // })
+
     const uploadImage = (image, entityId, entityKey) => {
       const formData = new FormData()
-      // const { key, data } = image
       formData.append('file', {
         uri: image.uri,
         type: image.type, // or photo.type
@@ -325,12 +315,41 @@ class OrderScreen extends Component {
   }
   onPhoneNumberChange = () => {
     this.setState({
-      receiver_mobile: this.phone.getValue()
+      receiver_mobile: this.phone.getValue(),
+      errorReciverPhone: ''
     })
     console.log(this.state.receiver_mobile)
     // const {mobile, password} = this.state
     // this.props.attemptLogin(mobile, password)
   };
+  onMessageChange = (message) => {
+    this.setState({
+      message: message,
+      errorMessage: ''
+    })
+  };
+  onPress = () => {
+    const { message, receiver_mobile } = this.state
+    if (message.length === 0 && receiver_mobile.length < 13) {
+      this.setState({
+        errorReciverPhone: 'Çatdırılacaq şəxsin nömrəsi vacibdir.',
+        errorMessage: 'Zəhmət olmasa sifariş haqqında qısa məlumat yazın.'
+      })
+    } else if (message.length === 0) {
+      this.setState({
+        errorMessage: 'Zəhmət olmasa sifariş haqqında qısa məlumat yazın.'
+      })
+    } else if (receiver_mobile.length < 13) {
+      this.setState({
+        errorReciverPhone: 'Çatdırılacaq şəxsin nömrəsi vacibdir.'
+      })
+    } else if (message.length > 0 && receiver_mobile.length === 13) {
+      console.log('success')
+      console.log(message.length)
+      console.log(receiver_mobile.length)
+      this.onCheckFields()
+    }
+  }
   percent = (text) => {
     console.log(this.state.percent)
     this.setState({
@@ -349,7 +368,7 @@ class OrderScreen extends Component {
       style={{ fontSize: 15, width: '100%' }}
       ref={ref => { this.phone = ref }} />
     let receiverName = <TextInput placeholder='Ad Soyad' onChangeText={(text) => this.setState({ receiverName: text })} value={this.state.receiverName} />
-    let message = <TextInput multiline numberOfLines={4} placeholder='Message' onChangeText={(text) => this.setState({ message: text })} value={this.state.message} />
+    let message = <TextInput multiline numberOfLines={4} placeholder='Message' onChangeText={this.onMessageChange} value={this.state.message} />
     let insurance = <CheckBox style={{flex: 1}} onClick={() => { this.setState({ insurance: !this.state.insurance }) }} isChecked={this.state.insurance} rightText={'Add insurance'} />
     let insurance_price = this.state.insurance ? (<View>
       <Text>Daşınacaq yükün dəyəri :</Text>
@@ -365,6 +384,9 @@ class OrderScreen extends Component {
         <Text>{this.state.insurance_price} AZN</Text>
       </View>
     </View>) : null
+    const {errorReciverPhone, errorMessage} = this.state
+    const errorMsgMessage = errorMessage ? (<Text style={styles.errorMsg}>{errorMessage}</Text>) : null
+    const errorMsgPhone = errorReciverPhone ? (<Text style={styles.errorMsg}>{errorReciverPhone}</Text>) : null
     return (
       <View style={styles.container}>
         <MapView
@@ -426,8 +448,10 @@ class OrderScreen extends Component {
               secondPhoto={secondPhoto}
               thirdPhoto={thirdPhoto}
               receiverPhone={receiverPhone}
+              errorMsgPhone={errorMsgPhone}
               receiverName={receiverName}
               message={message}
+              errorMsgMessage={errorMsgMessage}
               insurance={insurance}
               insurance_price={insurance_price}
               onPhoneNumberChange={this.onPhoneNumberChange}

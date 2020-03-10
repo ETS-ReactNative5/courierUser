@@ -1,62 +1,64 @@
-import { StyleSheet, Dimensions } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import { ApplicationStyles } from '../../Themes/'
-const {width} = Dimensions.get('window')
+
+const {width, height} = Dimensions.get('window')
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
+    flex: 1
+  },
+  close: {
+    paddingHorizontal: width * 0.05
+  },
+  price: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginHorizontal: width * 0.05,
+    paddingTop: height * 0.05,
+    paddingBottom: height * 0.02,
+    borderBottomWidth: 1
 
   },
-  adressBox: {
+  paymetnMethod: {
     flexDirection: 'row',
-    height: 100,
-    paddingVertical: 15,
+    alignItems: 'center'
+  },
+  cashIcon: {
+    marginRight: width * 0.05
+  },
+  ratingBox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: width * 0.05,
+  },
+  textPrimary: {
+    color: '#000',
+    fontSize: width * 0.08,
+    padding: width * 0.05
+  },
+  textHint: {
+    color: '#000',
+    fontSize: width * 0.04
+  },
+  textAreaBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: width * 0.05,
+    paddingTop: height * 0.15,
+    paddingBottom: height * 0.005,
     borderBottomWidth: 1,
-    borderBottomColor: '#353535'
   },
-  textBox: {
-    justifyContent: 'space-between',
-    marginVertical: 3
+  textArea: {
+    width: '100%'
   },
-  iconBox: {
-    alignItems: 'center',
-    width: width * 0.1,
+  inner: {
+    paddingVertical: 24,
+    flex: 1,
+    justifyContent: 'flex-end'
+  },
+  btnBox: {
+    marginHorizontal: 20
 
-  },
-  orderDash: {
-    height: 30,
-    flexDirection: 'column' ,
-  },
-  text: {
-    fontSize: 17
-  },
-  infoBox: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#353535'
-  },
-  nameBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-
-  },
-  nameBoxText : {
-    fontSize: 17,
-    color: '#606060',
-
-  },
-  nameBoxIcon: {
-    fontSize: 35,
-    color: '#606060',
-    fontWeight: '200',
-    marginRight: 20
-  },
-  infoText: {
-    fontSize: 19,
-    fontWeight : 'bold',
-    color: '#606060'
   }
 })

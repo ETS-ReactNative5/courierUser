@@ -34,6 +34,7 @@ class CourierFoundScreen extends Component {
       pickup_location: '',
       orderId: '',
       phone_number: null,
+      photos: [],
       driverCoordinate: {
         latitude: 40.409264,
         longitude: 49.867092
@@ -76,6 +77,11 @@ class CourierFoundScreen extends Component {
       bill_amount: this.props.order.bill_amount,
       total_distance: this.props.order.total_distance,
       orderId: this.props.order.id,
+      courierPhone: this.props.order.driver.phone_number,
+      photos: this.props.order.files,
+      message: this.props.order.message,
+      receiverName: this.props.order.receiver_name,
+      receiverPhone: this.props.order.receiver_phone,
       driver: {
         first_name: this.props.order.driver.first_name,
         last_name: this.props.order.driver.last_name
@@ -121,7 +127,7 @@ class CourierFoundScreen extends Component {
           self.props.navigation.replace('UserOrderScreen')
         } else if (data.status === 'rejected') {
           clearInterval(self.timer)
-          // self.props.navigation.replace('UserOrderScreen')
+          self.props.navigation.replace('CourierSeachScreen')
         }
       })
       .catch(function (error) {
@@ -209,16 +215,21 @@ class CourierFoundScreen extends Component {
         </MapView>
         <View>
           <SlidingPanel
-            headerLayoutHeight={260}
+            headerLayoutHeight={280}
             headerLayout={() => <DriverNewOrderTop onPress={this.onPressCancel}
               drop_location={this.state.drop_location}
               pickup_location={this.state.pickup_location}
-              order={this.props.driver} />}
+              order={this.props.driver}
+              courierPhone={this.state.courierPhone} />}
             slidingPanelLayout={() => <DriverNewOrderBody
               first_name={this.state.driver.first_name}
               last_name={this.state.driver.last_name}
               bill_amount={this.state.bill_amount}
               total_distance={this.state.total_distance}
+              photos={this.state.photos}
+              message={this.state.message}
+              receiverName={this.state.receiverName}
+              receiverPhone={this.state.receiverPhone}
             />}
           />
         </View>
