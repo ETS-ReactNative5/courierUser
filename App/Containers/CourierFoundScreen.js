@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import styles from './Styles/CourierFoundScreenStyle'
 import {orders} from '../Config/API'
 import OrderAction from '../Redux/OrderRedux'
+import io from 'socket.io-client'
 class CourierFoundScreen extends Component {
   constructor (props) {
     super(props)
@@ -99,7 +100,22 @@ class CourierFoundScreen extends Component {
       error => this.setState({error: error.message}),
       {enableHighAccuracy: true, timeout: 20000}
     )
+    let room = this.props.order.driver.id + '-tracking'
+    console.log('track_loation', 'room')
+    const socket = io('http://worker.delhero.com', {
+      forceNew: true,
+      transports: ['websocket']
+    })
+    socket.on('connect', () => console.log('Connection'))
+    socket.on('track_location', this.updateState)
     // this.subscribeToPubNub()
+  }
+  updateState = result => {
+    this.setState({
+      driverCoordinate: result.driverCoordinate
+    })
+    console.log(result, 'soket-driverCoordinate')
+    console.log(this.state.driverCoordinate, 'state-driverCoordinate')
   }
   async getDriver () {
     const self = this

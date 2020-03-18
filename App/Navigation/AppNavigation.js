@@ -27,11 +27,22 @@ import PhoneValidateInputScreen from '../Containers/PhoneValidateInputScreen'
 import PhoneValidateScreen from '../Containers/PhoneValidateScreen'
 import CourierSeachScreen from '../Containers/CourierSeachScreen'
 import CourierFoundScreen from '../Containers/CourierFoundScreen'
+import OrderHistoryInnerScreen from '../Containers/OrderHistoryInnerScreen'
 import I18n from '../I18n'
 import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
+  OrderHistoryInnerScreen: {
+    screen: OrderHistoryInnerScreen,
+    navigationOptions: {
+      // title: I18n.t('Setting'),
+      headerTintColor: '#000',
+      headerStyle: {
+        backgroundColor: '#fff'
+      }
+    }
+  },
   CourierFoundScreen: {
     screen: CourierFoundScreen,
     navigationOptions: {

@@ -38,6 +38,8 @@ const create = (baseURL = 'https://www.delhero.com/') => {
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
   const postRating = (param) => api.post('customer/api/ratings', JSON.stringify(param))
+  const getOrderHistory = (header) => api.get('customer/api/orders', {}, header)
+  const getOrderHistoryInner = (header) => api.get('customer/api/orders/a4dc753f-2554-41ba-8b89-4f7d62c362d8', {}, header)
   // ------
   // STEP 3
   // ------
@@ -55,7 +57,9 @@ const create = (baseURL = 'https://www.delhero.com/') => {
     getRoot,
     getRate,
     getUser,
-    postRating
+    postRating,
+    getOrderHistory,
+    getOrderHistoryInner
   }
 }
 

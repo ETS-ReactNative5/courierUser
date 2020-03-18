@@ -1,81 +1,108 @@
 import React, { Component } from 'react'
-import { Text, Image, View, FlatList } from 'react-native'
+import { Text, TouchableOpacity, View, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
 // Styles
 import styles from './Styles/OrderHistoryScreenStyle'
-import MyButton from '../Components/MyButton'
 import Dash from 'react-native-dash'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import DATA from '../Fixtures/DATA'
-import {getOrders} from '../Config/API'
+import API from '../Services/Api'
 import AsyncStorage from '@react-native-community/async-storage'
+import OrderInnerAction from '../Redux/OrderInnerRedux'
+
+
 class OrderHistoryScreen extends Component {
-  state = {
-    data: []
+  constructor (props) {
+    super(props)
+
+    // AirBnB's Office, and Apple Park
+    this.state = {
+      data: [],
+      error: null
+    }
+    this.getOrderHistor()
   }
-  componentDidMount = async () => {
+
+  getOrderHistor = async () => {
     const token = await AsyncStorage.getItem('@token')
     this.token = 'Bearer ' + token
-    // AsyncStorage.getItem('@token')
-    //   .then((token) => {
-    //     this.token = 'Bearer ' + token
-    //     console.log(token)
-    //   })
-    console.log(this.token)
-    const self = this
-    console.log(getOrders)
-    fetch(getOrders, {
-      method: 'GET',
+    this.setState({
+      token: this.token
+    })
+    const api = API.create()
+    let headers = {
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
         'Access-Control-Allow-Origin': '*',
         'Authorization': this.token
       }
-    })
-      .then(json)
-      .then(status)
-      .then(function (data) {
-        console.log('Request succeeded with JSON response', data)
-        console.log(data)
-
-
-
-        self.setState({
-          data: data.data
-        })
-      })
-      .catch(function (error) {
-        console.log(error)
-        console.log('err')
-        self.setState({
-          error: error.detail,
-          loading: false
-        })
-      })
-
-    function status (response) {
-      if (response.data != null) {
-        return Promise.resolve(response)
-      } else {
-        return Promise.reject(response)
-
-        // return Promise.reject(new Error(response.statusText))
-      }
     }
+    const orderHistory = await api.getOrderHistory(headers)
+    console.log(orderHistory.config.url)
+    if (orderHistory.status === 200) {
+      this.setState({
+        data: orderHistory.data.data,
+        getOrders: orderHistory.config.url
+      })
+    } else {
+      console.log(orderHistory)
+      this.setState({
+        error: orderHistory.data.msg
 
-    function json (response) {
-      console.log(response)
-      console.log('json')
-      return response.json()
+      })
     }
   }
   renderOrdersItem = ({item}) => {
     item.created = new Date(item.created)
+    let onPress = async () => {
+      let orderId = await item.id
+      this.setState({
+        orderId
+      })
+      console.log(this.state.orderId)
+      let url = this.state.getOrders + '/' + orderId
+      console.log(url)
+      const self = this
+      console.log(self.state.token)
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': self.state.token
+        }
+      })
+        .then(json)
+        .then(function (data) {
+          console.log('Request succeeded with JSON response', data)
+          console.log(data)
+          self.props.attemptOrderInnerSuccess(data)
+          self.setState({
+            orderInner: data
+          })
+          self.props.navigation.navigate('OrderHistoryInnerScreen')
+        })
+        .catch(function (error) {
+          console.log(error)
+          console.log('err')
+          self.setState({
+            error: error.detail,
+            loading: false
+          })
+        })
+      function json (response) {
+        console.log(response)
+        console.log('json')
+        return response.json()
+      }
+    }
     return (
-      <View style={styles.orderContainer}>
+      <TouchableOpacity
+        orderId={item.id}
+        onPress={onPress}
+        style={styles.orderContainer}>
         <View style={styles.orderBox}>
           <Icon name='chevron-right' size={30} color='#451E5D' />
           <Text style={styles.orderText}>Piyada | {item.created.toLocaleDateString()} </Text>
@@ -83,12 +110,12 @@ class OrderHistoryScreen extends Component {
         <View style={styles.orderBox}>
           <View>
             <View style={styles.orderAdressBox}>
-              <Icon style={{paddingLeft: 3}} name='circle-outline' size={16} color='#606060' />
+              <Icon style={{paddingLeft: 3}} name='circle-outline' size={16} color='#000080' />
               <Text style={styles.orderAdress}>{item.pickup_location}</Text>
             </View>
             <Dash style={styles.orderDash} />
             <View style={styles.orderAdressBox}>
-              <Icon name='map-marker-outline' size={21} color='#606060' />
+              <Icon name='map-marker-outline' size={21} color='#C71585' />
               <Text style={styles.orderAdress}>{item.drop_location}</Text>
             </View>
           </View>
@@ -96,7 +123,7 @@ class OrderHistoryScreen extends Component {
             <Text style={styles.orderPrice}>{item.bill_amount}AZN </Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   };
   render () {
@@ -121,11 +148,13 @@ class OrderHistoryScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    orderInner: state.orderInner.payload
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    attemptOrderInnerSuccess: (payload) => dispatch(OrderInnerAction.orderInnerSuccess(payload))
   }
 }
 

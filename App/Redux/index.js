@@ -14,6 +14,7 @@ export const reducers = combineReducers({
   destinationAddress: require('./DestinationAddressRedux').reducer,
   price: require('./PriceRedux').reducer,
   order: require('./OrderRedux').reducer,
+  orderInner: require('./OrderInnerRedux').reducer,
   driver: require('./DriverRedux').reducer
 })
 

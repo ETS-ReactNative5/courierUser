@@ -18,6 +18,7 @@ class UserOrderScreen extends Component {
     this.state = {
       error: null,
       rating: 5,
+      message: '',
       driver: {
         first_name: '',
         last_name: ''
@@ -38,14 +39,15 @@ class UserOrderScreen extends Component {
     this.props.navigation.navigate('MenuScreen')
   }
   onPressRating = () => {
-    console.log(this.props.fetching)
     let driverId = this.state.driverId
     let orderId = this.state.orderId
     let rating = this.state.rating
+    let message = this.state.message
     let body = {
       driver_id: driverId,
       order_id: orderId,
-      rating: rating
+      rating: rating,
+      message: this.state.message
     }
     console.log(body)
 
@@ -63,7 +65,6 @@ class UserOrderScreen extends Component {
       this.setState({
         error: rating.status,
         loading: false
-
       })
     }
   }
@@ -112,7 +113,7 @@ class UserOrderScreen extends Component {
                 placeholder='Şərh verin'
                 multiline
                 numberOfLines={1}
-                onChangeText={(text) => this.setState({text})}
+                onChangeText={(message) => this.setState({message})}
               />
             </View>
           </View>
