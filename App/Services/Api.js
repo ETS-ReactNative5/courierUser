@@ -40,6 +40,8 @@ const create = (baseURL = 'https://www.delhero.com/') => {
   const postRating = (param) => api.post('customer/api/ratings', JSON.stringify(param))
   const getOrderHistory = (header) => api.get('customer/api/orders', {}, header)
   const getOrderHistoryInner = (header) => api.get('customer/api/orders/a4dc753f-2554-41ba-8b89-4f7d62c362d8', {}, header)
+  const postLogin = (param) => api.post('customer/api/registration', JSON.stringify(param))
+  const postSmsVerification = (param) => api.post('customer/api/sms-verification', JSON.stringify(param))
   // ------
   // STEP 3
   // ------
@@ -59,7 +61,9 @@ const create = (baseURL = 'https://www.delhero.com/') => {
     getUser,
     postRating,
     getOrderHistory,
-    getOrderHistoryInner
+    getOrderHistoryInner,
+    postLogin,
+    postSmsVerification
   }
 }
 

@@ -7,12 +7,11 @@ import RegisterAction from '../Redux/RegisterRedux'
 import I18n from '../I18n'
 import PhoneInput from 'react-native-phone-input'
 import MyButton from '../Components/MyButton'
-import {userRegistration, mainUrl} from '../Config/API'
 
 // Styles
 import styles from './Styles/RegisterScreenStyle'
 import Spiner from '../Components/Spiner'
-
+import API from '../Services/Api'
 const {width} = Dimensions.get('window')
 
 class PhoneValidateInputScreen extends Component {
@@ -35,7 +34,7 @@ class PhoneValidateInputScreen extends Component {
     this.setState({loading: true})
     if (this.state.number === '' || this.state.country_code === '') {
       this.setState({
-        error: 'input bos ola bilmez',
+        error: 'Mobil nömrə vacibdi',
         loading: false
       })
     } else {
@@ -43,7 +42,7 @@ class PhoneValidateInputScreen extends Component {
     }
   }
   onPressNext = () => {
-    console.log(this.props.fetching)
+    // console.log(this.props.fetching)
     let number = this.state.number
     let country_code = '+' + this.state.country_code
     let num = number.replace(country_code, '')
@@ -52,91 +51,33 @@ class PhoneValidateInputScreen extends Component {
       number: num,
       step: 'phone_number'
     }
-    // this.setState({loading: true})
-    const self = this
     console.log(body)
     // console.log(body, login)
+    this.postLogin(body)
+  }
 
-    let url = mainUrl + 'customer/api/customers?country_code=' + encodeURIComponent(country_code) + '&phone_number=' + num
-    console.log(url)
-    fetch(url, {
-      method: 'HEAD',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    })
-      .then(check)
-      .catch(error => console.error(error))
+  postLogin = async (param) => {
+    console.log(param)
+    const api = API.create()
 
-    function status (response) {
-      console.log(response)
-      console.log('status')
-      self.setState({loading: false})
-      if (response.status === 'pending' || response.status === 'approved') {
-        return Promise.resolve(response)
-      } else {
-        return Promise.reject(response)
-
-        // return Promise.reject(new Error(response.statusText))
-      }
-    }
-
-    function json (response) {
-      console.log(response)
-      console.log('json')
-      return response.json()
-    }
-
-    function check (response) {
-      console.log('head status')
-      console.log(response.status)
-      if (response.status === 404) {
-        console.log(body)
-        fetch(userRegistration, {
-          body: JSON.stringify(body),
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8'
-          }
-        })
-          .then(json)
-          .then(status)
-          .then(function (data) {
-            console.log('Request succeeded with JSON response', data)
-
-            const {number} = self.state
-            const verification_id = data.id
-
-            console.log(data.id)
-            self.props.attemptRegister(number, verification_id)
-            console.log(number)
-            if (data.status === 'approved') {
-              self.setState({
-                loading: false
-              })
-              self.props.navigation.navigate('RegisterScreen')
-            } else if (data.status === 'pending') {
-              self.setState({
-                loading: false
-              })
-              console.log('PhoneValidateScreen')
-              self.props.navigation.navigate('PhoneValidateScreen')
-            }
-          })
-          .catch(function (error) {
-            console.log(error)
-            console.log('err')
-            self.setState({
-              error: error.detail,
-              loading: false
-            })
-          })
-      } else {
-        self.setState({
-          loading: false
-        })
-        self.props.navigation.navigate('LoginScreen')
-      }
+    const login = await api.postLogin(param)
+    console.log(login, 'response')
+    console.log(login.data.verification_id, 'response.data.id')
+    console.log(login.status, 'response.status')
+    if (login.status === 200) {
+      this.setState({
+        error: login.status,
+        loading: false
+      })
+      const {number} = this.state
+      const verification_id = login.data.verification_id
+      this.props.attemptRegister(number, verification_id)
+      this.props.navigation.navigate('PhoneValidateScreen')
+    } else {
+      this.setState({
+        error: login.status,
+        loading: false
+      })
     }
   }
   renderButton = () => {
@@ -153,7 +94,6 @@ class PhoneValidateInputScreen extends Component {
     return <Spiner size='small' />
   }
   render () {
-    console.log(this.props)
     const {number, error} = this.state
     const errorMsg = error ? (<Text style={styles.errorMsg}>{error}</Text>) : null
     return (
@@ -161,9 +101,9 @@ class PhoneValidateInputScreen extends Component {
         <View>
           <View>
             <Text style={{
-              fontSize: width * 0.027,
-              color: '#BCBEC0',
-              marginBottom: width * 0.06
+              fontSize: width * 0.05,
+              color: '#7B2BFC',
+              marginBottom: width * 0.09
             }}>Mobil nömrənizi daxil edin</Text>
             <PhoneInput
               onChangePhoneNumber={this.onPhoneNumberChange}
@@ -192,9 +132,6 @@ class PhoneValidateInputScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    number: state.register.number,
-    verification_id: state.register.verification_id,
-    fetching: state.register.fetching
   }
 }
 

@@ -23,29 +23,7 @@ class ProfileScreen extends Component {
     }
   }
   componentDidMount () {
-    const getProfileData = async (token) => {
-      const data = await fetch(userRegistration, {
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-          'Access-Control-Allow-Origin': '*',
-          'Authorization': 'Bearer ' + token
-        }
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.setState(data)
-          console.log(data)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      return data
-    }
-    AsyncStorage.getItem('@token')
-      .then((token) => {
-        getProfileData(token)
-      })
-      .catch((error) => console.log(error))
+    console.log(this.props.profil, 'props')
   }
   render () {
     return (
@@ -55,7 +33,7 @@ class ProfileScreen extends Component {
             <Image style={styles.newsImage} source={Images.userDefaultImg} />
           </View>
           <View style={styles.profileHeaderBody}>
-            <Text style={styles.profileHeaderBodyText}>{this.state.first_name} {this.state.last_name}</Text>
+            {/*<Text style={styles.profileHeaderBodyText}>{this.props.profil.first_name} {this.props.profil.last_name}</Text>*/}
             <Text style={styles.profileHeaderBodyTextY}>{this.state.phone_number}</Text>
           </View>
 
@@ -106,7 +84,7 @@ class ProfileScreen extends Component {
           <MenuLink text='Çıxış'
             onPress={() => {
               AsyncStorage.removeItem('@token')
-              this.props.navigation.navigate('FirstScreen')
+              this.props.navigation.navigate('PhoneValidateInputScreen')
             }}
             icon='exit-to-app'
             color='#606060'
@@ -120,7 +98,8 @@ class ProfileScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    verification_id: state.register.verification_id
+    verification_id: state.register.verification_id,
+    profil: state.profil.payload
   }
 }
 

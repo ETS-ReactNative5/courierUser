@@ -7,26 +7,26 @@ import { connect } from 'react-redux'
 // Styles
 import styles from './Styles/AccountScreenStyle'
 import I18n from '../I18n'
-import PhoneInput from 'react-native-phone-input'
 import MyInput from '../Components/MyInput'
 import MyButton from '../Components/MyButton'
-import ModalRating from '../Components/ModalRating'
 import AsyncStorage from '@react-native-community/async-storage'
 import { userRegistration } from '../Config/API'
+import ProfilAction from '../Redux/ProfilRedux'
 const {width} = Dimensions.get('window')
 class AccountScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: '',
-      first_name: '',
+      email: null,
+      first_name: null,
       id: '',
-      last_name: '',
+      last_name: null,
       phone_number: '',
       username: ''
     }
   }
   componentDidMount () {
+    console.log(this.props.profil, 'props')
     const getProfileData = async (token) => {
       const data = await fetch(userRegistration, {
         headers: {
@@ -60,6 +60,7 @@ class AccountScreen extends Component {
       first_name,
       last_name
     }
+    this.props.attemptProfilSuccess(body)
     console.log(body)
     const updateProfile = async (token) => {
       const customerUrl = userRegistration + '/' + this.state.id
@@ -126,12 +127,13 @@ class AccountScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    verification_id: state.register.verification_id
+    profil: state.profil.payload
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    attemptProfilSuccess: (payload) => dispatch(ProfilAction.profilSuccess(payload))
   }
 }
 

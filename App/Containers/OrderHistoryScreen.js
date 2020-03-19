@@ -16,7 +16,6 @@ import OrderInnerAction from '../Redux/OrderInnerRedux'
 class OrderHistoryScreen extends Component {
   constructor (props) {
     super(props)
-
     // AirBnB's Office, and Apple Park
     this.state = {
       data: [],

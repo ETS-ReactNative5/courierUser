@@ -2,58 +2,24 @@ import { Images } from '../Themes'
 
 export default [
   {
-    "id": "1",
-    "picture": Images.piyada,
-    "startPlace": "Qara Qarayev 56",
-    "endPlace": "Süleyman Rəhimov 3/12",
-    "price": "5 AZN",
-    "type": "Piyada",
-    "date": "21.09.19"
+    "key": "1",
+    "image": Images.AppIntroSlide1,
+    "title": "Qara Qarayev 56",
+    "text": "Süleyman Rəhimov 3/12",
+    "backgroundColor": "#59b2ab",
   },
   {
-    "id": "2",
-    "picture": Images.moto,
-    "startPlace": "Süleyman Rəhimov 3/1",
-    "endPlace": "Qara Qarayev 56",
-    "price": "6 AZN",
-    "type": "Moto-kuryer",
-    "date": "21.09.21"
+    "key": "2",
+    "image": Images.AppIntroSlide2,
+    "title": "Süleyman Rəhimov 3/1",
+    "text": "Qara Qarayev 56",
+    "backgroundColor": "#febe29",
   },
   {
-    "id": '3',
-    "picture": Images.avto,
-    "startPlace": 'Qara Qarayev 56',
-    "endPlace": 'Telnov 10',
-    "price": '7 AZN',
-    "type": 'Avtomobil',
-    "date": '21.09.25'
-  },
-  {
-    "id": '4',
-    "picture": Images.ekonomCarIcon,
-    "startPlace": 'Qara Qarayev 56',
-    "endPlace": 'Telnov 10',
-    "price": '8 AZN',
-    "type": 'Ekonom',
-    "date": '21.09.19'
-  },
-  {
-    "id": '5',
-    "picture": Images.ekonomCarIcon,
-    "startPlace": 'Qara Qarayev 56',
-    "endPlace": 'Telnov 10',
-    "price": '9 AZn',
-    "type": 'Ekonom',
-    "date": '28.10.19'
-  },
-  {
-    "id": '6',
-    "picture": Images.ekonomCarIcon,
-    "startPlace": 'Qara Qarayev 56',
-    "endPlace": 'Telnov 15',
-    "price": '9 AZn',
-    "type": 'Ekonom',
-    "date": '28.10.29'
-  },
-
+    "key": '3',
+    "image": Images.AppIntroSlide3,
+    "title": 'Qara Qarayev 56',
+    "text": 'Telnov 10',
+    "backgroundColor": '#22bcb5'
+  }
 ]

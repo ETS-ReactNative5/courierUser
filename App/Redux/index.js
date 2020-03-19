@@ -15,7 +15,8 @@ export const reducers = combineReducers({
   price: require('./PriceRedux').reducer,
   order: require('./OrderRedux').reducer,
   orderInner: require('./OrderInnerRedux').reducer,
-  driver: require('./DriverRedux').reducer
+  driver: require('./DriverRedux').reducer,
+  profil: require('./ProfilRedux').reducer
 })
 
 export default () => {

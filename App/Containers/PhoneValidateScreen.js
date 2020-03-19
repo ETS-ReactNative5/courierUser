@@ -11,8 +11,8 @@ import _ from 'lodash'
 
 // Styles
 import styles from './Styles/PhoneValidateScreenStyle'
-import {userRegistration} from '../Config/API'
-
+import API from '../Services/Api'
+import AsyncStorage from '@react-native-community/async-storage'
 class PhoneValidateScreen extends Component {
   state = {
     code: '',
@@ -29,8 +29,9 @@ class PhoneValidateScreen extends Component {
   componentDidMount () {
     this.setState({
       verification_id: this.props.verification_id
-
     })
+    console.log(this.state.verification_id)
+    console.log(this.props.verification_id)
   }
 
   _onFulfill1 = (code) => {
@@ -41,59 +42,27 @@ class PhoneValidateScreen extends Component {
       sms_code: code,
       step: 'code'
     }
+    this.postSmsVerification(body)
+  }
+  postSmsVerification = async (param) => {
+    console.log(param)
+    const api = API.create()
 
-    // this.setState({loading: true})
-    const self = this
-
-    // console.log(body, login)
-    fetch(userRegistration, {
-      body: JSON.stringify(body),
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-
-    })
-      .then(json)
-      .then(status)
-      .then(function (data) {
-        console.log('Request succeeded with JSON response', data)
-
-        console.log(data)
-        // self.props.attemptRegister(number, verification_id)
-        // console.log(number);
-        self.props.navigation.navigate('RegisterScreen')
+    const postSmsVerification = await api.postSmsVerification(param)
+    console.log(postSmsVerification, 'response')
+    console.log(postSmsVerification.data.access_token, 'response.data.token')
+    console.log(postSmsVerification.status, 'response.status')
+    if (postSmsVerification.status === 200) {
+      this.setState({
+        loading: false
       })
-      .catch(function (error) {
-        console.log(error)
-        console.log('err')
+      AsyncStorage.setItem('@token', postSmsVerification.data.access_token)
+      this.props.navigation.navigate('MenuScreen')
+    } else {
+      this.setState({
+        error: postSmsVerification.status,
+        loading: false
       })
-
-    function status (response) {
-      console.log(response)
-      console.log('status')
-      self.setState({loading: false})
-      if (response.status === 'approved') {
-        return Promise.resolve(response)
-      } else {
-        return Promise.reject(response)
-
-        // return Promise.reject(new Error(response.statusText))
-      }
-    }
-
-    function json (response) {
-      console.log(response)
-      console.log('json')
-      return response.json()
-    }
-
-    useResponse = async (data) => {
-      const {number} = this.state
-      const verification_id = data.id
-      this.props.attemptRegister(number, verification_id)
-      console.log(number)
-      this.props.navigation.navigate('PhoneValidateScreen')
     }
   }
 
@@ -122,7 +91,6 @@ class PhoneValidateScreen extends Component {
               onFulfill={this._onFulfill1}
               containerStyle={{marginTop: 40, marginBottom: 45}}
               codeInputStyle={{borderWidth: 0, backgroundColor: '#D9D9DA'}}
-
             />
           </KeyboardAvoidingView>
 

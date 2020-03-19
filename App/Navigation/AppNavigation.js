@@ -28,15 +28,22 @@ import PhoneValidateScreen from '../Containers/PhoneValidateScreen'
 import CourierSeachScreen from '../Containers/CourierSeachScreen'
 import CourierFoundScreen from '../Containers/CourierFoundScreen'
 import OrderHistoryInnerScreen from '../Containers/OrderHistoryInnerScreen'
+import AppIntroSliderScreen from '../Containers/AppIntroSliderScreen'
 import I18n from '../I18n'
 import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
+  AppIntroSliderScreen: {
+    screen: AppIntroSliderScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
   OrderHistoryInnerScreen: {
     screen: OrderHistoryInnerScreen,
     navigationOptions: {
-      // title: I18n.t('Setting'),
+      title: I18n.t('AppIntroSliderScreen'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -58,7 +65,7 @@ const PrimaryNav = createStackNavigator({
   PhoneValidateScreen: {
     screen: PhoneValidateScreen,
     navigationOptions: {
-      title: I18n.t('Setting'),
+      // title: I18n.t('Setting'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -68,11 +75,7 @@ const PrimaryNav = createStackNavigator({
   PhoneValidateInputScreen: {
     screen: PhoneValidateInputScreen,
     navigationOptions: {
-      // title: I18n.t('Setting'),
-      headerTintColor: '#000',
-      headerStyle: {
-        backgroundColor: '#fff'
-      }
+      header: null
     }
   },
   OfflineNoticeScreen: {
@@ -256,7 +259,7 @@ const PrimaryNav = createStackNavigator({
 }, {
   // Default config for all screens
   // headerMode: 'none',
-  initialRouteName: 'FirstScreen',
+  initialRouteName: 'AppIntroSliderScreen',
   navigationOptions: {
     headerStyle: styles.header
   }

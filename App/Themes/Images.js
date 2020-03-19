@@ -36,6 +36,9 @@ const images = {
   ru: require('../Images/Flags/Russia.png'),
   us: require('../Images/Flags/United-States-of-America.png'),
   userDefaultImg: require('../Images/user-default-img.png'),
+  AppIntroSlide1: require('../Images/splash-screen-1.png'),
+  AppIntroSlide2: require('../Images/splash-screen-2.png'),
+  AppIntroSlide3: require('../Images/splash-screen-3.png'),
 }
 
 export default images
