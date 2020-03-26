@@ -97,11 +97,11 @@ class NewOrderTop extends Component {
           </View>
           <View>
             <View style={styles.adressBox}>
-              <Text style={styles.adressTitle}>Pickup</Text>
+              <Text style={styles.adressTitle}>Götürülmə ünvanı</Text>
               <Text style={styles.adressText}>{this.state.startLocation}</Text>
             </View>
             <View style={styles.adressBox}>
-              <Text style={styles.adressTitle}>Dropoff</Text>
+              <Text style={styles.adressTitle}>Çatdırılma ünvanı</Text>
               <Text style={styles.adressText}>{this.state.endLocation}</Text>
             </View>
           </View>

@@ -29,11 +29,11 @@ export default class CourierSearchBody extends Component {
           </View>
           <View>
             <View style={styles.adressBox}>
-              <Text style={styles.adressTitle}>Pickup</Text>
+              <Text style={styles.adressTitle}>Götürülmə ünvanı</Text>
               <Text style={styles.adressText}>{startLocation}</Text>
             </View>
             <View style={styles.adressBox}>
-              <Text style={styles.adressTitle}>Dropoff</Text>
+              <Text style={styles.adressTitle}>Çatdırılma ünvanı</Text>
               <Text style={styles.adressText}>{endLocation}</Text>
             </View>
           </View>

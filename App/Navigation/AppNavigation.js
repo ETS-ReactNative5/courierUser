@@ -43,7 +43,7 @@ const PrimaryNav = createStackNavigator({
   OrderHistoryInnerScreen: {
     screen: OrderHistoryInnerScreen,
     navigationOptions: {
-      title: I18n.t('AppIntroSliderScreen'),
+      // title: I18n.t('AppIntroSliderScreen'),
       headerTintColor: '#000',
       headerStyle: {
         backgroundColor: '#fff'
@@ -259,7 +259,7 @@ const PrimaryNav = createStackNavigator({
 }, {
   // Default config for all screens
   // headerMode: 'none',
-  initialRouteName: 'AppIntroSliderScreen',
+  initialRouteName: 'AccountScreen',
   navigationOptions: {
     headerStyle: styles.header
   }

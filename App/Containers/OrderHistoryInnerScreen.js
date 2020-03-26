@@ -21,12 +21,10 @@ class OrderHistoryInnerScreen extends Component {
       orderInner: [],
       photos: []
     }
-
   }
 
   componentDidMount (): void {
     console.log(this.props.orderInner)
-
   }
 
   render () {
@@ -50,15 +48,17 @@ class OrderHistoryInnerScreen extends Component {
           </View>
         </View>
         <ScrollView >
-          <View style={styles.profileHeader}>
+
+          {this.props.orderInner.status === 'rejected' ? null : <View style={styles.profileHeader}>
             <View style={styles.profileHeaderBody}>
               <Text style={styles.profileHeaderBodyText}>{this.props.orderInner.driver.first_name}</Text>
               <Text style={styles.profileHeaderBodyTextY}>{this.props.orderInner.driver.last_name}</Text>
+              <View style={styles.profileHeaderLeft}>
+                <Image style={styles.newsImage} source={Images.userDefaultImg} />
+              </View>
             </View>
-            <View style={styles.profileHeaderLeft}>
-              <Image style={styles.newsImage} source={Images.userDefaultImg} />
-            </View>
-          </View>
+          </View>}
+
           <View style={styles.cashBox}>
             <View>
               <Text style={styles.sectionTitle}>Ödəniş növü</Text>

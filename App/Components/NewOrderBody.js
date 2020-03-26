@@ -151,18 +151,13 @@ class NewOrderBody extends Component {
       <Icon name='chevron-double-right' color='#fff' size={40} />
     )
     if (!this.state.loading) {
-      return <SwipeButton
-        disabled={false}
-        title='Sifaris Et '
-        titleColor='#FFFFFF'
-        railBackgroundColor='#7B2BFC'
-        railBorderColor='#7B2BFC'
-        thumbIconBackgroundColor='#7B2BFC'
-        thumbIconBorderColor='#7B2BFC'
-        thumbIconComponent={SwipeIcon}
-        railFillBackgroundColor='#000'
-        railFillBorderColor='#fff'
-        onSwipeSuccess={this.props.onPress} />
+      return <MyButton onPress={this.props.onPress}
+        color='#fff'
+        backgroundColor='#7B2BFC'
+        borderColor='#7B2BFC'
+        borderRadius={30}
+        text='Sifariş et'
+        />
     }
     return <Spiner size='small' />
   }

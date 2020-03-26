@@ -81,7 +81,6 @@ class PromoKodScreen extends Component {
   render () {
     return (
       <View style={styles.container}>
-
         <View style={styles.kodBox}>
           <Text style={styles.kodTitle}>Zəhmət olmasa promo kodu daxil edin</Text>
           <KeyboardAvoidingView behavior='position' style={{ borderBottomWidth: 1}}>

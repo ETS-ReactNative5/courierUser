@@ -29,8 +29,8 @@ class DestinationAddressScreen extends Component {
 
   componentDidMount () {
     this.setState({
-      startLocation: I18n.t('baslangicNoqtesi'),
-      endLocation: I18n.t('bitisNoqtesi')
+      startLocation: I18n.t('Başlanğıc nöqtəsi'),
+      endLocation: I18n.t('Bitiş nöqtəsi')
     })
   }
 
@@ -61,7 +61,7 @@ class DestinationAddressScreen extends Component {
     this.setState({loading: true})
     if (this.state.startLocation === I18n.t('baslangicNoqtesi') || this.state.endLocation === I18n.t('bitisNoqtesi')) {
       this.setState({
-        error: 'input bos ola bilmez',
+        error: 'xana bos ola bilmez',
         loading: false
       })
     } else {
@@ -121,7 +121,8 @@ class DestinationAddressScreen extends Component {
         borderColor='#7B2BFC'
         borderRadius={30}
         color='#fff'
-        text={I18n.t('next')}
+        // text={I18n.t('next')}
+        text='Növbəti'
       />
     }
     return <Spiner size='small' />

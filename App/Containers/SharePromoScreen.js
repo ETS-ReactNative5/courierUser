@@ -20,8 +20,7 @@ class SharePromoScreen extends Component {
         <View style={styles.textBox}>
           <Text style={styles.textTitle}>3.5 AZN verin, 3.5 AZN alin</Text>
           <Hr textPadding={20} hrPadding={90} lineColor='#7f00dc' width={2} text='UH1M9' textStyles={styles.textKod} />
-          <Text style={styles.text}>Promo kodunuzu dostlarinizla paylashin ve loSetting through textStyles will
-            overwrite the default CSS behavior provided by textPadding, fontSize, etc</Text>
+          <Text style={styles.text}>Promo kodunuzu dostlarınızla paylaşın və onların ilk sifarişi pulsuz olsun (3 AZN-ə qədər). Dostlarınız ilk sifarişi istifadə etdikdən sonra siz də pulsuz sifariş(3 AZN-ə qədər) qazanacaqsınız</Text>
           <View style={styles.iconBox}>
             <Circlebutton
                       // onPress={() => this.props.navigation.navigate('PaymentMethodScreen')}

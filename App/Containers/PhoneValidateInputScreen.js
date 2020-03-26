@@ -12,6 +12,7 @@ import MyButton from '../Components/MyButton'
 import styles from './Styles/RegisterScreenStyle'
 import Spiner from '../Components/Spiner'
 import API from '../Services/Api'
+import AsyncStorage from '@react-native-community/async-storage'
 const {width} = Dimensions.get('window')
 
 class PhoneValidateInputScreen extends Component {
@@ -52,7 +53,7 @@ class PhoneValidateInputScreen extends Component {
       step: 'phone_number'
     }
     console.log(body)
-    // console.log(body, login)
+    AsyncStorage.setItem('@phoneNumber', number)
     this.postLogin(body)
   }
 

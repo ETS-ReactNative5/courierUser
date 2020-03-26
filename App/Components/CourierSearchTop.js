@@ -24,13 +24,13 @@ export default class CourierSearchTop extends Component {
       <View style={styles.container}>
         <View style={styles.minusBox}>
           <Icon style={styles.minusIcon} name='color-helper' color='#ddd' size={30} />
-          <Text style={styles.minusText}>Sorgu Gonderilir...</Text>
+          <Text style={styles.minusText}>Sorğu göndərilir...</Text>
         </View>
         <View style={styles.actionBox}>
           <TouchableOpacity style={styles.cancel} onPress={onPress}>
             <Icon name='window-close' color='#C71585' size={35} />
           </TouchableOpacity>
-          <Text style={styles.adressTitle}>Gedisi legv et... </Text>
+          <Text style={styles.adressTitle}>Gedisi ləğv et... </Text>
         </View>
       </View>
     )

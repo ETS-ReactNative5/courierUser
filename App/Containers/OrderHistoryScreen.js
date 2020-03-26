@@ -11,21 +11,23 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import API from '../Services/Api'
 import AsyncStorage from '@react-native-community/async-storage'
 import OrderInnerAction from '../Redux/OrderInnerRedux'
-
+import Spiner from '../Components/Spiner'
 
 class OrderHistoryScreen extends Component {
   constructor (props) {
     super(props)
-    // AirBnB's Office, and Apple Park
     this.state = {
       data: [],
-      error: null
+      error: null,
+      loading: true
     }
     this.getOrderHistor()
   }
 
   getOrderHistor = async () => {
     const token = await AsyncStorage.getItem('@token')
+    const name = await AsyncStorage.getItem('@name')
+    console.log(name)
     this.token = 'Bearer ' + token
     this.setState({
       token: this.token
@@ -43,13 +45,14 @@ class OrderHistoryScreen extends Component {
     if (orderHistory.status === 200) {
       this.setState({
         data: orderHistory.data.data,
-        getOrders: orderHistory.config.url
+        getOrders: orderHistory.config.url,
+        loading: false
       })
     } else {
       console.log(orderHistory)
       this.setState({
-        error: orderHistory.data.msg
-
+        error: orderHistory.data.msg,
+        loading: false
       })
     }
   }
@@ -125,21 +128,23 @@ class OrderHistoryScreen extends Component {
       </TouchableOpacity>
     )
   };
+  renderContect = () => {
+    console.log(this.state.data)
+    if (this.state.loading === true) {
+      return <Spiner size='large' />
+    } else if (this.state.data.length === 0) {
+      return <View style={styles.zeroOrderBox}><Text style={styles.zeroOrder}>Sizin heç bir sifarişiniz yoxdur.</Text></View>
+    } else {
+      return <FlatList
+        renderItem={this.renderOrdersItem}
+        keyExtractor={(item) => item.id}
+        data={this.state.data} disableVirtualization />
+    }
+  }
   render () {
     return (
       <View style={{flex: 1}}>
-        <View style={{flex: 8}}>
-          <FlatList
-            renderItem={this.renderOrdersItem}
-            keyExtractor={(item) => item.id}
-            data={this.state.data} />
-        </View>
-        {/* <View style={{flex: 1 }}> */}
-        {/*  <MyButton */}
-        {/*    text="TƏQVİMDƏN SEÇ" */}
-        {/*    color="#fff" */}
-        {/*    backgroundColor="#451E5D" /> */}
-        {/* </View> */}
+        {this.renderContect()}
       </View>
     )
   }
