@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import {Text, Dimensions, View, TouchableOpacity} from 'react-native'
+import { Text, Dimensions, View, TouchableOpacity, ImageBackground, KeyboardAvoidingView } from 'react-native'
 import {connect} from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import LoginActions from '../Redux/LoginRedux'
 import PhoneInput from 'react-native-phone-input'
-import MyInput from '../Components/MyInput'
 import MyButton from '../Components/MyButton'
 import Spiner from '../Components/Spiner'
 
@@ -13,6 +12,8 @@ import {userLogin} from '../Config/API'
 // Styles
 import styles from './Styles/LoginScreenStyle'
 import AsyncStorage from '@react-native-community/async-storage'
+import { Images } from '../Themes'
+import CodeInput from 'react-native-code-input'
 
 const {width} = Dimensions.get('window')
 
@@ -23,7 +24,6 @@ class LoginScreen extends Component {
     password: null,
     error: '',
     loading: false
-
   }
   onPres = () => {
     this.setState({loading: true})
@@ -114,7 +114,7 @@ class LoginScreen extends Component {
         backgroundColor='#7B2BFC'
         borderColor='#7B2BFC'
         borderRadius={30}
-        text='Login'
+        text='GET CODE'
       />
     }
     return <Spiner size='small' />
@@ -124,38 +124,49 @@ class LoginScreen extends Component {
     const {mobile, password, error} = this.state
     const errorMsg = error ? (<Text style={styles.errorMsg}>{error}</Text>) : null
     return (
-      <View style={styles.container}>
-        <View>
-          <View>
-            <Text style={{
-              fontSize: width * 0.05,
-              color: '#7B2BFC',
-              marginBottom: width * 0.06
-            }}>Mobil Nömrə</Text>
-            <PhoneInput onChangePhoneNumber={this.onPhoneNumberChange} initialCountry='az' value={mobile} style={{
-              fontSize: width * 0.037,
-              borderBottomWidth: 1,
-              borderColor: '#353535',
-              width: '100%',
-              marginBottom: width * 0.1296,
-              paddingBottom: 10
-            }} ref={ref => {
-              this.phone = ref
-            }} />
+      <ImageBackground style={styles.bg}
+        source={Images.mapBg}>
+        <View style={styles.loginBox}>
+          <Text style={styles.loginTitle}>Verification</Text>
+          <Text style={styles.loginText}>Please, enter code from SMS which we sent you</Text>
+          <View style={{marginBottom: 10}}>
+            <PhoneInput
+              onChangePhoneNumber={this.onPhoneNumberChange}
+              initialCountry='az'
+              flagStyle={{borderRadius: 100}}
+              value={mobile} style={styles.loginInput} ref={ref => { this.phone = ref }} />
           </View>
-
-          <MyInput value={password} onChangeText={this.onPasswordChange} secureTextEntry
-            text='Şifrə' />
+          <View style={{marginBottom: 10}}>
+            <PhoneInput
+              onChangePhoneNumber={this.onPhoneNumberChange}
+              initialCountry='az'
+              flagStyle={{borderRadius: 100}}
+              value={mobile} style={styles.loginInput} ref={ref => { this.phone = ref }} />
+          </View>
+          <View style={{marginBottom: 10}}>
+            <PhoneInput
+              onChangePhoneNumber={this.onPhoneNumberChange}
+              initialCountry='az'
+              flagStyle={{borderRadius: 100}}
+              value={mobile} style={styles.loginInput} ref={ref => { this.phone = ref }} />
+          </View>
+          <View>
+            <PhoneInput
+              onChangePhoneNumber={this.onPhoneNumberChange}
+              initialCountry='az'
+              flagStyle={{borderRadius: 100}}
+              value={mobile} style={styles.loginInput} ref={ref => { this.phone = ref }} />
+          </View>
           {errorMsg}
-        </View>
-        <View style={styles.buttonContainer}>
-          {this.renderButton()}
-          <TouchableOpacity>
-            <Text style={styles.forgotPasswordText}>Forget Password</Text>
+          <View style={styles.loginBtnBox}>
+            {this.renderButton()}
+          </View>
+          <TouchableOpacity
+            style={styles.newCode} onPress={this.onPres}>
+            <Text style={styles.newCodeText}>Send new code</Text>
           </TouchableOpacity>
         </View>
-
-      </View>
+      </ImageBackground>
     )
   }
 }

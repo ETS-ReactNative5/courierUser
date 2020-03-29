@@ -7,14 +7,17 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     padding: width * 0.03,
-    marginVertical: height * 0.03
+    marginVertical: height * 0.03,
+    justifyContent: 'space-between'
   },
   inputContainer: {
-    flex: 3
+    paddingBottom: width * 0.03,
   },
   buttonContainer: {
-    flex: 1,
     backgroundColor: '#000',
+    height: height * 0.3,
+    justifyContent: 'center',
+    flex: 1
   }
 
 })

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, Dimensions} from 'react-native'
+import { View, Text, Dimensions, ImageBackground } from 'react-native'
 import {connect} from 'react-redux'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -9,10 +9,11 @@ import PhoneInput from 'react-native-phone-input'
 import MyButton from '../Components/MyButton'
 
 // Styles
-import styles from './Styles/RegisterScreenStyle'
+import styles from './Styles/PhoneValidateScreenStyle'
 import Spiner from '../Components/Spiner'
 import API from '../Services/Api'
 import AsyncStorage from '@react-native-community/async-storage'
+import { Images } from '../Themes'
 const {width} = Dimensions.get('window')
 
 class PhoneValidateInputScreen extends Component {
@@ -53,7 +54,8 @@ class PhoneValidateInputScreen extends Component {
       step: 'phone_number'
     }
     console.log(body)
-    AsyncStorage.setItem('@phoneNumber', number)
+    AsyncStorage.setItem('@phoneNumber', num)
+    AsyncStorage.setItem('@countryCode', country_code)
     this.postLogin(body)
   }
 
@@ -67,7 +69,6 @@ class PhoneValidateInputScreen extends Component {
     console.log(login.status, 'response.status')
     if (login.status === 200) {
       this.setState({
-        error: login.status,
         loading: false
       })
       const {number} = this.state
@@ -89,7 +90,7 @@ class PhoneValidateInputScreen extends Component {
         backgroundColor='#7B2BFC'
         borderColor='#7B2BFC'
         borderRadius={30}
-        text={I18n.t('next')}
+        text={I18n.t('GET CODE')}
       />
     }
     return <Spiner size='small' />
@@ -98,35 +99,22 @@ class PhoneValidateInputScreen extends Component {
     const {number, error} = this.state
     const errorMsg = error ? (<Text style={styles.errorMsg}>{error}</Text>) : null
     return (
-      <View style={styles.container}>
-        <View>
-          <View>
-            <Text style={{
-              fontSize: width * 0.05,
-              color: '#7B2BFC',
-              marginBottom: width * 0.09
-            }}>Mobil nömrənizi daxil edin</Text>
-            <PhoneInput
-              onChangePhoneNumber={this.onPhoneNumberChange}
-              initialCountry='az'
-              value={number} style={{
-                fontSize: width * 0.037,
-                borderBottomWidth: 1,
-                borderColor: '#353535',
-                width: '100%',
-                marginBottom: width * 0.1296,
-                paddingBottom: 10
-              }} ref={ref => {
-                this.phone = ref
-              }} />
-          </View>
+      <ImageBackground style={styles.bg}
+        source={Images.mapBg}>
+        <View style={styles.loginBox}>
+          <Text style={styles.loginTitle}>Verification</Text>
+          <Text style={styles.loginText}>Please, enter your phone and we will create account for you</Text>
+          <PhoneInput
+            onChangePhoneNumber={this.onPhoneNumberChange}
+            initialCountry='az'
+            flagStyle={{borderRadius: 100}}
+            value={number} style={styles.loginInput} ref={ref => { this.phone = ref }} />
           {errorMsg}
+          <View style={styles.loginBtnBox}>
+            {this.renderButton()}
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          {this.renderButton()}
-        </View>
-
-      </View>
+      </ImageBackground>
     )
   }
 }

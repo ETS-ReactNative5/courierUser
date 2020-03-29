@@ -39,6 +39,8 @@ const images = {
   AppIntroSlide1: require('../Images/splash-screen-1.png'),
   AppIntroSlide2: require('../Images/splash-screen-2.png'),
   AppIntroSlide3: require('../Images/splash-screen-3.png'),
+  mapBg: require('../Images/mapBackground.jpg'),
+  motor: require('../Images/motor.png'),
 }
 
 export default images

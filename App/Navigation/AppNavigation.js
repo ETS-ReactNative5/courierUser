@@ -65,11 +65,7 @@ const PrimaryNav = createStackNavigator({
   PhoneValidateScreen: {
     screen: PhoneValidateScreen,
     navigationOptions: {
-      // title: I18n.t('Setting'),
-      headerTintColor: '#000',
-      headerStyle: {
-        backgroundColor: '#fff'
-      }
+      header: null
     }
   },
   PhoneValidateInputScreen: {
@@ -259,7 +255,7 @@ const PrimaryNav = createStackNavigator({
 }, {
   // Default config for all screens
   // headerMode: 'none',
-  initialRouteName: 'AccountScreen',
+  initialRouteName: 'AppIntroSliderScreen',
   navigationOptions: {
     headerStyle: styles.header
   }

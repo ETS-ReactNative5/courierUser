@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {View, Dimensions, Text, KeyboardAvoidingView} from 'react-native'
+import { View, Dimensions, Text, KeyboardAvoidingView, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -23,7 +23,8 @@ class AccountScreen extends Component {
       id: '',
       last_name: null,
       phone_number: '',
-      username: ''
+      username: '',
+      loading: true
     }
     this.getUserData()
   }
@@ -48,6 +49,9 @@ class AccountScreen extends Component {
     })
   }
   onPressUpdate = () => {
+    this.setState({
+      loadingBtn: true
+    })
     let {email, first_name, last_name} = this.state
     let param = {
       email,
@@ -74,6 +78,9 @@ class AccountScreen extends Component {
     const putUserData = await api.putUserData(headers, orderID, param)
     console.log(putUserData)
     if (putUserData.status === 200) {
+      this.setState({
+        loadingBtn: false
+      })
       this.props.navigation.replace('MenuScreen')
     } else {
       this.setState({
@@ -92,14 +99,12 @@ class AccountScreen extends Component {
       return <Spiner size='small' />
     }
     return (
-      <View slyle={styles.buttonContainer}>
-        <MyButton onPress={this.onPressUpdate}
-          color='#fff'
-          backgroundColor='#7B2BFC'
-          borderColor='#7B2BFC'
-          borderRadius={30}
-          text={I18n.t('Yadda saxla')} />
-      </View>
+      <MyButton onPress={this.onPressUpdate}
+        color='#fff'
+        backgroundColor='#7B2BFC'
+        borderColor='#7B2BFC'
+        borderRadius={30}
+        text={I18n.t('Yadda saxla')} />
     )
   }
   renderInput = () => {
@@ -126,10 +131,14 @@ class AccountScreen extends Component {
   renderContent = () => {
     if (this.state.loading === false) {
       return (
-        <View style={styles.container}>
-          {this.renderInput()}
-          {this.renderButton()}
-        </View>
+        <ScrollView style={{flex: 1}}>
+          <KeyboardAvoidingView behavior='position' style={styles.container}>
+            {this.renderInput()}
+            <View slyle={styles.buttonContainer}>
+              {this.renderButton()}
+            </View>
+          </KeyboardAvoidingView>
+        </ScrollView>
       )
     }
     return <Spiner size='large' />

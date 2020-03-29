@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import { View, TouchableOpacity, Image } from 'react-native'
 import {connect} from 'react-redux'
 import MapView, {Marker} from 'react-native-maps'
 import I18n from '../I18n'
@@ -11,17 +11,23 @@ import MyButton from '../Components/MyButton'
 import styles from './Styles/MapScreenStyle'
 import RNGooglePlaces from 'react-native-google-places'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import { Images } from '../Themes'
+import AsyncStorage from '@react-native-community/async-storage'
 class MapScreen extends Component {
-  state = {
-    latitude: 40.4093,
-    longitude: 49.8671,
-    error: null,
-    loading: false
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      latitude: 40.4093,
+      longitude: 49.8671,
+      error: null,
+      loading: false
+    }
+    this.getUserLocation()
   }
 
-  componentDidMount () {
-    navigator.geolocation.getCurrentPosition(
+  getUserLocation = async () => {
+    await navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
           latitude: position.coords.latitude,
@@ -33,6 +39,19 @@ class MapScreen extends Component {
       {enableHighAccuracy: true, timeout: 20000}
     )
   }
+  // componentDidMount () {
+  //   navigator.geolocation.getCurrentPosition(
+  //     position => {
+  //       this.setState({
+  //         latitude: position.coords.latitude,
+  //         longitude: position.coords.longitude,
+  //         error: null
+  //       })
+  //     },
+  //     error => this.setState({error: error.message}),
+  //     {enableHighAccuracy: true, timeout: 20000}
+  //   )
+  // }
 
   render () {
     return (
@@ -46,10 +65,14 @@ class MapScreen extends Component {
             longitude: this.state.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
-          }}
-
-        >
-          {/* <Marker coordinate={this.state}/> */}
+          }}>
+          {/*<Marker*/}
+          {/*  coordinate={{*/}
+          {/*    latitude: this.state.latitude,*/}
+          {/*    longitude: this.state.longitude*/}
+          {/*  }}>*/}
+          {/*  <Image source={Images.motor} />*/}
+          {/*</Marker>*/}
         </MapView>
         <View style={styles.buttonContainer}>
           <MyButton onPress={() => this.props.navigation.navigate('DestinationAddressScreen')}
@@ -59,7 +82,7 @@ class MapScreen extends Component {
             borderRadius={30}
             text={I18n.t('Kuryer çağır')} />
         </View>
-        <View style={[styles.gumburger, ]}>
+        <View style={[styles.gumburger ]}>
           <TouchableOpacity onPress={this.props.open}>
             <Icon style={styles.nameBoxIcon} size={30} name='menu' />
           </TouchableOpacity>
